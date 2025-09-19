@@ -4,55 +4,30 @@ weight: 1
 chapter: false
 pre: " <b> 1.3. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-
-### Mục tiêu tuần 3:
-
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Mục tiêu Tuần 3:
+* Nắm vững kiến thức nền tảng về các dịch vụ cơ sở dữ liệu trên AWS, bao gồm Amazon RDS và DynamoDB.
+* Học cách tạo, cấu hình và bảo mật các phiên bản RDS (MySQL/PostgreSQL), bao gồm thao tác sao lưu và phục hồi.
+* Khám phá dịch vụ máy chủ tính toán cơ bản với Amazon Lightsail, bao gồm tạo VPS và quản lý ứng dụng.
+* Triển khai và quản lý ứng dụng dạng container bằng Amazon Lightsail Containers.
+* Hiểu quản lý DNS với Amazon Route 53, bao gồm vùng lưu trữ, bản ghi và chính sách định tuyến.
+* Thực hành sử dụng AWS CLI để quản lý tài nguyên và tự động hóa cơ bản.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
+| Ngày | Nhiệm vụ                                                                                                                        | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo | Ghi chú                                   |
+| --- | --------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ------------------ | -------------------------------------- |
+| 2   | - Nghiên cứu các khái niệm cơ bản về Amazon RDS và DynamoDB<br>- Tạo và cấu hình một phiên bản RDS (MySQL/PostgreSQL)              | 22/09/2025 | 22/09/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/>                    												   | Kiến thức cơ bản về database, thiết lập RDS       |
+| 3   | - Cấu hình nhóm bảo mật và kết nối cho RDS<br>- Thực hành sao lưu, snapshot và phục hồi trên RDS              | 23/09/2025 | 23/09/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/4-create-rds/>, <https://000005.awsstudygroup.com/vi/6-backup/>       | Bảo mật RDS, sao lưu/phục hồi           |
+| 4   | - Khám phá Amazon Lightsail và tạo VPS<br>- Triển khai và quản lý ứng dụng cơ bản (WordPress, LAMP, Node.js)           | 24/09/2025 | 24/09/2025      | <https://000045.awsstudygroup.com/vi/1-database/>, <https://000045.awsstudygroup.com/vi/2-wp-instance/>                   | Lightsail VPS, quản lý ứng dụng          |
+| 5   | - Triển khai ứng dụng dạng container bằng Lightsail Containers<br>               | 25/09/2025 | 25/09/2025      | <https://000046.awsstudygroup.com/vi/2-create-containerservice/>, <https://000046.awsstudygroup.com/vi/3-deploy-publicimage/>                   | Triển khai container  |
+| 6   | - Thiết lập vùng lưu trữ và bản ghi DNS trên Route 53<br>- Cấu hình chính sách định tuyến cơ bản<br>- Cài đặt và cấu hình AWS CLI<br>- Thực hành các lệnh CLI cơ bản cho EC2, S3, IAM, RDS<br>- Tạo và quản lý bảng DynamoDB, thực hiện thao tác CRUD | 26/09/2025 | 26/09/2025            | <https://000010.awsstudygroup.com/vi/>, <https://000010.awsstudygroup.com/vi/2-prerequiste/>, <https://000010.awsstudygroup.com/vi/5-setuphyriddns/>, <https://docs.aws.amazon.com/cli/latest/>, <https://www.youtube.com/watch?v=FGicpWOmMDI&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=45>                   | DNS, CLI, CRUD DynamoDB                |
 
 ### Kết quả đạt được tuần 3:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+- Đã tạo và cấu hình thành công các phiên bản Amazon RDS (MySQL/PostgreSQL) và hiểu các khái niệm cơ bản về cơ sở dữ liệu.
+- Thực hành bảo mật RDS với nhóm bảo mật và thực hiện các thao tác sao lưu, snapshot, phục hồi.
+- Khám phá Amazon Lightsail, khởi tạo VPS và triển khai các ứng dụng cơ bản (WordPress, LAMP, Node.js).
+- Triển khai ứng dụng dạng container bằng Lightsail Containers.
+- Thiết lập vùng lưu trữ và bản ghi DNS trên Route 53, cấu hình chính sách định tuyến.
+- Cài đặt và cấu hình AWS CLI, thực hành các lệnh CLI cơ bản cho EC2, S3, IAM, RDS.
+- Tạo và quản lý bảng DynamoDB, thực hiện thao tác CRUD qua AWS CLI.
