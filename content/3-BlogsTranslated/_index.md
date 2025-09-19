@@ -9,7 +9,9 @@ pre: " <b> 3. </b> "
 
 This blog introduces how to build character-consistent storyboards using Amazon Nova in Amazon Bedrock. You will learn why maintaining consistent character design and visual style is challenging in AI-generated content, and how structured prompt engineering, style descriptions, and fixed parameters like seed and cfgScale can improve results. The article also shows how to set up a storyboard development pipeline by combining Amazon Nova Lite for optimized prompts with Amazon Nova Canvas for image generation, and how to extend the workflow with Amazon Nova Reel to create short animated storyboards.
 
-### [Blog 2 - ...](3.2-Blog2/)
+### [Blog 2 - Stream Amazon DynamoDB table data to Amazon S3 Tables for analytics](3.2-Blog2/)
+
+This post shows how to stream data from Amazon DynamoDB to Amazon S3 Tables for analytics using AWS managed services. It covers two main patterns: DynamoDB Streams with Lambda and Firehose, and Kinesis Data Streams for higher throughput and retention. The solution uses S3 Tables’ Iceberg format for efficient, scalable analytics, integrates with AWS services like Athena, and automates deployment and governance with AWS CDK and Lake Formation. Step-by-step instructions guide you through setup, data streaming, querying, and maintenance, enabling a serverless, low-maintenance data lake architecture.
 
 ### [Blog 3 - Build character consistent storyboards using Amazon Nova in Amazon Bedrock – Part 2](3.3-Blog3/)
 

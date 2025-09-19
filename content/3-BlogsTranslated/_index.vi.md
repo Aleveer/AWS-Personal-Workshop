@@ -9,7 +9,9 @@ pre: " <b> 3. </b> "
 
 Bài viết này giới thiệu cách xây dựng storyboard nhân vật nhất quán bằng Amazon Nova trong Amazon Bedrock. Bạn sẽ tìm hiểu lý do tại sao việc duy trì sự đồng nhất về thiết kế nhân vật và phong cách hình ảnh lại là một thách thức trong nội dung do AI tạo ra, cũng như cách kỹ thuật thiết kế prompt có cấu trúc, mô tả phong cách và các tham số cố định như seed và cfgScale có thể cải thiện kết quả. Bài viết cũng hướng dẫn cách thiết lập quy trình phát triển storyboard bằng cách kết hợp Amazon Nova Lite để tối ưu prompt với Amazon Nova Canvas để tạo hình ảnh, đồng thời mở rộng quy trình với Amazon Nova Reel để tạo storyboard động dưới dạng các đoạn hoạt hình ngắn.
 
-### [Blog 2 - ...](3.2-Blog2/)
+### [Blog 2 - Truyền dữ liệu bảng Amazon DynamoDB tới Amazon S3 Tables để phân tích](3.2-Blog2/)
+
+Bài viết này hướng dẫn cách truyền dữ liệu từ Amazon DynamoDB đến Amazon S3 Tables để phân tích bằng các dịch vụ được quản lý của AWS. Bài viết đề cập đến hai mô hình chính: DynamoDB Streams với Lambda và Firehose, và Kinesis Data Streams cho thông lượng và khả năng lưu trữ cao hơn. Giải pháp sử dụng định dạng Iceberg của S3 Tables cho khả năng phân tích hiệu quả, có thể mở rộng, tích hợp với các dịch vụ AWS như Athena, và tự động hóa việc triển khai và quản trị với AWS CDK và Lake Formation. Hướng dẫn từng bước sẽ hướng dẫn bạn thiết lập, truyền dữ liệu, truy vấn và bảo trì, cho phép kiến ​​trúc hồ dữ liệu không cần máy chủ, ít bảo trì.
 
 ### [Blog 3 - Xây dựng storyboard nhất quán về nhân vật bằng Amazon Nova trong Amazon Bedrock – Phần 2](3.3-Blog3/)
 

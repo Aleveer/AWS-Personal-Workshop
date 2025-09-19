@@ -9,7 +9,7 @@ pre: " <b> 1. </b> "
 
 **Tuần 2:** [Nắm vững kiến thức nền tảng về các dịch vụ mạng, tính toán, lưu trữ và quản lý truy cập của AWS](1.2-week2/)
 
-**Tuần 3:** [Làm công việc B...](1.3-week3/)
+**Tuần 3:** [Nắm kiến thức về dịch vụ Database của AWS(RDS, DynamoDB), Lightsail, tìm hiểu cách quản lý DNS qua Route 53](1.3-week3/)
 
 **Tuần 4:** [Làm công việc C...](1.4-week4/)
 
