@@ -4,24 +4,22 @@ weight: 1
 chapter: false
 pre: " <b> 1.6. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 6:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu các kiến thức cơ bản về MongoDB và cách sử dụng nó như một cơ sở dữ liệu NoSQL cho dự án.
+* Học các khái niệm cốt lõi của Vue.js để xây dựng giao diện người dùng tương tác và phản hồi nhanh.
+* Hiểu kiến trúc và các tính năng chính của Nest.js để phát triển ứng dụng phía máy chủ có khả năng mở rộng.
+* Tìm hiểu về Socket.IO và cách tích hợp giao tiếp thời gian thực vào dự án web chat.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note													|
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------	|
+| 2   | - Lên ý tưởng cho dự án web chat, tạo các collection và lựa chọn các công nghệ để thực hiện                                                                                                 | 13/10/2025   | 13/10/2025      |						 | Nắm các chức năng chính của dự án web chat								|
+| 3   | - Tìm hiểu về MongoDB.                                            								    							    | 14/10/2025   | 14/10/2025      | <https://cloudjourney.awsstudygroup.com/> | Hiểu cách hoạt động của nó như một cơ sở dữ liệu NoSQL						|
+| 4   | - Tìm hiểu về Vue.js.											    										    | 15/10/2025   | 15/10/2025      | <https://cloudjourney.awsstudygroup.com/> | Và nắm bắt các khái niệm cốt lõi để xây dựng giao diện người dùng tương tác. 			|
+| 5   | - Tìm hiểu về Nest.js                   						    												    | 16/10/2025   | 16/10/2025      | <https://cloudjourney.awsstudygroup.com/> | Hiểu kiến trúc cùng các tính năng cốt lõi để xây dựng ứng dụng phía máy chủ có khả năng mở rộng.	|
+| 6   | - Tìm hiểu về Socket.IO                                                                                         	    								    | 17/10/2025   | 17/10/2025      | <https://cloudjourney.awsstudygroup.com/> | Cách ứng dụng nó vào dự án để thực hiện giao tiếp thời gian thực.					|
 
 
 ### Kết quả đạt được tuần 6:
