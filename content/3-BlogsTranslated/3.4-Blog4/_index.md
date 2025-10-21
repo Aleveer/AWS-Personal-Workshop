@@ -5,125 +5,138 @@ chapter: false
 pre: " <b> 3.4. </b> "
 ---
 
-# Accelerating HPC and AI research in universities with Amazon SageMaker HyperPod
+# Amazon Bedrock baseline architecture in an AWS landing zone
 
-Research universities engaged in large-scale AI and high-performance computing (HPC) often face significant infrastructure challenges that impede innovation and delay research outcomes. Traditional on-premises HPC clusters come with long GPU procurement cycles, rigid scaling limits, and complex maintenance requirements. These obstacles restrict researchers’ ability to iterate quickly on AI workloads such as natural language processing (NLP), computer vision, and foundation model (FM) training. [Amazon SageMaker HyperPod](https://aws.amazon.com/sagemaker-ai/hyperpod/) alleviates the undifferentiated heavy lifting involved in building AI models. It helps quickly scale model development tasks such as training, fine-tuning, or inference across a cluster of hundreds or thousands of AI accelerators (NVIDIA GPUs H100, A100, and others) integrated with preconfigured HPC tools and automated scaling.
+As organizations increasingly adopt [Amazon Bedrock](https://aws.amazon.com/bedrock/) to build and deploy large-scale AI applications, it’s important that they understand and adopt critical network access controls to protect their data and workloads. These generative AI-enabled applications might have access to sensitive or confidential information within their knowledge bases, Retrieval Augmented Generation (RAG) data sources, or models themselves, which could pose a risk if exposed to unauthorized parties. Additionally, organizations might want to limit access to certain AI models to specific teams or services, making sure only authorized users can use the most powerful capabilities. Another important consideration is cost optimization, because organizations need to be able to monitor and control access to manage various aspects of their cloud spending.
 
-### Solution Overview
+In this post, we explore the Amazon Bedrock baseline architecture and how you can secure and control network access to your various Amazon Bedrock capabilities within AWS network services and tools. We discuss key design considerations, such as using [Amazon VPC Lattice](https://aws.amazon.com/vpc/lattice/) [auth policies](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html), [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (Amazon VPC) endpoints, and [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) to restrict and monitor access to your Amazon Bedrock capabilities.
 
-Amazon SageMaker HyperPod is designed to support large-scale machine learning operations for researchers and ML scientists. The service is fully managed by AWS, removing operational overhead while maintaining enterprise-grade security and performance.
+By the end of this post, you will have a better understanding of how to configure your AWS landing zone to establish secure and controlled network connectivity to Amazon Bedrock across your organization using VPC Lattice.
 
-The following architecture diagram illustrates how to access SageMaker HyperPod to submit jobs. End users can use [AWS Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html), [AWS Client VPN](https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html), or [AWS Direct](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) Connect to securely access the SageMaker HyperPod cluster. These connections terminate on the Network Load Balancer that efficiently distributes SSH traffic to login nodes, which are the primary entry points for job submission and cluster interaction. At the core of the architecture is SageMaker HyperPod compute, a controller node that orchestrates cluster operations, and multiple compute nodes arranged in a grid configuration. This setup supports efficient distributed training workloads with high-speed interconnects between nodes, all contained within a private subnet for enhanced security.
+## Solution overview
 
-The storage infrastructure is built around two main components: [Amazon FSx for Lustre](https://aws.amazon.com/fsx/lustre/) provides high-performance file system capabilities, and [Amazon S3](https://aws.amazon.com/fsx/lustre/) for dedicated storage for datasets and checkpoints. This dual-storage approach provides both fast data access for training workloads and secure persistence of valuable training artifacts.
+Addressing the aforementioned challenges requires a well-designed network architecture and security controls. For this, we use the [standard AWS Landing Zone Accelerator networking configuration](https://awslabs.github.io/landing-zone-accelerator-on-aws/v1.6.0/sample-configurations/standard/networking/). It provides a good starting point for managing network communication across multiple accounts. On top of the AWS Landing Zone Accelerator network design, we add two shared accounts.
 
-![Diagram](/images/3-BlogsTranslated/3.4-Blog4/SMHP-Solution-Architecture.png)
+In this solution design, we create a centralized architecture for managing organization AI capabilities across different accounts. The architecture consists of three main parts that work together to provide secure and controlled access to AI services:
 
-The implementation consisted of several stages. In the following steps, we demonstrate how to deploy and configure the solution.
+* Service network account – This account serves as the central networking hub for the organization, managing network connectivity and access policies. Through this account, network administrators can centrally manage and control access to AI services across the organization. The account follows [AWS Landing Zone Accelerator networking](https://awslabs.github.io/landing-zone-accelerator-on-aws/v1.6.0/sample-configurations/standard/networking/#architecture) practices that scale with enterprise organizational needs.
+* Generative AI account – This account hosts the organization’s Amazon Bedrock capabilities and serves as the central point for AI/ML management. The organization’s AI/ML scientists and prompt engineers will centrally build and manage Amazon Bedrock capabilities. The account provides access to various large language models (LLMs) through Amazon Bedrock by using VPC interface endpoints, while also enabling centralized monitoring of cost consumption and access patterns.
+* Workload accounts (dev, test, prod) – These accounts represent different environments where teams develop and deploy applications that consume AI services. Through secure network connections established through the service network account, these workload accounts can access the AI capabilities hosted in the generative AI account. This separation enforces proper isolation between development, testing, and production workloads while maintaining secure access to AI services.
 
-### Prerequisites
+![Amazon Bedrock baseline architecture in an AWS landing zone](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2025/06/18/ARCHBLOG-1133-image-1.png)
 
-Before deploying Amazon SageMaker HyperPod, make sure the following prerequisites are in place:
+*Amazon Bedrock baseline architecture in an AWS landing zone*
 
-- AWS configuration:
-  - The [AWS Command Line Interface](http://aws.amazon.com/cli) (AWS CLI) configured with appropriate permissions
-  - Cluster configuration files prepared: `cluster-config.json` and `provisioning-parameters.json`
-- Network setup:
-  - A virtual private cloud (VPC) configured for cluster resources.
-  - Security groups with [Elastic Fabric Adapter](https://aws.amazon.com/hpc/efa/) (EFA) communication enabled.
-  - An [Amazon FSx for Lustre](https://aws.amazon.com/fsx/lustre/) file system for shared, high-performance storage
-- An [AWS Identity and Management](https://aws.amazon.com/iam/) (IAM) role with permissions for the following:
-  - [Amazon Elastic Compute Cloud](http://aws.amazon.com/ec2) (Amazon EC2) instance and [Amazon SageMaker](https://aws.amazon.com/sagemaker/) cluster management
-  - FSx for Lustre and [Amazon Simple Storage Service](http://aws.amazon.com/s3) (Amazon S3) access
-  - [Amazon CloudWatch Logs](http://aws.amazon.com/cloudwatch) and [AWS Systems Manager](https://aws.amazon.com/systems-manager/) integration
-  - EFA network configuration
+The following diagram illustrates the solution architecture.
 
-### Launch the CloudFormation stack
+The service network account has its own VPC Lattice service network—a centralized networking construct that enables service-to-service communication across your organization, which is shared with workload accounts using [AWS Resource Access Manager](https://aws.amazon.com/ram/) (AWS RAM) to enable VPC Lattice Service network sharing.
 
-We launched an [AWS CloudFormation](http://aws.amazon.com/cloudformation) stack to provision the necessary infrastructure components, including a VPC and subnet, FSx for Lustre file system, S3 bucket for lifecycle scripts and training data, and IAM roles with scoped permissions for cluster operation. Refer to the [Amazon SageMaker HyperPod workshop](https://catalog.workshops.aws/sagemaker-hyperpod/en-US) for CloudFormation templates and automation scripts.
+Workload accounts (dev, test, prod) establish VPC associations with the shared VPC Lattice service network by creating a service network association in their VPC. When an application in these accounts makes a request, it first queries the VPC resolver for DNS resolution. The resolver routes the traffic to the VPC Lattice service network.
 
-### Customize SLURM cluster configuration
+Access control is implemented through an [VPC Lattice auth policy](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html). The service network policies determine which accounts can access the VPC Lattice service network, and service-level policies control access to specific AI services and define what actions each account can perform.
 
-To align compute resources with departmental research needs, we created SLURM partitions to reflect the organizational structure, for example NLP, computer vision, and deep learning teams. We used the [SLURM partition configuration](https://github.com/Microway/MCMS-OpenHPC-Recipe/blob/master/dependencies/etc/slurm/slurm.conf) to define slurm.conf with custom partitions. SLURM accounting was enabled by configuring `slurmdbd` and linking usage to departmental accounts and supervisors.
+In the central AI services account, we find the proxy layer, we create a VPC Lattice service that points to a proxy layer, which acts as a single entry point, providing workload accounts access to Amazon Bedrock. This proxy layer then connects to Amazon Bedrock through VPC endpoints. Through this setup, the AI team can configure which foundation models (FMs) are available and manage access permissions for different workload accounts. After the necessary policies and connections are in place, workload accounts can access Amazon Bedrock capabilities through the established secure pathway. This setup enables secure, cross-account access to AI services while maintaining centralized control and monitoring.
 
-To support fractional GPU sharing and efficient utilization, we enabled Generic Resource (GRES) configuration. With GPU stripping, multiple users can access GPUs on the same node without contention. The GRES setup followed the guidelines from the [Amazon SageMaker HyperPod workshop.](https://catalog.workshops.aws/sagemaker-hyperpod/en-US/08-tips-and-tricks/08-gres)
+## Network components
 
-### Provision and validate the cluster
+We use VPC Lattice, which is a fully managed application networking service that helps you simplify network connectivity, security, and monitoring for service-to-service communication needs. With VPC Lattice, organizations can achieve a centralized connectivity pattern to control and monitor access to the services required for building generative AI applications.
 
-We validated the `cluster-config.json` and `provisioning-parameters.json` files using the AWS CLI and a SageMaker HyperPod validation script:
+For details about VPC Lattice, refer to the [Amazon VPC Lattice User Guide](https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice.html). The following is an overview of the constructs you can use in setting up the centralized pattern in this solution:
 
-```bash
-$curl -O https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod/validate-config.py
+* VPC Lattice service network – You can use the VPC Lattice service network to provide central connectivity and security to the central AI services account. The service network is a logical grouping mechanism that simplifies how you can enable connectivity across VPCs or accounts, and apply common security policies for application communication patterns. You can create a service network in an account and share it with other accounts within or outside [AWS Organizations](https://aws.amazon.com/organizations/) using AWS RAM.
+* VPC Lattice service – In a service network, you can associate a VPC Lattice service, which consists of a listener (protocol and port number), routing rules that allow for control of the application flow (for example, path, method, header-based, or weighted routing), and target group, which defines the application infrastructure. A service can have multiple listeners to meet various client capabilities. Supported protocols include HTTP, HTTPS, gRPC, and TLS. The path-based routing allows control to various high-performing FMs and other capabilities you would need to build a generative AI application.
+* Proxy layer – You use a proxy layer for the VPC Lattice service target group. The proxy layer can be built based on your organization’s preference of AWS services, such as [AWS Lambda](http://aws.amazon.com/lambda) , [AWS Fargate](https://aws.amazon.com/fargate) , or [Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/) (Amazon EKS). The purpose of the proxy layer is to provide a single entry point to access LLMs, knowledge bases, and other capabilities that are tested and approved according to your organization’s compliance requirements.
+* VPC Lattice auth policies – For security, you use VPC Lattice auth policies. VPC Lattice auth policies are specified using the same syntax as IAM policies. You can apply an auth policy to VPC Lattice service network as well as to the VPC Lattice service.
+* Fully Qualified Domain Names –To facilitate service discovery, VPC Lattice supports custom domain names for your services and resources, and maintains a Fully Qualified Domain Name (FQDN) for each VPC Lattice service and resource you define. You can use these FQDNs in your [Amazon Route 53](https://aws.amazon.com/route53/) private hosted zone configurations, and empower business units or teams to discover and access services and resources.
+* Service network VPC – Business units or teams can access generative AI services in a service network using service network VPC associations or a service network VPC endpoint.
+* Monitoring – You can choose to enable monitoring at the VPC Lattice service network level and VPC Lattice service level. VPC Lattice generates metrics and logs for requests and responses, making it more efficient to monitor and troubleshoot applications
 
-$pip3 install boto3
+The preceding guidance takes a “secure by default” approach—you must be explicit about which features, models, and so on should be accessed by which business unit. The setup also enables you to implement a defense-in-depth strategy at multiple layers of the network:
 
-$python3 validate-config.py --cluster-config cluster-config.json --provisioning-parameters provisioning-parameters.json
+* The first level of defense is that business team needs to connect to the service network in order to get access to the generative AI service through the central AI service account.
+* The second level includes network-level security protections in the business team’s VPC for the service network, such as security groups and network access control lists (ACLs). By using these, you can allow access to specific workloads or teams in a VPC.
+* The third level is through the VPC Lattice auth policy, which you can apply at two layers: at the service network level to allow authenticated requests within the organization, and at the service level to allow access to specific models and features.
+
+## VPC Lattice auth policy
+
+This solution makes it possible to centrally manage access to Amazon Bedrock resources across your organization. This approach uses an VPC Lattice auth policy to centrally control Amazon Bedrock resources and manage it from one location across all the organization accounts.
+
+Typically, the auth policy on the service network is operated by the network or cloud administrator. For example, allowing only authenticated requests from specific workloads or teams in your AWS organization. In the following example, access is granted to invoke the generated AI service for authenticated requests and to principals that are part of the `o-123456example` organization:
+
+```
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Principal": "*",
+         "Action": "vpc-lattice-svcs:Invoke",
+         "Resource": "*",
+         "Condition": {
+            "StringEquals": {
+                "aws:PrincipalOrgID": [ 
+                   "o-123456example"
+                ]
+            }
+         }
+      }
+   ]
+}
 ```
 
-Then we created the cluster:
+The auth policy at the service level is managed by the central AI service team to set fine-grained controls, which can be more restrictive than the coarse-grained authorization applied at the service network level. For example, the following policy restricts access to `claude-3-haiku` for only `business-team1`:
 
-```bash
-$aws sagemaker create-cluster \
-  --cli-input-json file://cluster-config.json \
-  --region us-west-2
+```
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect": "Allow",
+         "Principal": {
+            "AWS": [
+               "arn:aws:iam::<account-number>:role/businss-team1"
+            ]
+         },
+         "Action": "vpc-lattice-svcs:Invoke",
+         "Resource": [
+            "arn:aws:vpc-lattice:<aws-region>:<account-number>:service/svc-0123456789abcdef0/*"
+         ],
+         "Condition": {
+            "StringEquals": {
+                "vpc-lattice-svcs:RequestQueryString/modelid": "claude-3-haiku" 
+            }
+         }
+      }
+   ]
+}
 ```
 
-### Implement cost tracking and budget enforcement
+## Monitoring and tracking
 
-To monitor usage and control costs, each SageMaker HyperPod resource (for example, Amazon EC2, FSx for Lustre, and others) was tagged with a unique `ClusterName` tag. [AWS Budgets](https://aws.amazon.com/aws-cost-management/aws-budgets/) and [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) reports were configured to track monthly spending per cluster. Additionally, alerts were set up to notify researchers if they approached their quota or budget thresholds.
+This design employs three monitoring approaches, using [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/), [AWS CloudTrail](https://aws.amazon.com/cloudtrail/), and VPC Lattice access logs. This strategy provides a view of service usage, security, and performance.
 
-This integration helped facilitate efficient utilization and predictable research spending.
+CloudWatch metrics offer real-time monitoring of VPC Lattice service performance and usage. CloudWatch tracks metrics such as request counts and response times for Amazon Bedrock related endpoints, allowing for the setup of alarms for proactive management of service health and capacity. This enables monitoring of overall usage patterns of Amazon Bedrock models across different business units, facilitating capacity planning and resource allocation. CloudTrail provides detailed API-level auditing of Amazon Bedrock related actions. It logs cross-account access attempts and interactions with Amazon Bedrock services, providing a compliance and security audit trail. This tracking of who is accessing which Amazon Bedrock models, when, and from which accounts helps organizations adhere to their organizational policies.VPC Lattice access logs provide detailed insights into HTTP/HTTPS requests to Amazon Bedrock services, capturing specific usage patterns of AI models by different business teams. These logs contain client-specific information, which for example can be used to enable organizations to implement capabilities such as charge-back models. This allows for accurate attribution of AI service usage to specific teams or departments, facilitating fair cost allocation and responsible resource utilization across the organization. These services work together to enhance security, optimize performance, and provide valuable insights for managing cross-account Amazon Bedrock access.
 
-### Enable load balancing for login nodes
+## Conclusion
 
-As the number of concurrent users increased, the university adopted a multi-login node architecture. Two login nodes were deployed in EC2 Auto Scaling groups. A [Network Load Balancer](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/) was configured with target groups to route SSH and Systems Manager traffic. Lastly, [AWS Lambda](http://aws.amazon.com/lambda) functions enforced session limits per user using `Run-As` tags with [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html), a capability of Systems Manager.
+In this post, we explored the importance of securing and controlling network access to Amazon Bedrock capabilities within an organization’s AWS landing zone. We discussed the key business challenges, such as the need to protect sensitive information in Amazon Bedrock knowledge bases, limit access to AI models, and optimize cloud costs by monitoring and controlling Amazon Bedrock capabilities. To address these challenges, we outlined a multi-layered network solution that uses AWS networking services, including a VPC Lattice auth policy to restrict and monitor access to Amazon Bedrock capabilities. Try out this solution for your own use case, and share your feedback in the comments.
 
-For details about the full implementation, see [Implementing login node load balancing in SageMaker HyperPod for enhanced multi-user experience.](https://aws.amazon.com/blogs/machine-learning/implementing-login-node-load-balancing-in-sagemaker-hyperpod-for-enhanced-multi-user-experience/)
+<!-- ### About the authors
 
-### Configure federated access and user mapping
+![Abdel-Rahman Awad](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abdel-rahman-awad.jpg)
 
-To facilitate secure and seamless access for researchers, the institution integrated [AWS IAM Identity Center](https://aws.amazon.com/iam/identity-center/) with their on-premises Active Directory (AD) using [AWS Directory Service.](https://aws.amazon.com/directoryservice/) This allowed for unified control and administration of user identities and access privileges across SageMaker HyperPod accounts. The implementation consisted of the following key components:
+### Abdel-Rahman Awad
 
-- **Federated user integration** – We mapped AD users to POSIX user names using Session Manager `run-as` tags, allowing fine-grained control over compute node access
-- **Secure session management** – We configured Systems Manager to make sure users access compute nodes using their own accounts, not the default `ssm-user`
-- **Identity-based tagging** – Federated user names were automatically mapped to user directories, workloads, and budgets through resource tags
+Technical Leader at AWS with almost two decades of experience in the IT industry, he guides large organizations through their cloud journey, working with stakeholders from technical teams to C-level executives
 
-For full step-by-step guidance, refer to the [Amazon SageMaker HyperPod workshop.](https://catalog.workshops.aws/sagemaker-hyperpod/en-US/08-tips-and-tricks/01-multi-user)
+![Abeer Binzaid](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abeer-binzaid.jpg)
 
-This approach streamlined user provisioning and access control while maintaining strong alignment with institutional policies and compliance requirements.
+### Abeer Binzaid
 
-### Post-deployment optimizations
+Abeer Binzaid is a Solutions Architect at Amazon Web Services (AWS), supporting customers in MENAT region as part of the Cloud Sales Center team. Abeer is passionate about cloud networking, generative AI, and enabling customers to accelerate their digital transformation by adopting modern cloud-native architectures.
 
-To help prevent unnecessary consumption of compute resources by idle sessions, the university configured SLURM with [Pluggable Authentication Modules](https://github.com/SchedMD/slurm/tree/master/contribs/pam) (PAM). This setup enforces automatic logout for users after their SLURM jobs are complete or canceled, supporting prompt availability of compute nodes for queued jobs.
+![Ankit Gupta](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-ankit-gupta.jpg)
 
-The configuration improved job scheduling throughput by freeing idle nodes immediately and reduced administrative overhead in managing inactive sessions.
+### Ankit Gupta
 
-Additionally, [QoS policies](https://github.com/SchedMD/slurm/blob/master/doc/html/qos.shtml) were configured to control resource consumption, limit job durations, and enforce fair GPU access across users and departments. For example:
-
-- **MaxTRESPerUser** – Makes sure GPU or CPU usage per user stays within defined limits
-- **MaxWallDurationPerJob** – Helps prevent excessively long jobs from monopolizing nodes
-- **Priority weights**– Aligns priority scheduling based on research group or project
-
-These enhancements facilitated an optimized, balanced HPC environment that aligns with the shared infrastructure model of academic research institutions.
-
-### Clean up
-
-To delete the resources and avoid incurring ongoing charges, complete the following steps:
-
-1. Delete the SageMaker HyperPod cluster:
-
-```bash
-$aws sagemaker delete-cluster --cluster-name <name>
-```
-
-2. Delete the CloudFormation stack used for the SageMaker HyperPod infrastructure:
-
-```bash
-$aws cloudformation delete-stack --stack-name <stack-name> --region <region>
-```
-
-This will automatically remove associated resources, such as the VPC and subnets, FSx for Lustre file system, S3 bucket, and IAM roles. If you created these resources outside of CloudFormation, you must delete them manually.
-
-### Conclusion
-
-SageMaker HyperPod provides research universities with a powerful, fully managed HPC solution tailored for the unique demands of AI workloads. By automating infrastructure provisioning, scaling, and resource optimization, institutions can accelerate innovation while maintaining budget control and operational efficiency. Through customized SLURM configurations, GPU sharing using GRES, federated access, and robust login node balancing, this solution highlights the potential of SageMaker HyperPod to transform research computing, so researchers can focus on science, not infrastructure.
+Ankit Gupta is a Senior Solutions Architect at Amazon Web Services (AWS), where he specializes in working with Software-as-a-Service (SaaS) customers. Ankit helps customers design and implement highly scalable and resilient solutions on AWS. As a networking specialist, Ankit works extensively with AWS networking services, providing guidance to customers across the EMEA region in building robust and scalable network architectures. When not architecting cloud solutions, Ankit can be found on the badminton court pursuing his passion for racket sports. -->

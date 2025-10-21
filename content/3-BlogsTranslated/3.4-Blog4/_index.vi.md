@@ -5,125 +5,159 @@ chapter: false
 pre: " <b> 3.4. </b> "
 ---
 
-# Tăng tốc nghiên cứu HPC và AI trong các trường đại học với Amazon SageMaker HyperPod
+# Kiến Trúc Cơ Sở Amazon Bedrock Trong Một Vùng Hạ Tầng AWS
 
-Các trường đại học nghiên cứu tham gia vào lĩnh vực AI quy mô lớn và điện toán hiệu năng cao (HPC) thường phải đối mặt với những thách thức hạ tầng đáng kể làm cản trở sự đổi mới và trì hoãn kết quả nghiên cứu. Các cụm HPC truyền thống tại chỗ đi kèm với chu kỳ mua sắm GPU dài, giới hạn mở rộng cứng nhắc và yêu cầu bảo trì phức tạp. Những trở ngại này hạn chế khả năng của các nhà nghiên cứu trong việc lặp lại nhanh chóng các khối lượng công việc AI như xử lý ngôn ngữ tự nhiên (NLP), thị giác máy tính và đào tạo mô hình nền tảng (FM). [Amazon SageMaker HyperPod](https://aws.amazon.com/sagemaker-ai/hyperpod/) giảm bớt gánh nặng không phân biệt được liên quan đến việc xây dựng các mô hình AI. Nó giúp nhanh chóng mở rộng quy mô các tác vụ phát triển mô hình như đào tạo, tinh chỉnh hoặc suy luận trên một cụm hàng trăm hoặc hàng nghìn bộ tăng tốc AI (GPU NVIDIA H100, A100 và others) được tích hợp với các công cụ HPC được cấu hình sẵn và tự động mở rộng quy mô.
+Khi các tổ chức ngày càng áp dụng [Amazon Bedrock](https://aws.amazon.com/bedrock/) để xây dựng và triển khai các ứng dụng trí tuệ nhân tạo (AI) quy mô lớn, việc hiểu và triển khai các kiểm soát truy cập mạng quan trọng là rất cần thiết nhằm bảo vệ dữ liệu và khối lượng công việc của họ. Các ứng dụng được hỗ trợ bởi trí tuệ nhân tạo sinh tạo này có thể tiếp cận thông tin nhạy cảm hoặc bảo mật trong các cơ sở tri thức, nguồn dữ liệu Tăng Cường Truy Vấn Trả Lời (Retrieval Augmented Generation - RAG), hoặc chính các mô hình, điều này có thể tạo ra rủi ro nếu bị lộ cho các bên không được ủy quyền. Hơn nữa, các tổ chức có thể muốn hạn chế truy cập vào một số mô hình AI nhất định đối với các nhóm hoặc dịch vụ cụ thể, đảm bảo chỉ những người dùng được ủy quyền mới có thể sử dụng các khả năng mạnh mẽ nhất. Một yếu tố quan trọng khác là tối ưu hóa chi phí, vì các tổ chức cần có khả năng giám sát và kiểm soát truy cập để quản lý các khía cạnh khác nhau của chi tiêu đám mây.
 
-### Tổng quan về Giải pháp
+Trong bài viết này, chúng tôi khám phá kiến trúc cơ sở Amazon Bedrock và cách thức bảo mật cũng như kiểm soát truy cập mạng đối với các khả năng Amazon Bedrock khác nhau trong các dịch vụ và công cụ mạng AWS. Chúng tôi thảo luận về các cân nhắc thiết kế chính, chẳng hạn như sử dụng [Amazon VPC Lattice](https://aws.amazon.com/vpc/lattice/) với các [chính sách xác thực](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html), các điểm cuối [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (Amazon VPC), và [Quản Lý Danh Tính Và Truy Cập AWS](https://aws.amazon.com/iam/) (IAM) để hạn chế và giám sát truy cập vào các khả năng Amazon Bedrock.
 
-Amazon SageMaker HyperPod được thiết kế để hỗ trợ các hoạt động máy học quy mô lớn cho các nhà nghiên cứu và nhà khoa học ML. Dịch vụ được quản lý hoàn toàn bởi AWS, loại bỏ chi phí vận hành trong khi vẫn duy trì bảo mật và hiệu suất cấp doanh nghiệp.
+Đến cuối bài viết này, bạn sẽ có sự hiểu biết tốt hơn về cách cấu hình vùng hạ tầng AWS của mình để thiết lập kết nối mạng an toàn và được kiểm soát đối với Amazon Bedrock trên toàn tổ chức bằng cách sử dụng VPC Lattice.
 
-Sơ đồ kiến trúc sau minh họa cách truy cập SageMaker HyperPod để gửi job. Người dùng cuối có thể sử dụng [AWS Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html), [AWS Client VPN](https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/what-is.html) hoặc [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) để truy cập an toàn vào cụm SageMaker HyperPod. Các kết nối này kết thúc tại Network Load Balancer, nơi phân phối hiệu quả lưu lượng SSH đến các node đăng nhập, là điểm vào chính để gửi job và tương tác với cụm. Cốt lõi của kiến trúc là SageMaker HyperPod compute, một node điều khiển (controller node) điều phối các hoạt động của cụm và nhiều node tính toán được sắp xếp theo cấu hình lưới. Thiết lập này hỗ trợ các khối lượng công việc đào tạo phân tán hiệu quả với các kết nối tốc độ cao giữa các node, tất cả đều nằm trong một subnet riêng để tăng cường bảo mật.
+## Tổng Quan Giải Pháp
 
-Cơ sở hạ tầng lưu trữ được xây dựng xung quanh hai thành phần chính: [Amazon FSx for Lustre](https://aws.amazon.com/fsx/lustre/) cung cấp khả năng hệ thống file hiệu suất cao và [Amazon S3](https://aws.amazon.com/s3/) cho lưu trữ chuyên dụng cho tập dữ liệu và checkpoint. Cách tiếp cận lưu trữ kép này cung cấp cả khả năng truy cập dữ liệu nhanh cho khối lượng công việc đào tạo và tính liên tục an toàn của các artifacts đào tạo có giá trị.
+Việc giải quyết các thách thức nêu trên đòi hỏi một kiến trúc mạng được thiết kế tốt và các kiểm soát bảo mật. Để thực hiện điều này, chúng tôi sử dụng [cấu hình mạng tiêu chuẩn của AWS Landing Zone Accelerator](https://awslabs.github.io/landing-zone-accelerator-on-aws/v1.6.0/sample-configurations/standard/networking/). Nó cung cấp một điểm khởi đầu tốt để quản lý giao tiếp mạng trên nhiều tài khoản. Trên nền tảng thiết kế mạng AWS Landing Zone Accelerator, chúng tôi thêm hai tài khoản chia sẻ.
 
-![Diagram](/images/3-BlogsTranslated/3.4-Blog4/SMHP-Solution-Architecture.png)
+Trong thiết kế giải pháp này, chúng tôi tạo ra một kiến trúc tập trung để quản lý các khả năng AI của tổ chức trên các tài khoản khác nhau. Kiến trúc bao gồm ba phần chính hoạt động cùng nhau để cung cấp truy cập an toàn và được kiểm soát vào các dịch vụ AI:
 
-Việc triển khai bao gồm một số giai đoạn. Trong các bước sau, chúng tôi trình bày cách triển khai và cấu hình giải pháp.
+* Tài khoản mạng dịch vụ – Tài khoản này đóng vai trò là trung tâm mạng tập trung cho tổ chức, quản lý kết nối mạng và các chính sách truy cập. Thông qua tài khoản này, các quản trị viên mạng có thể quản lý và kiểm soát tập trung truy cập vào các dịch vụ AI trên toàn tổ chức. Tài khoản tuân thủ [các thực hành mạng AWS Landing Zone Accelerator](https://awslabs.github.io/landing-zone-accelerator-on-aws/v1.6.0/sample-configurations/standard/networking/#architecture) có khả năng mở rộng theo nhu cầu tổ chức doanh nghiệp.
+* Tài khoản AI Sinh Tạo – Tài khoản này lưu trữ các khả năng Amazon Bedrock của tổ chức và đóng vai trò là điểm trung tâm cho quản lý AI/ML. Các nhà khoa học AI/ML và kỹ sư prompt của tổ chức sẽ xây dựng và quản lý tập trung các khả năng Amazon Bedrock. Tài khoản cung cấp truy cập vào các mô hình ngôn ngữ lớn (Large Language Models - LLMs) thông qua Amazon Bedrock bằng cách sử dụng các điểm cuối giao diện VPC, đồng thời cho phép giám sát tập trung chi phí tiêu thụ và mô hình truy cập.
+* Các tài khoản khối lượng công việc (dev, test, prod) – Các tài khoản này đại diện cho các môi trường khác nhau nơi các nhóm phát triển và triển khai các ứng dụng tiêu thụ dịch vụ AI. Thông qua các kết nối mạng an toàn được thiết lập qua tài khoản mạng dịch vụ, các tài khoản khối lượng công việc này có thể truy cập các khả năng AI được lưu trữ trong tài khoản AI sinh tạo. Sự phân tách này thực thi sự cô lập đúng đắn giữa các khối lượng công việc phát triển, kiểm thử và sản xuất trong khi duy trì truy cập an toàn vào các dịch vụ AI.
 
-### Điều kiện tiên quyết
+![Kiến trúc cơ sở Amazon Bedrock trong một vùng hạ tầng AWS](https://d2908q01vomqb2.cloudfront.net/fc074d501302eb2b93e2554793fcaf50b3bf7291/2025/06/18/ARCHBLOG-1133-image-1.png)
 
-Trước khi triển khai Amazon SageMaker HyperPod, hãy đảm bảo các điều kiện tiên quyết sau đã được thiết lập:
+*Kiến trúc cơ sở Amazon Bedrock trong một vùng hạ tầng AWS*
 
-- Cấu hình AWS:
-  - [AWS Command Line Interface](http://aws.amazon.com/cli) (AWS CLI) được cấu hình với các quyền phù hợp
-  - Các file cấu hình cụm đã được chuẩn bị: `cluster-config.json` và `provisioning-parameters.json`
-- Thiết lập mạng:
-  - Một virtual private cloud (VPC) được cấu hình cho các tài nguyên cụm.
-  - Các security group với giao tiếp [Elastic Fabric Adapter](https://aws.amazon.com/hpc/efa/) (EFA) được kích hoạt.
-  - Một hệ thống file [Amazon FSx for Lustre](https://aws.amazon.com/fsx/lustre/) để lưu trữ chia sẻ hiệu suất cao
-- Một vai trò [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) với các quyền cho những mục sau:
-  - Quản lý instance [Amazon Elastic Compute Cloud](http://aws.amazon.com/ec2) (Amazon EC2) và cụm [Amazon SageMaker](https://aws.amazon.com/sagemaker/)
-  - Truy cập FSx for Lustre và [Amazon Simple Storage Service](http://aws.amazon.com/s3) (Amazon S3)
-  - Tích hợp [Amazon CloudWatch Logs](http://aws.amazon.com/cloudwatch) và [AWS Systems Manager](https://aws.amazon.com/systems-manager/)
-  - Cấu hình mạng EFA
+Sơ đồ sau minh họa kiến trúc giải pháp.
 
-### Khởi chạy stack CloudFormation
+Tài khoản mạng dịch vụ có mạng dịch vụ VPC Lattice riêng – một cấu trúc mạng tập trung cho phép giao tiếp dịch vụ-đến-dịch vụ trên toàn tổ chức, được chia sẻ với các tài khoản khối lượng công việc bằng cách sử dụng [AWS Resource Access Manager](https://aws.amazon.com/ram/) (AWS RAM) để kích hoạt chia sẻ mạng dịch vụ VPC Lattice.
 
-Chúng tôi đã khởi chạy một stack [AWS CloudFormation](http://aws.amazon.com/cloudformation) để cung cấp các thành phần cơ sở hạ tầng cần thiết, bao gồm VPC và subnet, hệ thống file FSx for Lustre, bucket S3 cho các script vòng đời và dữ liệu đào tạo, và các vai trò IAM với các quyền được phạm vi cho hoạt động cụm. Tham khảo [Amazon SageMaker HyperPod workshop](https://catalog.workshops.aws/sagemaker-hyperpod/en-US) để biết các mẫu CloudFormation và script tự động hóa.
+Các tài khoản khối lượng công việc (dev, test, prod) thiết lập các liên kết VPC với mạng dịch vụ VPC Lattice được chia sẻ bằng cách tạo một liên kết mạng dịch vụ trong VPC của chúng. Khi một ứng dụng trong các tài khoản này thực hiện yêu cầu, nó đầu tiên truy vấn bộ phân giải VPC để phân giải DNS. Bộ phân giải định tuyến lưu lượng đến mạng dịch vụ VPC Lattice.
 
-### Tùy chỉnh cấu hình cụm SLURM
+Kiểm soát truy cập được triển khai thông qua [chính sách xác thực VPC Lattice](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html). Các chính sách mạng dịch vụ xác định tài khoản nào có thể truy cập mạng dịch vụ VPC Lattice, và các chính sách cấp dịch vụ kiểm soát truy cập vào các dịch vụ AI cụ thể và định nghĩa các hành động mà mỗi tài khoản có thể thực hiện.
 
-Để căn chỉnh tài nguyên tính toán với nhu cầu nghiên cứu của khoa, chúng tôi đã tạo các partition SLURM để phản ánh cấu trúc tổ chức, ví dụ: các nhóm NLP, thị giác máy tính và học sâu. Chúng tôi đã sử dụng [cấu hình partition SLURM](https://github.com/Microway/MCMS-OpenHPC-Recipe/blob/master/dependencies/etc/slurm/slurm.conf) để định nghĩa slurm.conf với các partition tùy chỉnh. Kế toán SLURM (SLURM accounting) được kích hoạt bằng cách cấu hình `slurmdbd` và liên kết việc sử dụng với các tài khoản khoa và người giám sát.
+Trong tài khoản dịch vụ AI trung tâm, chúng tôi tìm thấy lớp proxy, nơi chúng tôi tạo một dịch vụ VPC Lattice trỏ đến lớp proxy, đóng vai trò là điểm nhập duy nhất, cung cấp cho các tài khoản khối lượng công việc truy cập vào Amazon Bedrock. Lớp proxy này sau đó kết nối với Amazon Bedrock thông qua các điểm cuối VPC. Thông qua thiết lập này, nhóm AI có thể cấu hình các mô hình nền tảng (Foundation Models - FMs) nào có sẵn và quản lý quyền truy cập cho các tài khoản khối lượng công việc khác nhau. Sau khi các chính sách và kết nối cần thiết được triển khai, các tài khoản khối lượng công việc có thể truy cập các khả năng Amazon Bedrock thông qua đường dẫn an toàn đã được thiết lập. Thiết lập này kích hoạt truy cập liên tài khoản an toàn vào các dịch vụ AI trong khi duy trì kiểm soát và giám sát tập trung.
 
-Để hỗ trợ chia sẻ GPU theo phân số (fractional) và sử dụng hiệu quả, chúng tôi đã kích hoạt cấu hình Generic Resource (GRES). Với GPU stripping, nhiều người dùng có thể truy cập GPU trên cùng một node mà không có sự tranh chấp. Việc thiết lập GRES tuân theo hướng dẫn từ [Amazon SageMaker HyperPod workshop.](https://catalog.workshops.aws/sagemaker-hyperpod/en-US/08-tips-and-tricks/08-gres)
+## Các Thành Phần Mạng
 
-### Cung cấp và xác thực cụm
+Chúng tôi sử dụng VPC Lattice, một dịch vụ mạng ứng dụng được quản lý hoàn toàn giúp đơn giản hóa kết nối mạng, bảo mật và giám sát cho các nhu cầu giao tiếp dịch vụ-đến-dịch vụ. Với VPC Lattice, các tổ chức có thể đạt được một mô hình kết nối tập trung để kiểm soát và giám sát truy cập vào các dịch vụ cần thiết cho việc xây dựng các ứng dụng AI sinh tạo.
 
-Chúng tôi đã xác thực các file `cluster-config.json` và `provisioning-parameters.json` bằng cách sử dụng AWS CLI và một script xác thực SageMaker HyperPod:
+Để biết chi tiết về VPC Lattice, hãy tham khảo [Hướng Dẫn Người Dùng Amazon VPC Lattice](https://docs.aws.amazon.com/vpc-lattice/latest/ug/what-is-vpc-lattice.html). Dưới đây là tổng quan về các cấu trúc có thể sử dụng trong việc thiết lập mô hình tập trung trong giải pháp này:
 
-```bash
-$curl -O https://raw.githubusercontent.com/aws-samples/awsome-distributed-training/main/1.architectures/5.sagemaker-hyperpod/validate-config.py
+* Mạng dịch vụ VPC Lattice – Bạn có thể sử dụng mạng dịch vụ VPC Lattice để cung cấp kết nối và bảo mật tập trung vào tài khoản dịch vụ AI trung tâm. Mạng dịch vụ là một cơ chế nhóm logic đơn giản hóa cách thức kích hoạt kết nối trên các VPC hoặc tài khoản, và áp dụng các chính sách bảo mật chung cho các mô hình giao tiếp ứng dụng. Bạn có thể tạo một mạng dịch vụ trong một tài khoản và chia sẻ nó với các tài khoản khác trong hoặc ngoài [AWS Organizations](https://aws.amazon.com/organizations/) bằng cách sử dụng AWS RAM.
+* Dịch vụ VPC Lattice – Trong một mạng dịch vụ, bạn có thể liên kết một dịch vụ VPC Lattice, bao gồm một bộ lắng nghe (giao thức và số cổng), các quy tắc định tuyến cho phép kiểm soát luồng ứng dụng (ví dụ: dựa trên đường dẫn, phương thức, tiêu đề hoặc định tuyến có trọng số), và nhóm mục tiêu định nghĩa cơ sở hạ tầng ứng dụng. Một dịch vụ có thể có nhiều bộ lắng nghe để đáp ứng các khả năng client khác nhau. Các giao thức được hỗ trợ bao gồm HTTP, HTTPS, gRPC và TLS. Định tuyến dựa trên đường dẫn cho phép kiểm soát đối với các FMs hiệu suất cao và các khả năng khác cần thiết để xây dựng ứng dụng AI sinh tạo.
+* Lớp proxy – Bạn sử dụng lớp proxy cho nhóm mục tiêu của dịch vụ VPC Lattice. Lớp proxy có thể được xây dựng dựa trên sở thích dịch vụ AWS của tổ chức, chẳng hạn như [AWS Lambda](http://aws.amazon.com/lambda), [AWS Fargate](https://aws.amazon.com/fargate), hoặc [Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/) (Amazon EKS). Mục đích của lớp proxy là cung cấp một điểm nhập duy nhất để truy cập LLMs, cơ sở tri thức và các khả năng khác đã được kiểm thử và phê duyệt theo yêu cầu tuân thủ của tổ chức.
+* Chính sách xác thực VPC Lattice – Để bảo mật, bạn sử dụng chính sách xác thực VPC Lattice. Các chính sách xác thực VPC Lattice được chỉ định bằng cú pháp tương tự như chính sách IAM. Bạn có thể áp dụng chính sách xác thực cho mạng dịch vụ VPC Lattice cũng như cho dịch vụ VPC Lattice.
+* Tên Miền Đầy Đủ Đủ (Fully Qualified Domain Names - FQDNs) – Để hỗ trợ khám phá dịch vụ, VPC Lattice hỗ trợ tên miền tùy chỉnh cho các dịch vụ và tài nguyên của bạn, và duy trì FQDN cho mỗi dịch vụ và tài nguyên VPC Lattice bạn định nghĩa. Bạn có thể sử dụng các FQDN này trong cấu hình vùng lưu trữ riêng [Amazon Route 53](https://aws.amazon.com/route53/), và trao quyền cho các đơn vị kinh doanh hoặc nhóm khám phá và truy cập dịch vụ và tài nguyên.
+* VPC mạng dịch vụ – Các đơn vị kinh doanh hoặc nhóm có thể truy cập các dịch vụ AI sinh tạo trong một mạng dịch vụ bằng cách sử dụng liên kết VPC mạng dịch vụ hoặc điểm cuối VPC mạng dịch vụ.
+* Giám sát – Bạn có thể chọn kích hoạt giám sát ở cấp độ mạng dịch vụ VPC Lattice và cấp độ dịch vụ VPC Lattice. VPC Lattice tạo ra các chỉ số và nhật ký cho các yêu cầu và phản hồi, giúp giám sát và khắc phục sự cố ứng dụng hiệu quả hơn.
 
-$pip3 install boto3
+Hướng dẫn trên áp dụng cách tiếp cận “an toàn theo mặc định” – bạn phải chỉ rõ các tính năng, mô hình, v.v. nào nên được truy cập bởi đơn vị kinh doanh nào. Thiết lập này cũng cho phép triển khai chiến lược phòng thủ sâu tại nhiều lớp mạng:
 
-$python3 validate-config.py --cluster-config cluster-config.json --provisioning-parameters provisioning-parameters.json
+* Lớp phòng thủ đầu tiên là nhóm kinh doanh cần kết nối với mạng dịch vụ để truy cập dịch vụ AI sinh tạo qua tài khoản dịch vụ AI trung tâm.
+* Lớp thứ hai bao gồm các bảo vệ bảo mật cấp mạng trong VPC của nhóm kinh doanh cho mạng dịch vụ, chẳng hạn như nhóm bảo mật và danh sách kiểm soát truy cập mạng (Network Access Control Lists - ACLs). Bằng cách sử dụng chúng, bạn có thể cho phép truy cập vào các khối lượng công việc hoặc nhóm cụ thể trong một VPC.
+* Lớp thứ ba là qua chính sách xác thực VPC Lattice, mà bạn có thể áp dụng ở hai lớp: ở cấp độ mạng dịch vụ để cho phép các yêu cầu được xác thực trong tổ chức, và ở cấp độ dịch vụ để cho phép truy cập vào các mô hình và tính năng cụ thể.
+
+## Chính Sách Xác Thực VPC Lattice
+
+Giải pháp này làm cho việc quản lý tập trung truy cập vào các tài nguyên Amazon Bedrock trên toàn tổ chức trở nên khả thi. Cách tiếp cận này sử dụng chính sách xác thực VPC Lattice để kiểm soát tập trung các tài nguyên Amazon Bedrock và quản lý chúng từ một vị trí duy nhất trên tất cả các tài khoản tổ chức.
+
+Thông thường, chính sách xác thực trên mạng dịch vụ được vận hành bởi quản trị viên mạng hoặc đám mây. Ví dụ, chỉ cho phép các yêu cầu được xác thực từ các khối lượng công việc hoặc nhóm cụ thể trong tổ chức AWS của bạn. Trong ví dụ sau, truy cập được cấp để kích hoạt dịch vụ AI sinh tạo cho các yêu cầu được xác thực và cho các nguyên tắc là phần của tổ chức `o-123456example`:
+
+```
+{
+   "Version": "2012-10-17",
+   "Statement": [
+      {
+         "Effect": "Allow",
+         "Principal": "*",
+         "Action": "vpc-lattice-svcs:Invoke",
+         "Resource": "*",
+         "Condition": {
+            "StringEquals": {
+                "aws:PrincipalOrgID": [ 
+                   "o-123456example"
+                ]
+            }
+         }
+      }
+   ]
+}
 ```
 
-Sau đó chúng tôi tạo cụm:
+Chính sách xác thực ở cấp độ dịch vụ được quản lý bởi nhóm dịch vụ AI trung tâm để thiết lập các kiểm soát chi tiết, có thể hạn chế hơn so với ủy quyền thô ở cấp độ mạng dịch vụ. Ví dụ, chính sách sau hạn chế truy cập vào `claude-3-haiku` chỉ cho `business-team1`:
 
-```bash
-$aws sagemaker create-cluster \
-  --cli-input-json file://cluster-config.json \
-  --region us-west-2
+```
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect": "Allow",
+         "Principal": {
+            "AWS": [
+               "arn:aws:iam::<account-number>:role/businss-team1"
+            ]
+         },
+         "Action": "vpc-lattice-svcs:Invoke",
+         "Resource": [
+            "arn:aws:vpc-lattice:<aws-region>:<account-number>:service/svc-0123456789abcdef0/*"
+         ],
+         "Condition": {
+            "StringEquals": {
+                "vpc-lattice-svcs:RequestQueryString/modelid": "claude-3-haiku" 
+            }
+         }
+      }
+   ]
+}
 ```
 
-### Triển khai theo dõi chi phí và thực thi ngân sách
+## Giám Sát Và Theo Dõi
 
-Để giám sát việc sử dụng và kiểm soát chi phí, mỗi tài nguyên SageMaker HyperPod (ví dụ: Amazon EC2, FSx for Lustre và others) được gắn thẻ với một thẻ `ClusterName` duy nhất. Các báo cáo [AWS Budgets](https://aws.amazon.com/aws-cost-management/aws-budgets/) và [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) được cấu hình để theo dõi chi tiêu hàng tháng cho mỗi cụm. Ngoài ra, các cảnh báo được thiết lập để thông báo cho các nhà nghiên cứu nếu họ tiếp cận hạn ngạch hoặc ngưỡng ngân sách của mình.
+Thiết kế này sử dụng ba cách tiếp cận giám sát, sử dụng [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/), [AWS CloudTrail](https://aws.amazon.com/cloudtrail/), và nhật ký truy cập VPC Lattice. Chiến lược này cung cấp cái nhìn về việc sử dụng dịch vụ, bảo mật và hiệu suất.
 
-Sự tích hợp này giúp tạo điều kiện sử dụng hiệu quả và chi tiêu nghiên cứu có thể dự đoán được.
+Các chỉ số CloudWatch cung cấp giám sát thời gian thực về hiệu suất và sử dụng dịch vụ VPC Lattice. CloudWatch theo dõi các chỉ số như số lượng yêu cầu và thời gian phản hồi cho các điểm cuối liên quan đến Amazon Bedrock, cho phép thiết lập cảnh báo để quản lý chủ động sức khỏe dịch vụ và dung lượng. Điều này kích hoạt giám sát các mô hình sử dụng tổng thể của các mô hình Amazon Bedrock trên các đơn vị kinh doanh khác nhau, hỗ trợ lập kế hoạch dung lượng và phân bổ tài nguyên. CloudTrail cung cấp kiểm toán cấp API chi tiết về các hành động liên quan đến Amazon Bedrock. Nó ghi nhật ký các nỗ lực truy cập liên tài khoản và tương tác với các dịch vụ Amazon Bedrock, cung cấp dấu vết kiểm toán tuân thủ và bảo mật. Việc theo dõi ai đang truy cập mô hình Amazon Bedrock nào, khi nào và từ tài khoản nào giúp các tổ chức tuân thủ các chính sách tổ chức của họ. Nhật ký truy cập VPC Lattice cung cấp cái nhìn chi tiết về các yêu cầu HTTP/HTTPS đến các dịch vụ Amazon Bedrock, ghi nhận các mô hình sử dụng cụ thể của các mô hình AI bởi các nhóm kinh doanh khác nhau. Các nhật ký này chứa thông tin cụ thể của client, ví dụ có thể được sử dụng để kích hoạt các khả năng như mô hình tính phí ngược. Điều này cho phép phân bổ chi phí sử dụng dịch vụ AI chính xác cho các nhóm hoặc bộ phận cụ thể, hỗ trợ phân bổ chi phí công bằng và sử dụng tài nguyên có trách nhiệm trên toàn tổ chức. Các dịch vụ này hoạt động cùng nhau để nâng cao bảo mật, tối ưu hóa hiệu suất và cung cấp các cái nhìn có giá trị để quản lý truy cập liên tài khoản vào Amazon Bedrock.
 
-### Kích hoạt cân bằng tải cho các node đăng nhập
+## Kết Luận
 
-Khi số lượng người dùng đồng thời tăng lên, trường đại học đã áp dụng kiến trúc đa node đăng nhập. Hai node đăng nhập được triển khai trong các nhóm EC2 Auto Scaling. Một [Network Load Balancer](https://aws.amazon.com/elasticloadbalancing/network-load-balancer/) được cấu hình với các target group để định tuyến lưu lượng SSH và Systems Manager. Cuối cùng, các hàm [AWS Lambda](http://aws.amazon.com/lambda) thực thi giới hạn phiên cho mỗi người dùng bằng cách sử dụng thẻ `Run-As` với [Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html), một khả năng của Systems Manager.
+Trong bài viết này, chúng tôi đã khám phá tầm quan trọng của việc bảo mật và kiểm soát truy cập mạng vào các khả năng Amazon Bedrock trong vùng hạ tầng AWS của tổ chức. Chúng tôi đã thảo luận về các thách thức kinh doanh chính, chẳng hạn như nhu cầu bảo vệ thông tin nhạy cảm trong các cơ sở tri thức Amazon Bedrock, hạn chế truy cập vào các mô hình AI và tối ưu hóa chi phí đám mây bằng cách giám sát và kiểm soát các khả năng Amazon Bedrock. Để giải quyết các thách thức này, chúng tôi đã phác thảo một giải pháp mạng đa lớp sử dụng các dịch vụ mạng AWS, bao gồm chính sách xác thực VPC Lattice để hạn chế và giám sát truy cập vào các khả năng Amazon Bedrock. Hãy thử giải pháp này cho trường hợp sử dụng của bạn và chia sẻ phản hồi trong phần bình luận.
 
-Để biết chi tiết về triển khai đầy đủ, hãy xem [Implementing login node load balancing in SageMaker HyperPod for enhanced multi-user experience.](https://aws.amazon.com/blogs/machine-learning/implementing-login-node-load-balancing-in-sagemaker-hyperpod-for-enhanced-multi-user-experience/)
+### Về Các Tác Giả
 
-### Cấu hình quyền truy cập liên kết và ánh xạ người dùng
+![Abdel-Rahman Awad](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abdel-rahman-awad.jpg)
 
-Để tạo điều kiện truy cập an toàn và liền mạch cho các nhà nghiên cứu, tổ chức đã tích hợp [AWS IAM Identity Center](https://aws.amazon.com/iam/identity-center/) với Active Directory (AD) tại chỗ của họ bằng cách sử dụng [AWS Directory Service.](https://aws.amazon.com/directoryservice/) Điều này cho phép kiểm soát và quản trị thống nhất danh tính người dùng và đặc quyền truy cập trên các tài khoản SageMaker HyperPod. Việc triển khai bao gồm các thành phần chính sau:
+### Abdel-Rahman Awad
 
-- **Tích hợp người dùng liên kết** – Chúng tôi ánh xạ người dùng AD sang tên người dùng POSIX bằng cách sử dụng thẻ `run-as` của Session Manager, cho phép kiểm soát chi tiết quyền truy cập node tính toán
-- **Quản lý phiên an toàn** – Chúng tôi đã cấu hình Systems Manager để đảm bảo người dùng truy cập các node tính toán bằng tài khoản của chính họ, không phải `ssm-user` mặc định
-- **Gắn thẻ dựa trên danh tính** – Tên người dùng liên kết được tự động ánh xạ đến các thư mục người dùng, khối lượng công việc và ngân sách thông qua các thẻ tài nguyên
+Lãnh đạo Kỹ thuật tại AWS với gần hai thập kỷ kinh nghiệm trong ngành CNTT, ông hướng dẫn các tổ chức lớn qua hành trình đám mây của họ, làm việc với các bên liên quan từ nhóm kỹ thuật đến các lãnh đạo cấp C.
 
-Để được hướng dẫn từng bước đầy đủ, hãy tham khảo [Amazon SageMaker HyperPod workshop.](https://catalog.workshops.aws/sagemaker-hyperpod/en-US/08-tips-and-tricks/01-multi-user)
+![Abeer Binzaid](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abeer-binzaid.jpg)
 
-Cách tiếp cận này đã hợp lý hóa việc cung cấp người dùng và kiểm soát truy cập trong khi vẫn duy trì sự phù hợp mạnh mẽ với các chính sách và yêu cầu tuân thủ của tổ chức.
+### Abeer Binzaid
 
-### Tối ưu hóa sau triển khai
+Abeer Binzaid là Kiến trúc sư Giải pháp tại Amazon Web Services (AWS), hỗ trợ khách hàng trong khu vực MENAT như một phần của đội ngũ Trung tâm Bán hàng Đám mây. Abeer đam mê mạng đám mây, trí tuệ nhân tạo sinh tạo và hỗ trợ khách hàng đẩy nhanh chuyển đổi số bằng cách áp dụng các kiến trúc đám mây hiện đại.
 
-Để giúp ngăn chặn việc tiêu thụ không cần thiết tài nguyên tính toán bởi các phiên không hoạt động, trường đại học đã cấu hình SLURM với [Pluggable Authentication Modules](https://github.com/SchedMD/slurm/tree/master/contribs/pam) (PAM). Thiết lập này thực thi việc đăng xuất tự động cho người dùng sau khi job SLURM của họ hoàn thành hoặc bị hủy, hỗ trợ tính khả dụng kịp thời của các node tính toán cho các job đang xếp hàng.
+![Ankit Gupta](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-ankit-gupta.jpg)
 
-Cấu hình này đã cải thiện thông lượng lập lịch job bằng cách giải phóng ngay lập tức các node nhàn rỗi và giảm chi phí quản lý trong việc quản lý các phiên không hoạt động.
+### Ankit Gupta
 
-Ngoài ra, các chính sách [QoS](https://github.com/SchedMD/slurm/blob/master/doc/html/qos.shtml) được cấu hình để kiểm soát mức tiêu thụ tài nguyên, giới hạn thời lượng job và thực thi quyền truy cập GPU công bằng trên tất cả người dùng và các khoa. Ví dụ:
+Ankit Gupta là Kiến trúc sư Giải pháp Cấp cao tại Amazon Web Services (AWS), nơi ông chuyên làm việc với khách hàng Dịch vụ Phần mềm Như Một Dịch vụ (SaaS). Ankit giúp khách hàng thiết kế và triển khai các giải pháp có khả năng mở rộng cao và kiên cường trên AWS. Là một chuyên gia mạng, Ankit làm việc rộng rãi với các dịch vụ mạng AWS, cung cấp hướng dẫn cho khách hàng trên khu vực EMEA trong việc xây dựng các kiến trúc mạng mạnh mẽ và có khả năng mở rộng. Khi không thiết kế giải pháp đám mây, Ankit có thể được tìm thấy trên sân cầu lông theo đuổi niềm đam mê với các môn thể thao vợt.
 
-- **MaxTRESPerUser** – Đảm bảo việc sử dụng GPU hoặc CPU trên mỗi người dùng nằm trong giới hạn đã định
-- **MaxWallDurationPerJob** – Giúp ngăn chặn các job quá dài độc chiếm các node
-- **Trọng số ưu tiên** – Căn chỉnh lập lịch ưu tiên dựa trên nhóm nghiên cứu hoặc dự án
 
-Những cải tiến này tạo điều kiện cho một môi trường HPC được tối ưu hóa, cân bằng, phù hợp với mô hình cơ sở hạ tầng chia sẻ của các tổ chức nghiên cứu học thuật.
+<!-- ### Về Các Tác Giả
 
-### Dọn dẹp
+![Abdel-Rahman Awad](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abdel-rahman-awad.jpg)
 
-Để xóa các tài nguyên và tránh phát sinh chi phí liên tục, hãy hoàn thành các bước sau:
+### Abdel-Rahman Awad
 
-1. Xóa cụm SageMaker HyperPod:
+Lãnh đạo Kỹ thuật tại AWS với gần hai thập kỷ kinh nghiệm trong ngành CNTT, ông hướng dẫn các tổ chức lớn qua hành trình đám mây của họ, làm việc với các bên liên quan từ nhóm kỹ thuật đến các lãnh đạo cấp C.
 
-```bash
-$aws sagemaker delete-cluster --cluster-name <tên-cụm>
-```
+![Abeer Binzaid](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-abeer-binzaid.jpg)
 
-2. Xóa stack CloudFormation được sử dụng cho cơ sở hạ tầng SageMaker HyperPod:
+### Abeer Binzaid
 
-```bash
-$aws cloudformation delete-stack --stack-name <tên-stack> --region <vùng>
-```
+Abeer Binzaid là Kiến trúc sư Giải pháp tại Amazon Web Services (AWS), hỗ trợ khách hàng trong khu vực MENAT như một phần của đội ngũ Trung tâm Bán hàng Đám mây. Abeer đam mê mạng đám mây, trí tuệ nhân tạo sinh tạo và hỗ trợ khách hàng đẩy nhanh chuyển đổi số bằng cách áp dụng các kiến trúc đám mây hiện đại.
 
-Thao tác này sẽ tự động xóa các tài nguyên liên quan, chẳng hạn như VPC và subnets, hệ thống file FSx for Lustre, bucket S3 và các vai trò IAM. Nếu bạn đã tạo các tài nguyên này bên ngoài CloudFormation, bạn phải xóa chúng theo cách thủ công.
+![Ankit Gupta](https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b1041e5a6a9d7c3f2087/2024/10/15/images/author-ankit-gupta.jpg)
 
-### Kết luận
+### Ankit Gupta
 
-SageMaker HyperPod cung cấp cho các trường đại học nghiên cứu một giải pháp HPC mạnh mẽ, được quản lý hoàn toàn, được thiết kế cho các nhu cầu riêng biệt của khối lượng công việc AI. Bằng cách tự động hóa việc cung cấp cơ sở hạ tầng, mở rộng quy mô và tối ưu hóa tài nguyên, các tổ chức có thể tăng tốc đổi mới trong khi vẫn duy trì kiểm soát ngân sách và hiệu quả hoạt động. Thông qua các cấu hình SLURM tùy chỉnh, chia sẻ GPU bằng GRES, quyền truy cập liên kết và cân bằng node đăng nhập mạnh mẽ, giải pháp này làm nổi bật tiềm năng của SageMaker HyperPod trong việc chuyển đổi điện toán nghiên cứu, giúp các nhà nghiên cứu tập trung vào khoa học, không phải cơ sở hạ tầng.
+Ankit Gupta là Kiến trúc sư Giải pháp Cấp cao tại Amazon Web Services (AWS), nơi ông chuyên làm việc với khách hàng Dịch vụ Phần mềm Như Một Dịch vụ (SaaS). Ankit giúp khách hàng thiết kế và triển khai các giải pháp có khả năng mở rộng cao và kiên cường trên AWS. Là một chuyên gia mạng, Ankit làm việc rộng rãi với các dịch vụ mạng AWS, cung cấp hướng dẫn cho khách hàng trên khu vực EMEA trong việc xây dựng các kiến trúc mạng mạnh mẽ và có khả năng mở rộng. Khi không thiết kế giải pháp đám mây, Ankit có thể được tìm thấy trên sân cầu lông theo đuổi niềm đam mê với các môn thể thao vợt. -->
