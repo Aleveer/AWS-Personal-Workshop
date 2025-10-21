@@ -4,281 +4,334 @@ weight: 1
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
+# Bảo mật API ứng dụng Express trong 5 phút với Cedar
 
-# Xây dựng storyboard nhất quán về nhân vật với Amazon Nova trong Amazon Bedrock – Phần 2
+Hôm nay, dự án mã nguồn mở [Cedar](https://www.cedarpolicy.com/) đã công bố phiên bản [`authorization-for-expressjs`](https://github.com/cedar-policy/authorization-for-expressjs), một gói mã nguồn mở giúp đơn giản hóa việc sử dụng ngôn ngữ chính sách Cedar và công cụ phân quyền để xác minh quyền truy cập ứng dụng. Phiên bản này cho phép các nhà phát triển thêm phân quyền dựa trên chính sách vào API framework web Express của họ trong vài phút, và không cần thực hiện bất kỳ cuộc gọi dịch vụ từ xa nào.
 
-Mặc dù việc xây dựng prompt cẩn thận có thể mang lại kết quả tốt, nhưng để đạt đến mức độ nhất quán chuyên nghiệp thường cần phải điều chỉnh bản thân mô hình nền tảng. Dựa trên kỹ thuật prompt engineering và phát triển nhân vật đã được đề cập trong [Phần 1](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-1/) của loạt bài hai phần, chúng ta sẽ nâng cao mức độ nhất quán cho các nhân vật cụ thể bằng cách tinh chỉnh mô hình nền tảng (FM) [Amazon Nova Canvas](https://aws.amazon.com/ai/generative-ai/nova/creative/) Thông qua kỹ thuật fine-tuning, người sáng tạo có thể hướng dẫn mô hình duy trì sự kiểm soát chính xác đối với diện mạo, biểu cảm và các yếu tố phong cách của nhân vật xuyên suốt nhiều cảnh.
+[Express](https://expressjs.com/) là một framework ứng dụng web Node.js tối giản và linh hoạt cung cấp một bộ tính năng mạnh mẽ cho các ứng dụng web và di động. Tích hợp chuẩn hóa này với Cedar yêu cầu ít hơn 90% mã so với việc các nhà phát triển tự viết các mẫu tích hợp, giúp tiết kiệm thời gian và công sức cho các nhà phát triển và cải thiện tư thế bảo mật ứng dụng bằng cách giảm lượng mã tích hợp tùy chỉnh.
 
-Trong bài viết này, chúng ta sẽ lấy ví dụ từ bộ phim hoạt hình ngắn [Picchu](https://www.youtube.com/watch?v=vKSaF8NvMiQ), do FuzzyPixel thuộc Amazon Web Services (AWS) sản xuất, tiến hành chuẩn bị dữ liệu huấn luyện bằng cách trích xuất các khung hình nhân vật chính, và tinh chỉnh mô hình để duy trì tính nhất quán cho nhân vật Mayu và mẹ cô bé. Nhờ vậy, chúng ta có thể nhanh chóng tạo ra các ý tưởng storyboard cho những phần tiếp theo, như các hình ảnh dưới đây.
+Ví dụ, nếu bạn đang xây dựng một ứng dụng cửa hàng thú cưng sử dụng framework Express, sử dụng tính năng authorization-for-expressjs bạn có thể tạo các chính sách phân quyền để chỉ nhân viên cửa hàng mới có thể truy cập API để thêm thú cưng. Triển khai chuẩn hóa này cho middleware phân quyền Express thay thế nhu cầu về mã tùy chỉnh và tự động ánh xạ các yêu cầu khách hàng thành các thành phần principal, action và resource của chúng, sau đó thành các yêu cầu phân quyền Cedar.
 
-<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-1-3-300x180.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-2-2-300x180.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-3-1-300x180.jpg" alt="Girl running with llama">
-</div>
+## Tại sao nên tách biệt phân quyền với Cedar?
 
-### Tổng quan giải pháp
+Truyền thống, các nhà phát triển triển khai phân quyền trong ứng dụng của họ bằng cách nhúng logic phân quyền trực tiếp vào mã ứng dụng. Logic phân quyền được nhúng này được thiết kế để hỗ trợ một vài quyền, nhưng khi ứng dụng phát triển, thường có nhu cầu hỗ trợ các trường hợp sử dụng phức tạp hơn với các yêu cầu phân quyền bổ sung. Các nhà phát triển cập nhật từng bước logic phân quyền được nhúng để hỗ trợ các trường hợp sử dụng phức tạp này, dẫn đến mã phức tạp và khó bảo trì. Khi độ phức tạp của mã tăng lên, việc phát triển thêm mô hình bảo mật và thực hiện kiểm toán quyền trở nên khó khăn hơn, dẫn đến một ứng dụng liên tục trở nên khó bảo trì hơn trong suốt vòng đời của nó.
 
-Để triển khai một quy trình làm việc tự động, chúng tôi đề xuất kiến trúc giải pháp toàn diện sau, sử dụng các dịch vụ AWS để thực hiện từ đầu đến cuối.
+Cedar cho phép bạn tách biệt logic phân quyền khỏi ứng dụng của bạn. Việc tách biệt phân quyền khỏi mã ứng dụng mang lại nhiều lợi ích bao gồm giải phóng các nhóm phát triển để tập trung vào logic ứng dụng và đơn giản hóa việc kiểm toán ứng dụng và truy cập tài nguyên. Cedar là một [ngôn ngữ mã nguồn mở và bộ công cụ phát triển phần mềm (SDK)](https://github.com/cedar-policy/) để viết và thực thi các chính sách phân quyền cho ứng dụng của bạn. Bạn chỉ định các quyền chi tiết như các chính sách Cedar, và ứng dụng của bạn phân quyền các yêu cầu truy cập bằng cách gọi Cedar SDK. Ví dụ, bạn có thể sử dụng chính sách Cedar bên dưới để cho phép người dùng nhân viên gọi API `POST /pets` trong ứng dụng PetStore mẫu.
 
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/arch-1024x660.png)
+```
+permit (
+    principal,
+    action in [Action::"POST /pets"], 
+    resource
+) when {
+    principal.jobLevel = "employee"
+};
+```
 
-Quy trình gồm các bước sau:
+Một thách thức tiềm ẩn trong việc áp dụng Cedar có thể là nỗ lực ban đầu cần thiết để định nghĩa các chính sách Cedar và cập nhật mã ứng dụng của bạn để gọi Cedar SDK để phân quyền các yêu cầu API. Bài đăng blog này cho thấy cách các nhà phát triển ứng dụng web sử dụng framework Express có thể dễ dàng triển khai phân quyền cấp API với Cedar—chỉ thêm vài chục dòng mã trong ứng dụng của bạn, thay vì hàng trăm dòng.
 
-  1. Người dùng tải video nguồn lên một bucket [Simple Storage Service](http://aws.amazon.com/s3) (Amazon S3) bucket.
-  2. [Amazon Elastic Container Service](http://aws.amazon.com/ecs) (Amazon ECS) được kích hoạt để xử lý video.
-Amazon ECS giảm tần suất khung hình, chọn các khung chứa nhân vật và cắt chính giữa để tạo ra hình ảnh nhân vật cuối cùng.
-  3. Amazon ECS downsamples the frames, selects those containing the character, and then center-crops them to produce the final character images.
-  4. Amazon ECS gọi mô hình [Amazon Nova](https://aws.amazon.com/ai/generative-ai/nova/) (Amazon Nova Pro) từ [Amazon Bedrock](https://aws.amazon.com/bedrock/) để tạo chú thích cho hình ảnh.
-  5. Amazon ECS ghi chú thích hình ảnh và siêu dữ liệu vào S3 bucket.
-  6. Người dùng sử dụng môi trường notebook trong [Amazon SageMaker AI](https://aws.amazon.com/sagemaker-ai) để gọi job huấn luyện mô hình.
-  7. Người dùng tinh chỉnh mô hình Amazon Nova Canvas tùy chỉnh bằng cách gọi API `create_model_customization_job` và `create_model_provisioned_throughput` trong Amazon Bedrock, từ đó tạo ra mô hình tùy chỉnh sẵn sàng cho suy luận.
+Hướng dẫn từng bước này sử dụng ứng dụng PetStore mẫu để cho thấy cách truy cập vào API có thể được hạn chế dựa trên các nhóm người dùng. Bạn có thể tìm thấy ứng dụng Pet Store mẫu trong [kho lưu trữ cedar-policy](https://github.com/cedar-policy/authorization-for-expressjs/tree/main/examples) trên GitHub.
 
-Quy trình được chia thành hai giai đoạn rõ ràng. Giai đoạn đầu (Bước 1–5) tập trung vào việc chuẩn bị dữ liệu huấn luyện. Trong bài viết này, chúng ta sẽ đi qua pipeline tự động trích xuất hình ảnh từ video đầu vào và tạo dữ liệu huấn luyện đã gắn nhãn. Giai đoạn thứ hai (Bước 6–7) tập trung vào tinh chỉnh mô hình Amazon Nova Canvas và thử nghiệm suy luận bằng mô hình đã được huấn luyện. Với các bước này, chúng tôi cung cấp dữ liệu hình ảnh đã được tiền xử lý và mã ví dụ đầy đủ trong [GitHub repository](https://github.com/aws-samples/sample-character-consistent-storyboard/tree/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas) để bạn có thể dễ dàng thực hiện theo.
+## Tổng quan API ứng dụng Pet Store
 
-### Chuẩn bị dữ liệu huấn luyện
+Ứng dụng PetStore được sử dụng để quản lý một cửa hàng thú cưng. Cửa hàng thú cưng được xây dựng bằng Express trên Node.js và expose các API sau:
 
-Bắt đầu với giai đoạn đầu tiên của quy trình, chúng ta xây dựng pipeline tự động để trích xuất nhân vật/đối tượng từ video, tạo hình ảnh có độ phân giải cao và nhãn chú thích chính xác thông qua các bước sau.
+1. **GET /pets** – trả về một trang các thú cưng có sẵn trong PetStore.
+2. **POST /pets** – thêm thú cưng được chỉ định vào PetStore.
+3. **GET /pets/{petId}** – trả về thú cưng được chỉ định tìm thấy trong PetStore.
+4. **POST /pets/{petId}/sale** – đánh dấu một thú cưng là đã bán.
 
-#### Trích xuất nhân vật sáng tạo
+Ứng dụng này không cho phép tất cả người dùng truy cập tất cả API. Thay vào đó, nó thực thi các quy tắc sau:
 
-Trước tiên, chúng tôi khuyến nghị lấy mẫu khung hình ở khoảng thời gian cố định (ví dụ: 1 khung/giây). Sau đó, áp dụng [Amazon Rekognition](https://aws.amazon.com/rekognition/) để phát hiện nhãn và tìm kiếm khuôn mặt nhằm xác định khung hình và nhân vật quan trọng. Nhận diện nhãn có thể phân biệt hơn 2.000 nhãn khác nhau và xác định vị trí trong khung, rất hữu ích để phát hiện ban đầu các loại nhân vật chung hoặc phi nhân loại. Để phân biệt các nhân vật cụ thể, chúng ta dùng tính năng [search faces in a collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html). Nếu hai cách tiếp cận trên chưa đủ chính xác, có thể dùng [Amazon Rekognition Custom Labels](https://aws.amazon.com/rekognition/custom-labels-features/) để huấn luyện mô hình phát hiện nhân vật cụ thể.
+Cả người dùng khách hàng và nhân viên đều được phép thực hiện các thao tác đọc.
 
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-5-1024x408.jpeg)
+`GET /pets`
 
-Sau khi phát hiện, mỗi nhân vật được cắt chính giữa với khoảng đệm điểm ảnh hợp lý. Tiếp theo, chạy thuật toán loại bỏ trùng lặp bằng mô hình [Amazon Titan Multimodal Embeddings](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-multiemb-models.html) để loại bỏ hình ảnh tương tự vượt quá ngưỡng. Nhờ đó, bộ dữ liệu trở nên đa dạng hơn, tránh tình trạng quá khớp (overfitting). Ta có thể tinh chỉnh ngưỡng tương đồng để cân bằng giữa đa dạng dữ liệu và loại bỏ dư thừa.
+`GET /pets/{petId}`
 
-#### Gắn nhãn dữ liệu
+Chỉ nhân viên mới được phép thực hiện các thao tác ghi.
 
-Chúng tôi tạo chú thích cho từng hình ảnh bằng cách sử dụng Amazon Nova Pro trong Amazon Bedrock, sau đó tải tệp kê khai hình ảnh và nhãn lên vị trí Amazon S3. Quá trình này tập trung vào hai khía cạnh quan trọng của kỹ thuật nhắc nhở: mô tả nhân vật để giúp FM xác định và đặt tên cho các nhân vật dựa trên các thuộc tính độc đáo của họ và tạo mô tả đa dạng để tránh các mẫu lặp đi lặp lại trong chú thích (ví dụ: "một nhân vật hoạt hình"). Sau đây là mẫu lời nhắc ví dụ được sử dụng trong quá trình ghi nhãn dữ liệu của chúng tôi:
+`POST /pets`
 
-```yaml
-system_prompt = """ 
-    Bạn là một chuyên gia mô tả hình ảnh chuyên nghiệp, người tạo ra alt ngắn gọn, tự nhiên văn bản giúp nội dung trực quan có thể truy cập được trong khi vẫn duy trì sự rõ ràng và tập trung. Nhiệm vụ của bạn là phân tích hình ảnh được cung cấp và cung cấp mô tả sáng tạo (20-30 từ) nhấn mạnh Ba nhân vật chính, nắm bắt được những điều cần thiết các yếu tố tương tác của chúng trong khi tránh các chi tiết không cần thiết.
-"""
+`POST /pets/{petId}/sale`
 
-prompt = """ 
+## Triển khai phân quyền cho API Pet Store
 
-    1. Xác định các nhân vật chính trong ảnh: Nhân vật 1, Nhân vật 2 và Ký tự 3 ít nhất một ký tự sẽ có trong hình, vì vậy hãy cung cấp tối thiểu một mô tả với ít nhất một tên ký tự. 
-      - "Nhân vật 1" mô tả nhân vật đầu tiên, đặc điểm chính, bối cảnh, thuộc tính. 
-      - "Nhân vật 2" mô tả nhân vật thứ hai, đặc điểm chính, bối cảnh, thuộc tính. 
-      - "Nhân vật 3" mô tả nhân vật thứ ba, đặc điểm chính, bối cảnh, thuộc tính. 
-    2. Chỉ cần nêu tên của họ KHÔNG thêm bất kỳ đặc điểm tiêu chuẩn nào. 
-    3. Chỉ chụp yếu tố hình ảnh bên ngoài các đặc điểm tiêu chuẩn 
-    4. Nắm bắt sự tương tác cốt lõi giữa họ 
-    5. Chỉ bao gồm các chi tiết theo ngữ cảnh rất quan trọng để hiểu cảnh 
-    6. Tạo mô tả tự nhiên, trôi chảy bằng ngôn ngữ hàng ngày 
-    
-    Dưới đây là một số ví dụ
-    
-        ...
-    
-    
-    [Xác định các nhân vật chính] 
-    [Đánh giá sự tương tác chính của chúng] 
-    [Lựa chọn các yếu tố ngữ cảnh quan trọng] 
-    [Soạn thảo mô tả ngắn gọn, tự nhiên]
-    
-    
-    {
-        "alt_text": "[Mô tả ngắn gọn, tự nhiên tập trung vào các nhân vật chính]"
+Hãy cùng đi qua cách bảo mật API ứng dụng của bạn bằng Cedar sử dụng gói mới cho Express. Ứng dụng ban đầu, không có phân quyền, có thể được tìm thấy trong thư mục `start`; sử dụng cái này để theo dõi cùng với blog. Bạn có thể tìm thấy ứng dụng hoàn chỉnh, với phân quyền đã được thêm vào, trong thư mục `finish`.
+
+### Thêm gói Cedar Authorization Middleware
+
+Gói Cedar Authorization Middleware sẽ được sử dụng để tạo schema Cedar, tạo các chính sách phân quyền mẫu và thực hiện phân quyền trong ứng dụng của bạn.
+
+Chạy lệnh `npm` này để thêm dependency `@cedar-policy/authorization-for-expressjs` vào ứng dụng của bạn.
+
+```
+npm i --save @cedar-policy/authorization-for-expressjs 
+```
+
+### Tạo Schema Cedar từ API của bạn
+
+Schema Cedar định nghĩa mô hình phân quyền cho một ứng dụng, bao gồm các loại thực thể trong ứng dụng và các hành động mà người dùng được phép thực hiện. Các chính sách của bạn được xác thực với schema này khi bạn chạy ứng dụng.
+
+Gói `authorization-for-expressjs` có thể phân tích [đặc tả OpenAPI](https://swagger.io/specification/) của ứng dụng của bạn và tạo schema Cedar. Cụ thể, đối tượng `paths` là bắt buộc trong đặc tả của bạn.
+
+Lưu ý: Nếu bạn không có đặc tả OpenAPI, bạn có thể tạo một cái bằng công cụ bạn chọn. Có một số thư viện mã nguồn mở để làm điều này cho Express; bạn có thể cần thêm một số mã vào ứng dụng của bạn, tạo đặc tả OpenAPI, và sau đó xóa mã đó. Ngoài ra, một số công cụ dựa trên AI sinh tạo như CLI [Amazon Q Developer](https://aws.amazon.com/q/developer/) rất hiệu quả trong việc tạo các tài liệu đặc tả OpenAPI. Bất kể bạn tạo đặc tả như thế nào, hãy đảm bảo xác thực đầu ra chính xác từ công cụ.
+
+Đối với ứng dụng mẫu, một tài liệu đặc tả OpenAPI có tên `openapi.json` đã được bao gồm.
+
+Với đặc tả OpenAPI, bạn có thể tạo schema Cedar bằng cách chạy lệnh `generateSchema` được liệt kê ở đây.
+
+```
+// schema được lưu trữ trong file v4.cedarschema.json trong root của package.
+
+npx @cedar-policy/authorization-for-expressjs generate-schema --api-spec openapi.json --namespace PetStoreApp --mapping-type SimpleRest
+```
+
+### Định nghĩa các chính sách phân quyền
+
+Nếu không có chính sách nào được cấu hình, Cedar sẽ từ chối tất cả các yêu cầu phân quyền. Chúng ta sẽ thêm các chính sách cấp quyền truy cập vào API chỉ trong các nhóm người dùng được ủy quyền.
+
+Chạy lệnh này để tạo các chính sách Cedar mẫu. Sau đó bạn có thể tùy chỉnh các chính sách này dựa trên trường hợp sử dụng của bạn.
+
+```
+npx @cedar-policy/authorization-for-expressjs generate-policies --schema v4.cedarschema.json
+```
+
+Trong ứng dụng PetStore, hai chính sách mẫu được tạo, `policy_1.cedar` và `policy_2.cedar`.
+
+policy_1.cedar cung cấp quyền cho người dùng trong nhóm người dùng admin để thực hiện bất kỳ hành động nào trên bất kỳ tài nguyên nào.
+
+```
+// policy_1.cedar
+// Cho phép nhóm người dùng admin truy cập mọi thứ
+permit (
+    principal in PetStoreApp::UserGroup::"admin",
+    action,
+    resource
+);
+```
+
+policy_2.cedar cung cấp quyền truy cập chi tiết hơn cho tất cả các hành động riêng lẻ được định nghĩa trong schema Cedar với một placeholder cho một nhóm cụ thể.
+
+```
+// policy_2.cedar
+// Cho phép kiểm soát nhóm người dùng chi tiết hơn, thay đổi hành động theo nhu cầu
+permit (
+    principal in PetStoreApp::UserGroup::"ENTER_THE_USER_GROUP_HERE",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"POST /pets",
+         PetStoreApp::Action::"GET /pets/{petId}",
+         PetStoreApp::Action::"POST /pets/{petId}/sale"],
+    resource
+);
+```
+
+Lưu ý rằng nếu bạn chỉ định một `operationId` trong đặc tả OpenAPI, tên hành động được định nghĩa trong Schema Cedar sẽ sử dụng `operationId` đó thay vì định dạng mặc định "<HTTP Method> /<PATH>". Trong trường hợp này, đảm bảo việc đặt tên Actions trong Chính sách Cedar của bạn khớp với việc đặt tên Actions trong Schema Cedar của bạn.
+
+Ví dụ, nếu bạn muốn gọi hành động của bạn là `AddPet` thay vì `POST /pets`, bạn có thể đặt `operationId` trong đặc tả OpenAPI của bạn thành `AddPet`. Hành động kết quả trong chính sách Cedar sẽ là `PetStoreApp::Action::"AddPet"`
+
+Vì chúng ta không có người dùng `admin` trong trường hợp sử dụng của chúng ta, chúng ta có thể chỉ thay thế nội dung của `policy_1.cedar` bằng các chính sách được sử dụng cho nhóm người dùng `customer`.
+
+Trong trường hợp sử dụng thực tế, hãy cân nhắc đổi tên các file chính sách Cedar của bạn dựa trên nội dung của chúng. Ví dụ, `allow_customer_group.cedar`
+
+```
+// policy_1.cedar
+// Cho phép nhóm người dùng customer truy cập getAllPets và getPetById
+permit (
+    principal in PetStoreApp::UserGroup::"customer",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"GET /pets/{petId}"],
+    resource
+);
+```
+
+Người dùng `employee` có quyền truy cập tất cả các thao tác API. Chúng ta có thể chỉ cần thêm nhóm `employee` vào file `policy_2.cedar` để đáp ứng các yêu cầu phân quyền cho người dùng `employee`.
+
+```
+// policy_2.cedar
+// Cho phép nhóm người dùng employee truy cập tất cả các hành động API
+permit (
+    principal in PetStoreApp::UserGroup::"employee",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"POST /pets",
+         PetStoreApp::Action::"GET /pets/{petId}",
+         PetStoreApp::Action::"POST /pets/{petId}/sale"],
+    resource
+);
+```
+
+Lưu ý: Đối với các ứng dụng lớn với các chính sách phân quyền phức tạp, có thể khó khăn để phân tích và kiểm toán các quyền thực tế được cung cấp bởi nhiều chính sách khác nhau. Chúng tôi cũng gần đây đã mã nguồn mở [Cedar Analysis CLI](https://github.com/cedar-policy/cedar-spec) để giúp các nhà phát triển thực hiện phân tích chính sách trên các chính sách của họ. Bạn có thể tìm hiểu thêm về công cụ mới này trong bài đăng blog [Introducing Cedar Analysis: Open Source Tools for Verifying Authorization Policies.](https://aws.amazon.com/blogs/opensource/introducing-cedar-analysis-open-source-tools-for-verifying-authorization-policies)
+
+### Cập nhật mã ứng dụng để gọi Cedar và phân quyền truy cập API
+
+Ứng dụng sẽ sử dụng middleware Cedar để phân quyền mọi yêu cầu với các chính sách Cedar. Trước đó chúng ta đã cài đặt dependency, bây giờ chúng ta cần cập nhật mã.
+
+Đầu tiên thêm gói vào dự án và định nghĩa `CedarInlineAuthorizationEngine` và `ExpressAuthorizationMiddleware`. Khối mã này có thể được thêm vào đầu file `app.js`.
+
+```
+const { ExpressAuthorizationMiddleware, CedarInlineAuthorizationEngine } = require ('@cedar-policy/authorization-for-expressjs');
+
+
+const policies = [
+    fs.readFileSync(path.join(__dirname, 'policies', 'policy_1.cedar'), 'utf8'),
+    fs.readFileSync(path.join(__dirname, 'policies', 'policy_2.cedar'), 'utf8')
+];
+
+
+
+const cedarAuthorizationEngine = new CedarInlineAuthorizationEngine({
+    staticPolicies: policies.join('\n'),
+    schema: {
+        type: 'jsonString',
+        schema: fs.readFileSync(path.join(__dirname, 'v4.cedarschema.json'), 'utf8'),
+    }
+});
+
+
+const expressAuthorization = new ExpressAuthorizationMiddleware({
+    schema: {
+        type: 'jsonString',
+        schema: fs.readFileSync(path.join(__dirname, 'v4.cedarschema.json'), 'utf8'),
+    },
+    authorizationEngine: cedarAuthorizationEngine,
+    principalConfiguration: {
+        type: 'custom',
+        getPrincipalEntity: principalEntityFetcher
+    },
+    skippedEndpoints: [
+        {httpVerb: 'get', path: '/login'},
+        {httpVerb: 'get', path: '/api-spec/v3'},
+    ],
+    logger: {
+        debug: s => console.log(s),
+        log: s => console.log(s),
+    }
+});
+```
+
+Tiếp theo thêm middleware Express Authorization vào ứng dụng
+
+```
+const app = express();
+
+app.use(express.json());
+app.use(verifyToken())   // xác thực token người dùng
+// ... các middleware pre-authz khác
+
+app.use(expressAuthorization.middleware);
+
+// ... các middleware pre-authz khác
+```
+
+### Thêm mã ứng dụng để cấu hình người dùng
+
+Công cụ phân quyền Cedar yêu cầu các nhóm người dùng và thuộc tính để phân quyền các yêu cầu. Middleware phân quyền dựa vào hàm được truyền cho `getPrincipalEntity` trong cấu hình ban đầu để tạo thực thể principal. Bạn cần triển khai hàm này để tạo thực thể người dùng.
+
+Mã ví dụ này cung cấp một hàm để tạo thực thể người dùng. Nó giả định rằng người dùng đã được xác thực bởi một middleware trước đó và thông tin liên quan được lưu trữ trong đối tượng request. Nó cũng giả định rằng user sub đã được lưu trữ trong trường `req.user.sub` và các nhóm người dùng đã được lưu trữ trong trường `req.user.groups`.
+
+```
+
+async function principalEntityFetcher(req) {
+       
+       const user = req.user;   // đây là thực hành phổ biến cho middleware authn để lưu trữ thông tin người dùng từ token đã giải mã ở đây
+       const userGroups = user["groups"].map(userGroupId => ({
+           type: 'PetStoreApp::UserGroup',
+           id: userGroupId       
+       }));
+       return {
+            uid: {
+                type: 'PetStoreApp::User',
+                id: user.sub
+            },
+            attrs: {
+                ...user,
+            },
+            parents: userGroups 
+        };
+} 
+```
+
+## Cập nhật middleware xác thực
+
+Đối với ứng dụng PetStore mẫu, middleware xác thực được cung cấp bởi mã trong `middleware/authnMiddleware.js` phân tích một JSON web token (JWT) được bao gồm trong header Authorization của yêu cầu và lưu trữ các giá trị liên quan trong đối tượng request.
+
+Lưu ý: authnMiddleware.js chỉ được sử dụng cho mục đích minh họa và không nên thay thế middleware xác thực token thực tế của bạn trong ứng dụng thực tế.
+
+Để cập nhật middleware xác thực để sử dụng nhà cung cấp danh tính OpenID Connect (OIDC) của riêng bạn, cập nhật `jwksUri` trong khối mã sau của `middleware/authnMiddleware.js` để bao gồm JSON web key set (JWKS) uri của nhà cung cấp danh tính của bạn.
+
+```
+const client = jwksClient({
+  jwksUri: '<jwks uri cho nhà cung cấp danh tính oidc của bạn>',
+  cache: true,
+  cacheMaxEntries: 5,
+  cacheMaxAge: 600000 // 10 phút
+}); 
+```
+
+Tiếp theo cập nhật `issuer` trong khối mã sau để bao gồm issuer uri của nhà cung cấp danh tính của bạn.
+
+```
+ jwt.verify(token, getSigningKey, {
+    algorithms: ['RS256'],
+    issuer: `<issuer uri cho nhà cung cấp danh tính oidc của bạn>`
+  }, (err, decoded) => {
+    if (err) {
+      console.error('JWT verification error:', err);
+      return res.status(401).json({ message: 'Invalid token' });
     }
     
-    
-    Lưu ý: Chỉ cung cấp đối tượng JSON làm phản hồi cuối cùng.
+    // Thêm token đã giải mã vào đối tượng request
+    req.user = decoded;
+    next();
+  });
 ```
 
-Đầu ra ghi nhãn dữ liệu được định dạng dưới dạng tệp JSONL, trong đó mỗi dòng ghép nối đường dẫn Amazon S3 tham chiếu hình ảnh với chú thích do Amazon Nova Pro tạo. Sau đó, tệp JSONL này được tải lên Amazon S3 để đào tạo. Sau đây là một ví dụ về tệp:
+Nếu bạn không có quyền truy cập vào nhà cung cấp danh tính OIDC để sử dụng với mẫu này, để mục đích kiểm tra, bạn có thể thay thế toàn bộ hàm `verifyToken` và chỉ ánh xạ một thực thể người dùng mẫu vào đối tượng request. Ví dụ, thay thế `verifyToken` bằng cái này:
 
-```yaml
-{"image_ref": "s3://media-ip-dataset/characters/blue_character_01.jpg", "alt_text": "Nhân vật hoạt hình này có khuôn mặt tròn với đôi mắt to biểu cảm. Nhân vật có tông màu xanh lam đặc biệt với một búi tóc nhỏ ở trên. Thiết kế được cách điệu với các đường nét gọn gàng và cách tiếp cận tối giản đặc trưng của hoạt hình hiện đại."}
-{"image_ref": "s3://media-ip-dataset/props/iconic_prop_series1.jpg", "alt_text": "Vật thể này dường như là một đạo cụ mang tính biểu tượng từ nhượng quyền thương mại. Nó có kim loại với các đường khắc đặc biệt và hình dạng độc đáo mà người hâm mộ sẽ nhận ra ngay lập tức. Ánh sáng làm nổi bật chất lượng kích thước và các chi tiết nhỏ giúp nhận biết ngay lập tức."}
+```
+const verifyToken = (req, res, next) => {
+
+    // Thêm thực thể người dùng mẫu vào đối tượng request
+    // Để kiểm tra nhóm employee, thay đổi "customer" thành "employee"
+    req.user = {
+        "sub": "some-user-id",
+        "groups": "customer"
+    };
+
+};
 ```
 
-#### Xác thực con người
+## Xác thực bảo mật API
 
-Đối với các trường hợp sử dụng trong doanh nghiệp, chúng tôi khuyến nghị tích hợp quy trình có sự tham gia của con người (human-in-the-loop) để xác minh dữ liệu đã được gán nhãn trước khi tiến hành huấn luyện mô hình. Quá trình xác minh này có thể được triển khai bằng cách sử dụng [Amazon Augmented AI](https://aws.amazon.com/augmented-ai/) (Amazon A2I), một dịch vụ hỗ trợ người kiểm chứng (annotators) xác minh cả chất lượng hình ảnh lẫn chú thích. Để biết thêm chi tiết, hãy tham khảo tài liệu [Bắt đầu với Amazon Augmented AI](https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-getting-started.html).
+Bạn có thể xác thực các chính sách và quyền truy cập API của bạn bằng cách gọi ứng dụng sử dụng các lệnh `curl` dựa trên terminal. Chúng tôi giả định rằng ứng dụng đang sử dụng nhà cung cấp danh tính OIDC để quản lý người dùng và JWT token được truyền trong header authorization cho các yêu cầu API.
 
-### Tinh chỉnh mô hình Amazon Nova Canvas
+Để dễ đọc, một bộ biến môi trường được sử dụng để đại diện cho các giá trị thực tế. `TOKEN_CUSTOMER` chứa các token danh tính hợp lệ cho người dùng trong nhóm employee. `API_BASE_URL` là URL cơ sở cho PetStore API nhỏ.
 
-Sau khi đã có dữ liệu huấn luyện, chúng ta có thể tiến hành tinh chỉnh (fine-tune) mô hình Amazon Nova Canvas trong Amazon Bedrock. Amazon Bedrock yêu cầu một vai trò dịch vụ (IAM) [AWS Identity and Access Management](https://aws.amazon.com/iam/) để truy cập vào bucket S3 - nơi lưu trữ dữ liệu huấn luyện tùy chỉnh cho mô hình. Để biết thêm chi tiết, hãy xem tài liệu về [Quyền truy cập và bảo mật cho tùy chỉnh mô hình](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-job-access-security.html). Bạn có thể thực hiện tác vụ tinh chỉnh trực tiếp thông qua bảng điều khiển Amazon Bedrock hoặc sử dụng API Boto3. Chúng tôi sẽ giải thích cả hai phương pháp trong bài viết này. Bạn có thể tìm thấy mã nguồn mẫu end-to-end trong file [picchu-finetuning.ipynb](https://github.com/aws-samples/sample-character-consistent-storyboard/blob/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas/picchu-finetuning.ipynb).
+Để kiểm tra rằng một khách hàng được phép gọi `GET /pets`, chạy lệnh `curl` này. Yêu cầu sẽ hoàn thành thành công.
 
-#### Tạo job tinh chỉnh trên bảng điều khiển Amazon Bedrock
-
-Bắt đầu bằng cách tạo job tinh chỉnh Amazon Nova Canvas trên bảng điều khiển Amazon Bedrock:
-
-1. Trên bảng điều khiển Amazon Bedrock, trong ngăn điều hướng, chọn **Custom models** trong phần **Foundation models**.
-2. Chọn **Customize model** và sau đó chọn **Create Fine-tuning job**.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-8-1024x453.jpg)
-
-3. Trên trang **Create Fine-tuning job details**, chọn model muốn tùy chỉnh và nhập tên cho model đã được tinh chỉnh.
-4. Trong phần **Job configuration**, nhập tên cho job và tùy chọn thêm tags để liên kết với nó.
-5. Trong phần **Input data**, nhập vị trí Amazon S3 của file tập dữ liệu huấn luyện.
-6. Trong phần **Hyperparameters**, nhập giá trị cho các hyperparameters, như thể hiện trong ảnh chụp màn hình sau.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-7-1.jpg)
-
-7. Trong phần **Output data**, nhập vị trí Amazon S3 nơi Amazon Bedrock sẽ lưu đầu ra của job.
-8. Chọn **Fine-tune model job** để bắt đầu quá trình tinh chỉnh.
-
-Tổ hợp siêu tham số này đã mang lại kết quả tốt trong quá trình thử nghiệm của chúng tôi. Nhìn chung, việc tăng tốc độ học (learning rate) giúp mô hình huấn luyện mạnh mẽ hơn, nhưng thường tạo ra sự đánh đổi thú vị: chúng ta có thể đạt được tính nhất quán nhân vật nhanh hơn, nhưng có thể ảnh hưởng đến chất lượng hình ảnh tổng thể. Chúng tôi khuyến nghị tiếp cận có hệ thống khi điều chỉnh các siêu tham số. Hãy bắt đầu với kích thước batch và tốc độ học được đề xuất, sau đó thử tăng hoặc giảm số bước huấn luyện trước. Nếu mô hình gặp khó khăn trong việc học tập từ dữ liệu của bạn ngay cả sau 20.000 bước (mức tối đa được cho phép trong Amazon Bedrock), chúng tôi đề xuất tăng kích thước batch hoặc điều chỉnh tăng tốc độ học.
-
-Những điều chỉnh này, dù tinh tế, có thể tạo ra sự khác biệt đáng kể trong hiệu suất của mô hình. Để biết thêm chi tiết về các siêu tham số, tham khảo [Hyperparameters for Creative Content Generation models](https://docs.aws.amazon.com/nova/latest/userguide/fine-tune-hyperparameters-content-generation-models.html).
-
-#### Tạo job tinh chỉnh bằng Python SDK
-
-Đoạn mã Python sau đây tạo job tinh chỉnh tương tự bằng cách sử dụng [API create_model_customization_job](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/create_model_customization_job.html):
-
-```Python
-bedrock = boto3.client('bedrock')
-jobName = "picchu-canvas-v0"
-# Set parameters
-hyperParameters = {
-        "stepCount": "14000",
-        "batchSize": "64",
-        "learningRate": "0.000001",
-    }
-
-# Create job
-response_ft = bedrock.create_model_customization_job(
-    jobName=jobName,
-    customModelName=jobName,
-    roleArn=roleArn,
-    baseModelIdentifier="amazon.nova-canvas-v1:0",
-    hyperParameters=hyperParameters,
-    trainingDataConfig={"s3Uri": training_path},
-    outputDataConfig={"s3Uri": f"s3://{bucket}/{prefix}"}
-)
-
-jobArn = response_ft.get('jobArn')
-print(jobArn)
+```
+curl -H "Authorization: Bearer ${TOKEN_CUSTOMER}" -X GET ${API_BASE_URL}/pets
 ```
 
-When the job is complete, you can retrieve the new `customModelARN` using the following code:
+Yêu cầu thành công sẽ trả về danh sách thú cưng. Ban đầu, Pet Store có một thú cưng và trả về phản hồi tương tự như này.
 
-```Python
-custom_model_arn = bedrock.list_model_customization_jobs(
-    nameContains=jobName
-)["modelCustomizationJobSummaries"][0]["customModelArn"]
+```
+[{"id":"6da5d01b-89fd-49b9-acb2-b457b79669d5","name":"Fido","species":"Dog","breed":null,"age":null,"sold":false}]
 ```
 
-### Triển khai model trên bảng điều khiển Amazon Bedrock
+Để kiểm tra rằng một khách hàng không được phép gọi `POST /pets`, chạy lệnh `curl` này. Bạn sẽ nhận được thông báo lỗi rằng yêu cầu không được ủy quyền.
 
-Để triển khai model từ bảng điều khiển Amazon Bedrock, hoàn thành các bước sau:
-
-1. Trên bảng điều khiển Amazon Bedrock, chọn **Custom models** trong phần **Foundation models** ở ngăn điều hướng
-2. Chọn model tùy chỉnh mới và chọn **Purchase provisioned throughput**
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-8-2-1024x453.jpg)
-
-3. Trong phần **Provisioned Throughput details**, nhập tên cho provisioned throughput
-4. Trong **Select model**, chọn model tùy chỉnh bạn vừa tạo
-5. Sau đó chỉ định commitment term và model units
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-9.jpg)
-
-Sau khi mua provisioned throughput, một ARN (Amazon Resource Name) model mới sẽ được tạo. Bạn có thể gọi ARN này khi provisioned throughput đã vào hoạt động.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-10-1-1024x257.jpg)
-
-#### Triển khai model bằng Python SDK
-
-Đoạn mã Python sau đây tạo provisioned throughput bằng cách sử dụng [API create_provisioned_model_throughput:](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/create_provisioned_model_throughput.html)
-
-custom_model_name = "picchu-canvas-v0"
-
-```Python
-# Create the provision throughput job and retrieve the provisioned model id
-provisioned_model_id = bedrock.create_provisioned_model_throughput(
-    modelUnits=1,
-    # create a name for your provisioned throughput model
-    provisionedModelName=custom_model_name, 
-    modelId=custom_model_arn
-)['provisionedModelArn']
+```
+curl -H "Authorization: Bearer ${TOKEN_CUSTOMER}" -X POST ${API_BASE_URL}/pets
 ```
 
-### Kiểm thử mô hình đã được tinh chỉnh
-Khi provisioned throughput đã hoạt động, chúng ta có thể sử dụng đoạn mã sau để kiểm thử mô hình tùy chỉnh và thử nghiệm tạo một số hình ảnh mới cho phần tiếp theo của Picchu:
+Yêu cầu không được ủy quyền sẽ trả về Not authorized with explicit deny
 
-```Python
-import json
-import io
-from PIL import Image
-import base64
+## Kết luận
 
-def decode_base64_image(img_b64):
-    return Image.open(io.BytesIO(base64.b64decode(img_b64)))
-    
-def generate_image(prompt,
-                   negative_prompt="text, ugly, blurry, distorted, low
-                       quality, pixelated, watermark, text, deformed", 
-                   num_of_images=3,
-                   seed=1):
-    """
-    Generate an image using Amazon Nova Canvas.
-    """
+Gói `authorization-for-expressjs` mới cho phép các nhà phát triển tích hợp ứng dụng của họ với Cedar để tách biệt logic phân quyền khỏi mã chỉ trong vài phút. Bằng cách tách biệt logic phân quyền và tích hợp ứng dụng của bạn với Cedar, bạn có thể vừa cải thiện năng suất của nhà phát triển, vừa đơn giản hóa việc kiểm toán quyền và truy cập.
 
-    image_gen_config = {
-            "numberOfImages": num_of_images,
-            "quality": "premium",
-            "width": 1024,  # Maximum resolution 2048 x 2048
-            "height": 1024,  # 1:1 ratio
-            "cfgScale": 8.0,
-            "seed": seed,
-        }
-
-    # Prepare the request body
-    request_body = {
-        "taskType": "TEXT_IMAGE",
-        "textToImageParams": {
-            "text": prompt,
-            "negativeText": negative_prompt,  # List things to avoid
-        },
-        "imageGenerationConfig": image_gen_config
-    } 
-
-    response = bedrock_runtime.invoke_model(
-        modelId=provisioned_model_id,
-        body=json.dumps(request_body)
-    )
-
-    # Parse the response
-    response_body = json.loads(response['body'].read())
-
-    if "images" in response_body:
-        # Extract the image
-        return [decode_base64_image(img) for img in response_body['images']]
-    else:
-        return
-seed = random.randint(1, 858993459)
-print(f"seed: {seed}")
-
-images = generate_image(prompt=prompt, seed=seed)
-```
-
-<div style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start; justify-content: center;">
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-11-300x300.jpg" alt="Input image" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>Khuôn mặt Mayu thể hiện sự pha trộn giữa lo lắng và quyết tâm. Mẹ quỳ bên cạnh, nhẹ nhàng ôm lấy em. Phong cảnh có thể nhìn thấy ở hậu cảnh.</div>
-  </div>
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-12-300x300.jpg" alt="Output video" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>Một vách đá dốc đứng với chiếc thang gỗ dài vươn xuống phía dưới. Mayu đang ở nửa chiếc thang với biểu cảm đầy quyết tâm trên khuôn mặt. Đôi bàn tay nhỏ của Mayu nắm chặt hai bên thang trong khi em cẩn thận đặt chân lên từng bậc. Môi trường xung quanh cho thấy một khung cảnh núi non hiểm trở.</div>
-  </div>
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-13-300x300.jpg" alt="Output video" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>Mayu đứng đầy tự hào trước cổng vào của một tòa nhà trường học đơn giản. Khuôn mặt em rạng rỡ với nụ cười tươi, thể hiện sự tự hào và thành tựu.</div>
-  </div>
-</div>
-
-### Dọn dẹp
-
-Để tránh phát sinh chi phí AWS sau khi hoàn thành việc kiểm thử, hãy thực hiện các bước dọn dẹp trong [picchu-finetuning.ipynb](https://github.com/aws-samples/sample-character-consistent-storyboard/blob/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas/picchu-finetuning.ipynb) và xóa các tài nguyên sau:
-
-- Miền Amazon SageMaker Studio
-- Mô hình Amazon Nova đã tinh chỉnh và endpoint provisioned throughput
-
-### Kết luận
-
-Trong bài viết này, chúng tôi đã trình bày cách nâng cao tính nhất quán về nhân vật và phong cách trong storyboard từ [Phần 1](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-1/) bằng cách tinh chỉnh Amazon Nova Canvas trong Amazon Bedrock. Quy trình làm việc toàn diện của chúng tôi kết hợp xử lý video tự động, trích xuất nhân vật thông minh bằng Amazon Rekognition và tùy chỉnh mô hình chính xác bằng Amazon Bedrock để tạo ra một giải pháp duy trì độ trung thực về hình ảnh và tăng tốc đáng kể quá trình tạo storyboard. Bằng cách tinh chỉnh mô hình Amazon Nova Canvas trên các nhân vật và phong cách cụ thể, chúng tôi đã đạt được mức độ nhất quán vượt trội so với kỹ thuật prompt thông thường, giúp các nhóm sáng tạo có thể sản xuất storyboard chất lượng cao trong vài giờ thay vì vài tuần. Hãy bắt đầu thử nghiệm với tinh chỉnh Nova Canvas ngay hôm nay để bạn cũng có thể nâng tầm câu chuyện của mình với tính nhất quán tốt hơn về nhân vật và phong cách.
+Các gói framework là mã nguồn mở và có sẵn trên GitHub dưới giấy phép Apache 2.0, với phân phối thông qua NPM. Để tìm hiểu thêm về Cedar và thử nghiệm nó bằng playground ngôn ngữ, hãy truy cập [https://www.cedarpolicy.com/](https://www.cedarpolicy.com/). Hãy thoải mái gửi câu hỏi, nhận xét và đề xuất thông qua không gian làm việc Cedar Slack công khai, [https://cedar-policy.slack.com](https://cedar-policy.slack.com).

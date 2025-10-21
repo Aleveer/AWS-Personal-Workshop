@@ -5,153 +5,58 @@ chapter: false
 pre: " <b> 3.2. </b> "
 ---
 
-# Truyền dữ liệu bảng Amazon DynamoDB sang Amazon S3 Tables để phân tích
+# Giới thiệu các cuộc họp cộng đồng AWS CDK
 
+Chúng tôi rất vui mừng thông báo về chuỗi cuộc họp cộng đồng mới của chúng tôi cho dự án [AWS Cloud Development Kit (CDK)](https://github.com/aws/aws-cdk). Những cuộc họp này được thiết kế để mang lại cho mọi người, từ những người đóng góp có kinh nghiệm đến người dùng mới, một cơ hội định kỳ để học hỏi, đặt câu hỏi và chia sẻ phản hồi trực tiếp với nhóm AWS CDK. Chúng tôi cũng coi đây là một cơ hội tuyệt vời để tương tác với các thành viên khác trong cộng đồng AWS CDK.
 
-Các tổ chức sử dụng Amazon DynamoDB cho các khối lượng công việc giao dịch thường cần thực hiện phân tích dữ liệu phức tạp. Mặc dù DynamoDB rất xuất sắc trong việc xử lý khối lượng giao dịch lớn, nhiều tổ chức vẫn duy trì kho dữ liệu phân tích riêng để chạy các truy vấn phức tạp và tạo insight mà không ảnh hưởng đến hiệu năng của cơ sở dữ liệu giao dịch.
+## Tại sao lại là các cuộc họp cộng đồng?
 
-Trong bài viết này, chúng tôi trình bày cách truyền dữ liệu từ DynamoDB đến Amazon S3 Tables để khai thác khả năng phân tích mạnh mẽ trên dữ liệu vận hành. Mẫu luồng này lý tưởng cho các tổ chức cần kiểm soát chặt chẽ hơn đối với việc chuyển đổi dữ liệu trong môi trường nhạy cảm.
+Ban đầu, chúng tôi đã cân nhắc việc thành lập một mô hình quản trị chính thức hơn được gọi là "Hội đồng đóng góp", nhưng đã quyết định chuyển sang một định dạng ít chính thức hơn, cởi mở và dễ tiếp cận hơn vì một số lý do:
 
-Giải pháp đặc biệt có giá trị cho các nhóm xây dựng data lake, muốn một giải pháp quản lý tốt với định dạng Apache Iceberg và tích hợp cùng các dịch vụ phân tích của AWS mà không làm tăng gánh nặng vận hành.
+* **Tính bao trùm rộng rãi hơn**: Chúng tôi muốn khuyến khích sự tham gia từ tất cả các nhà phát triển quan tâm, không chỉ một nhóm nhỏ.
+* **Tương tác đơn giản hơn**: Một cuộc họp ảo cho phép bất kỳ ai trong cộng đồng tham dự, đặt câu hỏi và cung cấp phản hồi mà không cần chính thức hóa các cấu trúc sở hữu hoặc quản trị.
 
-## Lưu trữ dữ liệu dạng bảng trong Amazon S3
+Bằng cách tổ chức các cuộc họp cộng đồng ảo, chúng tôi có thể tiếp tục cung cấp tính minh bạch và hợp tác mà cộng đồng đánh giá cao trong khi vẫn giữ được tính linh hoạt để đưa ra quyết định và thúc đẩy dự án tiến lên với AWS với tư cách là người duy trì dự án. Chúng tôi tin rằng đây là cách tốt nhất để tương tác với cộng đồng của chúng tôi một cách có ý nghĩa.
 
-S3 Tables, được công bố tại AWS reInvent 2024, là dịch vụ lưu trữ đối tượng đám mây đầu tiên hỗ trợ Iceberg nguyên bản, thiết kế để đơn giản hóa việc lưu trữ dữ liệu dạng bảng ở quy mô lớn. Dữ liệu dạng bảng có cấu trúc cột và hàng, giống như bảng trong cơ sở dữ liệu. Dữ liệu trong S3 Tables được lưu trong một loại bucket mới, gọi là table bucket, chứa các bảng như tài nguyên Amazon S3.
+## Chúng ta có thể gặp nhau thường xuyên như thế nào?
 
-Table buckets hỗ trợ lưu trữ theo định dạng Iceberg và có thể truy vấn bằng SQL thông qua công cụ như Amazon Athena, Apache Spark, và Amazon Redshift. Bạn cũng có thể tích hợp bucket bảng với AWS Glue Data Catalog để khám phá và truy cập dữ liệu.
+Để đảm bảo chúng tôi sử dụng tốt nhất thời gian của mọi người, chúng tôi dự định gặp nhau hai lần mỗi quý. Tuy nhiên, lịch trình này có thể bị ảnh hưởng bởi các sự kiện đang diễn ra và các ngày lễ, vì vậy chúng tôi sẽ công bố ngày của cuộc họp tiếp theo cùng với chương trình nghị sự trong các [vấn đề GitHub](https://github.com/aws/aws-cdk/issues?q=is%3Aissue%20state%3Aopen%20label%3Acommunity-meeting%20) được đánh dấu "[Community Meeting] – Ngày họp".
 
-Tích hợp này cho phép bạn làm việc với dữ liệu qua Athena, Amazon Redshift và Amazon QuickSight. Tham khảo thêm tại Using Amazon S3 Tables with AWS analytics services.
+## Những gì mong đợi
 
-S3 Tables cung cấp khả năng quản lý bảng tích hợp: theo dõi metadata, tiến hóa schema, và tự động tổ chức dữ liệu. Continuous table optimization quét và viết lại dữ liệu nền, giúp truy vấn nhanh hơn tới 3 lần so với bảng Iceberg không được quản lý.
+Chúng tôi dự định bao gồm một hỗn hợp các chủ đề sau dựa trên sự quan tâm và tính liên quan:
 
-Ngoài ra, S3 Tables có tối ưu hóa riêng cho workload Iceberg, hỗ trợ số giao dịch mỗi giây gấp 10 lần so với các bảng Iceberg lưu trong bucket S3 thường. Một số lợi ích chính:
+* **Cập nhật lộ trình**: Xem trước các tính năng sắp tới, cải tiến và ưu tiên dự án.
+* **Demo của nhóm**: Các kỹ sư của chúng tôi sẽ trình diễn các chức năng mới hoặc các phương pháp hay nhất trong thực tế.
+* **Đánh giá RFC & Tầm nhìn/Tính năng**: Cung cấp đầu vào trực tiếp về các tính năng được đề xuất hoặc hướng đi cho dự án AWS CDK.
+* **Hỏi đáp mở**: Một cơ hội để bạn đặt câu hỏi trực tiếp với nhóm AWS CDK và các thành viên cộng đồng khác.
+* **Chủ đề & Phiên tương lai**: Các sự kiện bổ sung như các phiên do cộng đồng dẫn dắt hoặc giờ làm việc có thể được giới thiệu dựa trên sự quan tâm.
 
-Giao dịch ACID và truy vấn time-travel
+Tất cả các phiên sẽ được ghi lại và chia sẻ trên [YouTube](https://www.youtube.com), đảm bảo rằng bất kỳ ai không thể tham dự trực tiếp vẫn có thể theo dõi. Chúng tôi cũng sẽ theo dõi các chương trình nghị sự và ghi chú trong các [vấn đề GitHub](https://github.com/aws/aws-cdk/issues?q=is%3Aissue%20state%3Aopen%20label%3Acommunity-meeting%20) được đánh dấu "[[Community Meeting] – 6/24/25](https://github.com/aws/aws-cdk/issues/34716#event-18150102400)", để bạn có thể dễ dàng theo dõi các điểm nổi bật của cuộc họp. Nếu bạn có bất kỳ câu hỏi hoặc chủ đề nào mà bạn muốn được đề cập trong cuộc họp, vui lòng thêm nhận xét vào vấn đề cho cuộc họp sắp tới.
 
-Hỗ trợ tiến hóa schema
+### Phiên đầu tiên: 24 tháng 6, 2025, 8:00 – 9:00 PDT / 24 tháng 6, 2025, 17:00 – 18:00 PDT
 
-Hiệu suất cao nhờ partitioning và columnar storage
+Để hỗ trợ cộng đồng toàn cầu của chúng tôi, chúng tôi sẽ có hai phiên vào ngày 24 tháng 6 – cuộc họp đầu tiên sẽ diễn ra lúc 8:00 PDT ([tệp .ics](https://cdk-community-meetings-public.s3.us-west-2.amazonaws.com/Meeting1.1.ics)), tiếp theo là phiên thứ hai lúc 17:00 PDT ([tệp .ics](https://cdk-community-meetings-public.s3.us-west-2.amazonaws.com/Meeting1.2.ics)). Chúng tôi sẽ chia sẻ chi tiết cuộc họp, bao gồm hướng dẫn tham gia, trong [Không gian làm việc Slack cdk.dev](https://join.slack.com/t/cdk-dev/shared_invite/zt-37hzafo82-8x6OQ3voSlMHd2DUG1puzw) và trên các [vấn đề CDK GitHub](https://github.com/aws/aws-cdk/issues?q=is%3Aissue%20state%3Aopen%20label%3Acommunity-meeting%20) được đánh dấu "[[Community Meeting] – 6/24/25](https://github.com/aws/aws-cdk/issues/34716#event-18150102400)" trước đó.
 
-Tích hợp nguyên bản với Apache Spark
+## Cách bạn có thể tham gia
 
-Bảo trì liên tục: compaction, snapshot management, dọn dẹp file
+1. **Đánh dấu lịch của bạn**: Lưu ngày cho 24 tháng 6, 2025, 8:00 – 9:00 PDT HOẶC 17:00 – 18:00 PDT, và tìm kiếm liên kết cuộc họp của chúng tôi.
+2. **Tham gia với chúng tôi trên Slack**: Để biết thêm thông tin và cập nhật về các cuộc họp cộng đồng sắp tới, hãy tham gia kênh [#community-meetings](https://cdk-dev.slack.com/archives/C08K6TXQRNX) trong [Không gian làm việc Slack cdk.dev](https://join.slack.com/t/cdk-dev/shared_invite/zt-37hzafo82-8x6OQ3voSlMHd2DUG1puzw).
+3. **Tham gia phiên trực tiếp**: Mang theo bất kỳ câu hỏi hoặc phản hồi nào bạn có về phát triển, sử dụng hoặc lộ trình AWS CDK.
+4. **Cập nhật qua GitHub**: Kiểm tra các [vấn đề GitHub](https://github.com/aws/aws-cdk/issues?q=is%3Aissue%20state%3Aopen%20label%3Acommunity-meeting%20) của chúng tôi được đánh dấu [Community Meeting] – "Ngày", để biết chương trình nghị sự và ghi chú cuộc họp.
+5. **Xem các bản ghi**: Nếu bạn không thể tham dự sự kiện trực tiếp, hãy xem các bản ghi [YouTube](https://www.youtube.com) vào thời gian thuận tiện của bạn.
+6. **Nhận xét với câu hỏi hoặc chủ đề**: Thêm nhận xét vào vấn đề GitHub cho cuộc họp sắp tới với bất kỳ câu hỏi hoặc chủ đề nào bạn muốn chúng tôi đề cập.
 
-### Tổng quan giải pháp
+## Tại sao điều này quan trọng
 
-Change data capture (CDC) là quá trình ghi lại thay đổi từ cơ sở dữ liệu và phát vào luồng sự kiện. Amazon DynamoDB change data capture cung cấp cơ chế ghi nhận, xử lý, và phản ứng với các thay đổi gần như theo thời gian thực.
+Nhóm AWS CDK vẫn cam kết thúc đẩy dự án tiến lên và duy trì quyền sở hữu, đồng thời tiếp tục làm việc công khai với cộng đồng. Chúng tôi đánh giá cao đầu vào và quan điểm từ cộng đồng vì chúng rất quan trọng để định hình tương lai của AWS CDK. Những cuộc họp này cung cấp một diễn đàn định kỳ cho mọi người trong cộng đồng để có tiếng nói của họ được lắng nghe một cách trực tiếp và tương tác, vượt ra ngoài các con đường truyền thống như các vấn đề GitHub hoặc pull requests.
 
-DynamoDB hỗ trợ 2 mô hình streaming cho CDC: Amazon DynamoDB Streams và Amazon Kinesis Data Streams for DynamoDB. Bài viết minh họa 2 cách triển khai để truyền dữ liệu từ DynamoDB sang S3 Tables.
+## Tham gia khảo sát của chúng tôi
 
-### Mẫu 1: Sử dụng DynamoDB Streams (khuyên dùng cho hầu hết trường hợp)
+Như một phần trong cam kết của chúng tôi để xây dựng một cộng đồng mạnh mẽ và thịnh vượng xung quanh AWS CDK, chúng tôi muốn nghe từ bạn! Trong suốt năm, chúng tôi sẽ gửi các cuộc khảo sát định kỳ để có thêm hiểu biết về những gì đang hoạt động và nơi chúng tôi có thể cải thiện. Cuộc khảo sát đầu tiên của chúng tôi bắt đầu với blog này và sẽ kết thúc vào ngày 1 tháng 7, 2025.
 
-DynamoDB Streams ghi nhận thay đổi và truyền qua AWS Lambda xử lý, sau đó chuyển tiếp sự kiện đến Amazon Data Firehose để ghi vào S3 Tables. Streams giữ dữ liệu trong 24 giờ, phù hợp khi cần replication gần real-time mà không cần hạ tầng phức tạp.
+[Tham gia khảo sát ngay bây giờ](https://pulse.aws/survey/DRLEJAN9?p=0)
 
-![](/images/3-BlogsTranslated/3.2-Blog2/image-1-1.png)
+Vui lòng lưu ngày (24 tháng 6, 2025 @ 8:00 – 9:00 PDT HOẶC 17:00 – 18:00 PDT) và lên kế hoạch tham gia với chúng tôi cho cuộc họp cộng đồng AWS CDK đầu tiên. Nếu bạn có ý tưởng cho các mục chương trình nghị sự hoặc muốn chia sẻ một demo, hãy tự do đề xuất chúng trên vấn đề GitHub cho cuộc họp sắp tới. Chúng tôi mong muốn kết nối với bạn, trả lời câu hỏi của bạn và làm việc cùng nhau để làm cho AWS CDK trở nên tốt hơn.
 
-Amazon SQS được dùng làm dead-letter queue (DLQ) lưu các sự kiện lỗi để retry bằng Lambda với back-off strategy.
-
-### Mẫu 2: Sử dụng Amazon Kinesis Data Streams
-
-Mẫu này phù hợp khi cần retention dài hơn (tới 365 ngày) hoặc hỗ trợ nhiều consumer fan-out. Kinesis Data Streams tích hợp tốt với các dịch vụ AWS thông qua Firehose.
-
-![](/images/3-BlogsTranslated/3.2-Blog2/image-2-1.png)
-
-Việc xử lý lỗi có thể thực hiện ở nhiều tầng:
-
-Ở Kinesis: cấu hình replay và giám sát qua Amazon CloudWatch alarms
-
-Ở Lambda: dùng DLQ, structured logging, exactly-once processing
-
-Ở Firehose: backup bản ghi lỗi vào S3, retry có cấu hình, logging CloudWatch
-
-Cách tiếp cận này giúp đảm bảo độ tin cậy và khả năng phục hồi dữ liệu.
-
-### Các thành phần chính của kiến trúc
-
-Athena – dịch vụ truy vấn SQL serverless
-
-Amazon Data Firehose – xử lý delivery đến S3 Tables
-
-DynamoDB – nguồn dữ liệu giao dịch
-
-DynamoDB Streams hoặc Kinesis Data Streams – ghi nhận thay đổi
-
-AWS Lake Formation – quản trị truy cập dữ liệu
-
-Lambda – xử lý record từ stream
-
-S3 Tables – lưu trữ dữ liệu phân tích theo Iceberg
-
-Tham khảo thêm: Streaming options for change data capture.
-
-Bucket bảng S3 có thể tích hợp với Amazon SageMaker Lakehouse và các dịch vụ phân tích như Athena, Redshift, EMR, QuickSight.
-
-Trong môi trường production, nên phân tầng data lake (raw, cleansed, curated). Tầng raw có thể lưu Parquet, còn tầng curated dùng Iceberg để tận dụng time travel, schema evolution, và ACID.
-
-## Điều kiện tiên quyết
-
-## Clone repository
-
-CODE
-
-## Cập nhật context cho AWS CDK
-
-CODE
-
-stream_type có thể là:
-
-kinesis – dùng Kinesis Data Streams
-
-dynamodb – dùng DynamoDB Streams
-
-## Triển khai tài nguyên pipeline
-
-CODE
-
-## Triển khai quyền trong Lake Formation
-
-Stack này thiết lập metadata integration, quyền quản trị, cross-catalog access, IAM roles.
-
-CODE
-
-## Triển khai Firehose delivery stream
-
-Stack tạo delivery stream tới S3 Tables, cấu hình buffer, error handling, logging CloudWatch.
-
-CODE
-
-## Truyền dữ liệu từ DynamoDB sang S3 Tables
-
-CODE
-
-## Chạy phân tích trên S3 Tables
-
-Bạn có thể truy vấn ngay bằng Amazon Athena. Ngoài ra, cũng có thể kết nối engine khác như Trino, Presto, Spark.
-
-### Dùng Athena CLI
-
-CODE
-CODE
-
-### Dùng Athena Console
-
-IMAGE
-
-Ví dụ truy vấn:
-
-CODE
-CODE
-
-## Cấu hình bảo trì S3 Tables
-
-CODE
-
-## Dọn dẹp tài nguyên
-
-CODE
-
-## Kết luận
-
-Giải pháp cho thấy cách tích hợp DynamoDB với S3 Tables để phân tích qua CDC. Kiến trúc serverless giúp giảm vận hành, đồng thời tận dụng Iceberg cho workloads phân tích.
-
-Ngoài ra, bạn có thể cân nhắc các dịch vụ như Amazon Redshift zero-ETL hoặc Amazon OpenSearch Service cho các nhu cầu phân tích khác.
+Hẹn gặp lại bạn!
