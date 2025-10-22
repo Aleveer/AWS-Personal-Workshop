@@ -4,292 +4,334 @@ weight: 1
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
+# Secure your Express application APIs in 5 minutes with Cedar
 
-# Build character consistent storyboards using Amazon Nova in Amazon Bedrock – Part 2
+Today, the open source [Cedar](https://www.cedarpolicy.com/) project announced the release of [`authorization-for-expressjs`](https://github.com/cedar-policy/authorization-for-expressjs), an open source package that simplifies using the Cedar policy language and authorization engine to verify application permissions. This release allows developers to add policy-based authorization to their Express web framework APIs within minutes, and without any remote service calls.
 
-Although careful prompt crafting can yield good results, achieving professional-grade visual consistency often requires adapting the underlying model itself. Building on the prompt engineering and character development approach covered in [Part 1](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-1/) of this two-part series, we now push the consistency level for specific characters by fine-tuning an [Amazon Nova Canvas](https://aws.amazon.com/ai/generative-ai/nova/creative/) foundation model (FM). Through fine-tuning techniques, creators can instruct the model to maintain precise control over character appearances, expressions, and stylistic elements across multiple scenes.
+[Express](https://expressjs.com/) is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications. This standardized integration with Cedar requires 90% less code compared to developers writing their own integration patterns, saving developers time and effort and improving application security posture by reducing the amount of custom integration code.
 
-In this post, we take an animated short film, [Picchu](https://www.youtube.com/watch?v=vKSaF8NvMiQ), produced by FuzzyPixel from Amazon Web Services (AWS), prepare training data by extracting key character frames, and fine-tune a character-consistent model for the main character Mayu and her mother, so we can quickly generate storyboard concepts for new sequels like the following images.
+For example, if you are building a pet store application using the Express framework, using the authorization-for-expressjs feature you can create authorization policies so that only store employees can access the API to add a pet. This standardized implementation for Express authorization middleware replaces the need for custom code and automatically maps client requests into their principals, actions, and resources components, and then into Cedar authorization requests.
 
-<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-1-3-300x180.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-2-2-300x180.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.3-Blog3/image-3-1-300x180.jpg" alt="Girl running with llama">
-</div>
+## Why Externalize Authorization with Cedar?
 
-### Solution overview
+Traditionally, developers implemented authorization within their application by embedding authorization logic directly into application code. This embedded authorization logic is designed to support a few permissions, but as applications evolve, there is often a need to support more complex use cases with additional authorization requirements. Developers incrementally update the embedded authorization logic to support these complex use cases, resulting in code that is complex and difficult to maintain. As code complexity increases, further evolving the security model and performing audits of permissions becomes more challenging, resulting in an application that continuously becomes more difficult to maintain over its lifecycle.
 
-To implement an automated workflow, we propose the following comprehensive solution architecture that uses AWS services for an end-to-end implementation.
+Cedar allows you to decouple authorization logic from your application. Externalizing authorization from your application code yields multiple benefits including freeing up development teams to focus on application logic and simplifying application and resource access audits. Cedar is an [open source language and software development kit (SDK)](https://github.com/cedar-policy/) for writing and enforcing authorization policies for your applications. You specify fine-grained permissions as Cedar policies, and your application authorizes access requests by calling the Cedar SDK. For example, you can use the below Cedar policy permit employee users to call the `POST /pets` API in a sample PetStore application.
 
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/arch-1024x660.png)
+```
+permit (
+    principal,
+    action in [Action::"POST /pets"], 
+    resource
+) when {
+    principal.jobLevel = "employee"
+};
+```
 
-The workflow consists of the following steps:
+One potential challenge in adopting Cedar can be the upfront effort required to define Cedar policies and update your application code to call the Cedar SDK to authorize API requests. This blog post shows how web application developers using the Express framework can easily implement API-level authorization with Cedar—adding just tens of lines of code in your applications, instead of hundreds.
 
-  1. The user uploads a video asset to an Amazon [Simple Storage Service](http://aws.amazon.com/s3) (Amazon S3) bucket.
-  2. [Amazon Elastic Container Service](http://aws.amazon.com/ecs) (Amazon ECS) is triggered to process the video asset.
-  3. Amazon ECS downsamples the frames, selects those containing the character, and then center-crops them to produce the final character images.
-  4. Amazon ECS invokes an [Amazon Nova](https://aws.amazon.com/ai/generative-ai/nova/) model (Amazon Nova Pro) from [Amazon Bedrock](https://aws.amazon.com/bedrock/) to create captions from the images.
-  5. Amazon ECS writes the image captions and metadata to the S3 bucket.
-  6. The user uses a notebook environment in [Amazon SageMaker AI](https://aws.amazon.com/sagemaker-ai) to invoke the model training job.
-  7. The user fine-tunes a custom Amazon Nova Canvas model by invoking Amazon Bedrock `create_model_customization_job` and `create_model_provisioned_throughput` API calls to create a custom model available for inference.
+This step-by-step guide uses the sample PetStore application to show how access to API’s can be restricted based on user groups. You can find the sample Pet Store application in the [cedar-policy repository](https://github.com/cedar-policy/authorization-for-expressjs/tree/main/examples) on GitHub.
 
-This workflow is structured in two distinct phases. The initial phase, in Steps 1–5, focuses on preparing the training data. In this post, we walk through an automated pipeline to extract images from an input video and then generate labeled training data. The second phase, in Steps 6–7, focuses on fine-tuning the Amazon Nova Canvas model and performing test inference using the custom-trained model. For these latter steps, we provide the preprocessed image data and comprehensive example code in the following [GitHub repository](https://github.com/aws-samples/sample-character-consistent-storyboard/tree/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas) to guide you through the process.
+## Pet Store application API overview
 
-### Prepare the training data
+The PetStore application is used to manage a pet store. The pet store is built using Express on Node.js and exposes the API’s here:
 
-Let’s begin with the first phase of our workflow. In our example, we build an automated video object/character extraction pipeline to extract high-resolution images with accurate caption labels using the following steps.
+1. **GET /pets** – returns a page of available pets in the PetStore.
+2. **POST /pets** – adds the specified pet to the PetStore.
+3. **GET /pets/{petId}** – returns the specified pet found in the PetStore.
+4. **POST /pets/{petId}/sale** – marks a pet as sold.
 
-#### Creative character extraction
+This application does not allow all users to access all APIs. Instead, it enforces the following rules:
 
-We recommend first sampling video frames at fixed intervals (for example, 1 frame per second). Then, apply [Amazon Rekognition](https://aws.amazon.com/rekognition/) label detection and face collection search to identify frames and characters of interest. Label detection can identify over 2,000 unique labels and locate their positions within frames, making it ideal for initial detection of general character categories or non-human characters. To distinguish between different characters, we then use the Amazon Rekognition feature to [search faces in a collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html). This feature identifies and tracks characters by matching their faces against a pre-populated face collection. If these two approaches aren’t precise enough, we can use [Amazon Rekognition Custom Labels](https://aws.amazon.com/rekognition/custom-labels-features/) to train a custom model for detecting specific characters. The following diagram illustrates this workflow.
+Both customer users and employees are allowed to perform read operations.
 
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-5-1024x408.jpeg)
+`GET /pets`
 
-After detection, we center-crop each character with appropriate pixel padding and then run a deduplication algorithm using the [Amazon Titan Multimodal Embeddings](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-multiemb-models.html) model to remove semantically similar images above a threshold value. Doing so helps us build a diverse dataset because redundant or nearly identical frames could lead to model overfitting (when a model learns the training data too precisely, including its noise and fluctuations, making it perform poorly on new, unseen data). We can calibrate the similarity threshold to fine-tune what we consider to be identical images, so we can better control the balance between dataset diversity and redundancy elimination.
+`GET /pets/{petId}`
 
-#### Data labeling
+Only employees are allowed to perform write operations.
 
-We generate captions for each image using Amazon Nova Pro in Amazon Bedrock and then upload the image and label manifest file to an Amazon S3 location. This process focuses on two critical aspects of prompt engineering: character description to help the FM identify and name the characters based on their unique attributes, and varied description generation that avoids repetitive patterns in the caption (for example, “an animated character”). The following is an example prompt template used during our data labeling process:
+`POST /pets`
 
-```yaml
-system_prompt = """ 
-    You are an expert image description specialist who creates concise, natural alt
-    text that makes visual content accessible while maintaining clarity and focus.
-    Your task is to analyze the provided image and provide a creative description
-    (20-30 words) that emphasizes the Three main characters, capturing the essential
-    elements of their interaction while avoiding unnecessary details.
-"""
+`POST /pets/{petId}/sale`
 
-prompt = """
-    
-    1. Identify the main characters in the image: Character 1, Character 2, and
-        Character 3 at least one will be in the picture so provide at a minimum a
-        description with at least one character name.
-      - "Character 1" describe the first character, key traits, background, attributes.
-      - "Character 2" describe the second character, key traits, background, attributes.
-      - "Character 3" describe the third character, key traits, background, attributes. 
-    2. Just state their name WITHOUT adding any standard characteristics.
-    3. Only capture visual element outside the standard characteristics
-    4. Capture the core interaction between them
-    5. Include only contextual details that are crucial for understanding the scene
-    6. Create a natural, flowing description using everyday language
-    
-    Here are some examples
-    
-       ...
-    
-    
-    
-    [Identify the main characters]
-    [Assessment of their primary interaction]
-    [Selection of crucial contextual elements]
-    [Crafting of concise, natural description]
-    
-    
-    {
-        "alt_text": "[Concise, natural description focusing on the main characters]"
+## Implementing authorization for the Pet Store APIs
+
+Let’s walk through how to secure your application APIs using Cedar using the new package for Express. The initial application, with no authorization, can be found in the `start` folder; use this to follow along with the blog. You can find the completed application, with authorization added, in the `finish` folder.
+
+### Add the Cedar Authorization Middleware package
+
+The Cedar Authorization Middleware package will be used to generate a Cedar schema, create sample authorization policies, and perform the authorization in your application.
+
+Run this `npm` command to add the `@cedar-policy/authorization-for-expressjs` dependency to your application.
+
+```
+npm i --save @cedar-policy/authorization-for-expressjs 
+```
+
+### Generate a Cedar Schema from your APIs
+
+A Cedar schema defines the authorization model for an application, including the entities types in the application and the actions users are allowed to take. Your policies are validated against this schema when you run the application.
+
+The `authorization-for-expressjs` package can analyze the [OpenAPI specification](https://swagger.io/specification/) of your application and generate a Cedar schema. Specifically the `paths` object is required in the your specification.
+
+Note: If you do not have an OpenAPI spec you can generate one using the tool of your choice. There are a number of open source libraries to do this for Express; you may need to add some code to your application, generate the OpenAPI spec, and then remove the code. Alternatively, some generative AI based tools such as the [Amazon Q Developer](https://aws.amazon.com/q/developer/) CLI are effective at generating OpenAPI spec documents. Regardless of how you generate the spec, be sure to validate the correct output from the tool.
+
+For the sample application, an OpenAPI spec document named `openapi.json` has been included.
+
+With an OpenAPI spec you can generate a Cedar schema by running the `generateSchema` command listed here.
+
+```
+// schema is stored in v4.cedarschema.json file in the package root. 
+
+npx @cedar-policy/authorization-for-expressjs generate-schema --api-spec openapi.json --namespace PetStoreApp --mapping-type SimpleRest
+```
+
+### Define authorization policies
+
+If no policies are configured, Cedar denies all authorization requests. We will add policies that grant access to APIs only in authorized user groups.
+
+Run this command to generate sample Cedar policies. You can then customize these policies based on your use case.
+
+```
+npx @cedar-policy/authorization-for-expressjs generate-policies --schema v4.cedarschema.json
+```
+
+In the PetStore application two sample policies are generated, `policy_1.cedar` and `policy_2.cedar`.
+
+policy_1.cedar provides permissions for users in the admin user group to perform any action on any resource.
+
+```
+// policy_1.cedar
+// Allows admin usergroup access to everything
+permit (
+    principal in PetStoreApp::UserGroup::"admin",
+    action,
+    resource
+);
+```
+
+policy_2.cedar provides more access to all the individual actions defined in the Cedar schema with a place holder for a specific group.
+
+```
+// policy_2.cedar
+// Allows more granular user group control, change actions as needed
+permit (
+    principal in PetStoreApp::UserGroup::"ENTER_THE_USER_GROUP_HERE",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"POST /pets",
+         PetStoreApp::Action::"GET /pets/{petId}",
+         PetStoreApp::Action::"POST /pets/{petId}/sale"],
+    resource
+);
+```
+
+Note that if you specified an `operationId` in the OpenAPI specification, the action names defined in the Cedar Schema will use that `operationId` instead of the default “<HTTP Method> /<PATH>” format. In this case ensure the naming of your Actions in your Cedar Policies matches the naming of your Actions in your Cedar Schema.
+
+For example if you wish to call your action `AddPet` instead of `POST /pets` you could set the `operationId` in your OpenAPI specification to `AddPet`. The resulting action in the Cedar policy would be `PetStoreApp::Action::"AddPet"`
+
+Since we don’t have an `admin` user in our use case, we can just replace the contents of `policy_1.cedar` with the policies used for the `customer` user group.
+
+In a real use case, consider renaming your Cedar policy files based on their contents. For example, `allow_customer_group.cedar`
+
+```
+// policy_1.cedar
+// Allows customer user group access getAllPets and getPetById
+permit (
+    principal in PetStoreApp::UserGroup::"customer",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"GET /pets/{petId}"],
+    resource
+);
+```
+
+The `employee` user has access to all API operations. We can simply add the `employee` group in the `policy_2.cedar` file to fulfill the authorization requirements for `employee` users.
+
+```
+// policy_2.cedar
+// Allows employee user group access to all API actions
+permit (
+    principal in PetStoreApp::UserGroup::"employee",
+    action in
+        [PetStoreApp::Action::"GET /pets",
+         PetStoreApp::Action::"POST /pets",
+         PetStoreApp::Action::"GET /pets/{petId}",
+         PetStoreApp::Action::"POST /pets/{petId}/sale"],
+    resource
+);
+```
+
+Note: For large applications with complex authorization policies, it can be challenging to analyze and audit the actual permissions provided by the many different policies. We also recently open sourced the [Cedar Analysis CLI](https://github.com/cedar-policy/cedar-spec) to help developers perform policy analysis on their policies. You can find out more about this new tool in the blog post [Introducing Cedar Analysis: Open Source Tools for Verifying Authorization Policies.](https://aws.amazon.com/blogs/opensource/introducing-cedar-analysis-open-source-tools-for-verifying-authorization-policies)
+
+### Update the application code to call Cedar and to authorize API access
+
+The application will use the Cedar middleware to authorize every request against the Cedar polices. Earlier we installed the dependency, now we need to update the code.
+
+First add the package to the project and define the `CedarInlineAuthorizationEngine` and `ExpressAuthorizationMiddleware`. This block of code can be added to the top of the `app.js` file.
+
+```
+const { ExpressAuthorizationMiddleware, CedarInlineAuthorizationEngine } = require ('@cedar-policy/authorization-for-expressjs');
+
+
+const policies = [
+    fs.readFileSync(path.join(__dirname, 'policies', 'policy_1.cedar'), 'utf8'),
+    fs.readFileSync(path.join(__dirname, 'policies', 'policy_2.cedar'), 'utf8')
+];
+
+
+
+const cedarAuthorizationEngine = new CedarInlineAuthorizationEngine({
+    staticPolicies: policies.join('\n'),
+    schema: {
+        type: 'jsonString',
+        schema: fs.readFileSync(path.join(__dirname, 'v4.cedarschema.json'), 'utf8'),
+    }
+});
+
+
+const expressAuthorization = new ExpressAuthorizationMiddleware({
+    schema: {
+        type: 'jsonString',
+        schema: fs.readFileSync(path.join(__dirname, 'v4.cedarschema.json'), 'utf8'),
+    },
+    authorizationEngine: cedarAuthorizationEngine,
+    principalConfiguration: {
+        type: 'custom',
+        getPrincipalEntity: principalEntityFetcher
+    },
+    skippedEndpoints: [
+        {httpVerb: 'get', path: '/login'},
+        {httpVerb: 'get', path: '/api-spec/v3'},
+    ],
+    logger: {
+        debug: s => console.log(s),
+        log: s => console.log(s),
+    }
+});
+```
+
+Next add the Express Authorization middleware to the application
+
+```
+const app = express();
+
+app.use(express.json());
+app.use(verifyToken())   // validate user token
+// ... other pre-authz middlewares
+
+app.use(expressAuthorization.middleware);
+
+// ... other pre-authz middlewares
+```
+
+### Add application code to configure the user
+
+The Cedar authorizer requires user groups and attributes to authorize requests. The authorization middleware relies on the function passed to `getPrincipalEntity` in the initial configuration to generate the principal entity. You need to implement this function to generate the user entity.
+
+This example code provides a function to generate a user entity. It assumes that the user has been authenticated by a previous middleware and the relevant information stored in the request object. It also assumes user sub has been stored in `req.user.sub` field and user groups have been stored in `req.user.groups` field.
+
+```
+
+async function principalEntityFetcher(req) {
+       
+       const user = req.user;   // it's common practice for the authn middleware to store the user info from the decoded token here
+       const userGroups = user["groups"].map(userGroupId => ({
+           type: 'PetStoreApp::UserGroup',
+           id: userGroupId       
+       }));
+       return {
+            uid: {
+                type: 'PetStoreApp::User',
+                id: user.sub
+            },
+            attrs: {
+                ...user,
+            },
+            parents: userGroups 
+        };
+} 
+```
+
+## Update the authentication middleware
+
+For the sample PetStore application, the authentication middleware is provided by the code in `middleware/authnMiddleware.js` which parses a JSON web token (JWT) included in the Authorization header of the request and stores the relevant values in the request object.
+
+Note: authnMiddleware.js is just used for demonstrative purposes and should not replace your actual token validation middleware in a real application.
+
+To update the authentication middleware to use your own OpenID Connect (OIDC) identity provider, update the `jwksUri` in the following code block of `middleware/authnMiddleware.js` to include the JSON web key set (JWKS) uri of your identity provider.
+
+```
+const client = jwksClient({
+  jwksUri: '<jwks uri for your oidc identity provider>',
+  cache: true,
+  cacheMaxEntries: 5,
+  cacheMaxAge: 600000 // 10 minutes
+}); 
+```
+
+Next update the `issuer` in the following code block to include the issuer uri of your identity provider.
+
+```
+ jwt.verify(token, getSigningKey, {
+    algorithms: ['RS256'],
+    issuer: `<issuer uri for your oidc identity provider>`
+  }, (err, decoded) => {
+    if (err) {
+      console.error('JWT verification error:', err);
+      return res.status(401).json({ message: 'Invalid token' });
     }
     
-    
-    Note: Provide only the JSON object as the final response.
+    // Add the decoded token to the request object
+    req.user = decoded;
+    next();
+  });
 ```
 
-The data labeling output is formatted as a JSONL file, where each line pairs an image reference Amazon S3 path with a caption generated by Amazon Nova Pro. This JSONL file is then uploaded to Amazon S3 for training. The following is an example of the file:
+If you do not have access to an OIDC identity provider to use with this sample, for testing purposes you can replace the entire `verifyToken` function and just map a sample user entity to the request object. For example replace `verifyToken` with this:
 
-```yaml
-{"image_ref": "s3://media-ip-dataset/characters/blue_character_01.jpg", "alt_text": "This
-    animated character features a round face with large expressive eyes. The character
-    has a distinctive blue color scheme with a small tuft of hair on top. The design is
-    stylized with clean lines and a minimalist approach typical of modern animation."}
-{"image_ref": "s3://media-ip-dataset/props/iconic_prop_series1.jpg", "alt_text": "This
-    object appears to be an iconic prop from the franchise. It has a metallic appearance
-    with distinctive engravings and a unique shape that fans would immediately recognize.
-    The lighting highlights its dimensional qualities and fine details that make it
-    instantly identifiable."}
+```
+const verifyToken = (req, res, next) => {
+
+    // Add a sample user entity to the request object
+    // To test an employee group change "customer" to "employee"
+    req.user = {
+        "sub": "some-user-id",
+        "groups": "customer"
+    };
+
+};
 ```
 
-#### Human verification
+## Validating API security
 
-For enterprise use cases, we recommend incorporating a human-in-the-loop process to verify labeled data before proceeding with model training. This verification can be implemented using [Amazon Augmented AI](https://aws.amazon.com/augmented-ai/) (Amazon A2I), a service that helps annotators verify both image and caption quality. For more details, refer to [Get Started with Amazon Augmented AI](https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-getting-started.html).
+You can validate your policies and API access by calling the application using terminal-based `curl` commands. We assume that the application is using an OIDC identity provider for user management and JWT tokens are passed in the authorization header for API requests.
 
-### Fine-tune Amazon Nova Canvas
+For readability, a set of environment variables are used to represent the actual values. `TOKEN_CUSTOMER` contains valid identity tokens for users in the employee group. `API_BASE_URL` is the base URL for the tiny PetStore API .
 
-Now that we have the training data, we can fine-tune the Amazon Nova Canvas model in Amazon Bedrock. Amazon Bedrock requires an [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) service role to access the S3 bucket where you stored your model customization training data. For more details, see [Model customization access and security](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-model-job-access-security.html). You can perform the fine-tuning task directly on the Amazon Bedrock console or use the Boto3 API. We explain both approaches in this post, and you can find the end-to-end code sample in [picchu-finetuning.ipynb](https://github.com/aws-samples/sample-character-consistent-storyboard/blob/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas/picchu-finetuning.ipynb).
+To test that a customer is allowed to call `GET /pets`, run this `curl` command. The request should complete successfully.
 
-#### Create a fine-tuning job on the Amazon Bedrock console
-
-Let’s start by creating an Amazon Nova Canvas fine-tuning job on the Amazon Bedrock console:
-
-  1. On the Amazon Bedrock console, in the navigation pane, choose **Custom models** under **Foundation models**.
-  2. Choose **Customize model** and then **Create Fine-tuning job**.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-8-1024x453.jpg)
-
-  3. On the **Create Fine-tuning job details** page, choose the model you want to customize and enter a name for the fine-tuned model.
-  4. In the **Job configuration** section, enter a name for the job and optionally add tags to associate with it.
-  5. In the **Input data** section, enter the Amazon S3 location of the training dataset file.
-  6. In the **Hyperparameters** section, enter values for hyperparameters, as shown in the following screenshot.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-7-1.jpg)
-
-  7. In the **Output data** section, enter the Amazon S3 location where Amazon Bedrock should save the output of the job.
-  8. Choose **Fine-tune model job** to begin the fine-tuning process.
-
-This hyperparameter combination yielded good results during our experimentation. In general, increasing the learning rate makes the model train more aggressively, which often presents an interesting trade-off: we might achieve character consistency more quickly, but it might impact overall image quality. We recommend a systematic approach to adjusting hyperparameters. Start with the suggested batch size and learning rate, and try increasing or decreasing the number of training steps first. If the model struggles to learn your dataset even after 20,000 steps (the maximum allowed in Amazon Bedrock), then we suggest either increasing the batch size or adjusting the learning rate upward. These adjustments, through subtle, can make a significant difference in our model’s performance. For more details about the hyperparameters, refer to [Hyperparameters for Creative Content Generation models.](https://docs.aws.amazon.com/nova/latest/userguide/fine-tune-hyperparameters-content-generation-models.html)
-
-#### Create a fine-tuning job using the Python SDK
-
-The following Python code snippet creates the same fine-tuning job using the [create_model_customization_job API](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/create_model_customization_job.html):
-
-```Python
-bedrock = boto3.client('bedrock')
-jobName = "picchu-canvas-v0"
-# Set parameters
-hyperParameters = {
-        "stepCount": "14000",
-        "batchSize": "64",
-        "learningRate": "0.000001",
-    }
-
-# Create job
-response_ft = bedrock.create_model_customization_job(
-    jobName=jobName,
-    customModelName=jobName,
-    roleArn=roleArn,
-    baseModelIdentifier="amazon.nova-canvas-v1:0",
-    hyperParameters=hyperParameters,
-    trainingDataConfig={"s3Uri": training_path},
-    outputDataConfig={"s3Uri": f"s3://{bucket}/{prefix}"}
-)
-
-jobArn = response_ft.get('jobArn')
-print(jobArn)
+```
+curl -H "Authorization: Bearer ${TOKEN_CUSTOMER}" -X GET ${API_BASE_URL}/pets
 ```
 
-When the job is complete, you can retrieve the new `customModelARN` using the following code:
+The successful request will return the list of pets. To begin with, the Pet Store has one pet and returns a response similar to this.
 
-```Python
-custom_model_arn = bedrock.list_model_customization_jobs(
-    nameContains=jobName
-)["modelCustomizationJobSummaries"][0]["customModelArn"]
+```
+[{"id":"6da5d01b-89fd-49b9-acb2-b457b79669d5","name":"Fido","species":"Dog","breed":null,"age":null,"sold":false}]
 ```
 
-### Deploy the model on the Amazon Bedrock console
+To test that a customer is not allowed to call `POST /pets`, run this `curl` command. You should receive an error message that the request is unauthorized.
 
-To deploy the model from the Amazon Bedrock console, complete the following steps:
-
-  1. On the Amazon Bedrock console, choose **Custom models** under **Foundation models** in the navigation pane.
-  2. Select the new custom model and choose **Purchase provisioned throughput.**
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-8-2-1024x453.jpg)
-
-  3. In the **Provisioned Throughput details** section, enter a name for the provisioned throughput.
-  4. Under **Select model**, choose the custom model you just created.
-  5. Then specify the commitment term and model units.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-9.jpg)
-
-After you purchase provisioned throughput, a new model Amazon Resource Name (ARN) is created. You can invoke this ARN when the provisioned throughput is in service.
-
-![Diagram](/images/3-BlogsTranslated/3.3-Blog3/image-10-1-1024x257.jpg)
-
-#### Deploy the model using the Python SDK
-
-The following Python code snippet creates provisioned throughput using the [create_provisioned_model_throughput API:](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/create_provisioned_model_throughput.html)
-
-custom_model_name = "picchu-canvas-v0"
-
-```Python
-# Create the provision throughput job and retrieve the provisioned model id
-provisioned_model_id = bedrock.create_provisioned_model_throughput(
-    modelUnits=1,
-    # create a name for your provisioned throughput model
-    provisionedModelName=custom_model_name, 
-    modelId=custom_model_arn
-)['provisionedModelArn']
+```
+curl -H "Authorization: Bearer ${TOKEN_CUSTOMER}" -X POST ${API_BASE_URL}/pets
 ```
 
-### Test the fine-tuned model
-When the provisioned throughput is live, we can use the following code snippet to test the custom model and experiment with generating some new images for a sequel to Picchu:
+The unauthorized request will return Not authorized with explicit deny
 
-```Python
-import json
-import io
-from PIL import Image
-import base64
+## Conclusion
 
-def decode_base64_image(img_b64):
-    return Image.open(io.BytesIO(base64.b64decode(img_b64)))
-    
-def generate_image(prompt,
-                   negative_prompt="text, ugly, blurry, distorted, low
-                       quality, pixelated, watermark, text, deformed", 
-                   num_of_images=3,
-                   seed=1):
-    """
-    Generate an image using Amazon Nova Canvas.
-    """
+The new `authorization-for-expressjs` package allows developers to integrate their applications with Cedar in order to decouple authorization logic from code in just a few minutes. By decoupling your authorization logic and integrating your application with Cedar, you can both improve developer productivity, and simplify permissions and access audits.
 
-    image_gen_config = {
-            "numberOfImages": num_of_images,
-            "quality": "premium",
-            "width": 1024,  # Maximum resolution 2048 x 2048
-            "height": 1024,  # 1:1 ratio
-            "cfgScale": 8.0,
-            "seed": seed,
-        }
-
-    # Prepare the request body
-    request_body = {
-        "taskType": "TEXT_IMAGE",
-        "textToImageParams": {
-            "text": prompt,
-            "negativeText": negative_prompt,  # List things to avoid
-        },
-        "imageGenerationConfig": image_gen_config
-    } 
-
-    response = bedrock_runtime.invoke_model(
-        modelId=provisioned_model_id,
-        body=json.dumps(request_body)
-    )
-
-    # Parse the response
-    response_body = json.loads(response['body'].read())
-
-    if "images" in response_body:
-        # Extract the image
-        return [decode_base64_image(img) for img in response_body['images']]
-    else:
-        return
-seed = random.randint(1, 858993459)
-print(f"seed: {seed}")
-
-images = generate_image(prompt=prompt, seed=seed)
-```
-
-<div style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start; justify-content: center;">
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-11-300x300.jpg" alt="Input image" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>Mayu face shows a mix of nervousness and determination. Mommy kneels beside her, gently holder her. A landscape is visible in the background.</div>
-  </div>
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-12-300x300.jpg" alt="Output video" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>A steep cliff face with a long wooden ladder extending downwards. Halfway down the ladder is Mayu with a determined expression on her face. Mayu’s small hands grip the sides of the ladder tightly as she carefully places her feet on each rung. The surrounding environment shows a rugged, mountainous landscape.</div>
-  </div>
-  <div style="text-align: left; width: 320px;">
-    <img src="/images/3-BlogsTranslated/3.3-Blog3/image-13-300x300.jpg" alt="Output video" style="width: 300px; height: 300px; object-fit: cover; display: block; margin: 0 auto 8px auto;">
-    <div>Mayu standing proudly at the entrance of a simple school building. Her face beams with a wide smile, expressing pride and accomplishment.</div>
-  </div>
-</div>
-
-### Clean up
-
-To avoid incurring AWS charges after you are done testing, complete the cleanup steps in [picchu-finetuning.ipynb](https://github.com/aws-samples/sample-character-consistent-storyboard/blob/main/02-character-consistent-fine-tuning-with-amazon-nova-canvas/picchu-finetuning.ipynb) and delete the following resources:
-
-- Amazon SageMaker Studio domain
-- Fine-tuned Amazon Nova model and provision throughput endpoint
-
-### Conclusion
-
-In this post, we demonstrated how to elevate character and style consistency in storyboarding from [Part 1](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-1/) by fine-tuning Amazon Nova Canvas in Amazon Bedrock. Our comprehensive workflow combines automated video processing, intelligent character extraction using Amazon Rekognition, and precise model customization using Amazon Bedrock to create a solution that maintains visual fidelity and dramatically accelerates the storyboarding process. By fine-tuning the Amazon Nova Canvas model on specific characters and styles, we’ve achieved a level of consistency that surpasses standard prompt engineering, so creative teams can produce high-quality storyboards in hours rather than weeks. Start experimenting with Nova Canvas fine-tuning today, so you can also elevate your storytelling with better character and style consistency.
+The frameworks packages are open source and available on GitHub under the Apache 2.0 license, with distribution through NPM. To learn more about Cedar and try it using the language playground, visit [https://www.cedarpolicy.com/](https://www.cedarpolicy.com/). Feel free to submit questions, comments, and suggestions via the public Cedar Slack workspace, [https://cedar-policy.slack.com](https://cedar-policy.slack.com).

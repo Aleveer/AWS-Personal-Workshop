@@ -5,183 +5,163 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-# Build character consistent storyboards using Amazon Nova in Amazon Bedrock – Part 1
+# Offline caching with AWS Amplify, Tanstack, AppSync and MongoDB Atlas
 
-The art of storyboarding stands as the cornerstone of modern content creation, weaving its essential role through filmmaking, animation, advertising, and UX design. Though traditionally, creators have relied on hand-drawn sequential illustrations to map their narratives, today’s AI foundation models (FMs) are transforming this landscape. FMs like [Amazon Nova Canvas](https://aws.amazon.com/ai/generative-ai/nova/creative/) and [Amazon Nova Reel](https://aws.amazon.com/ai/generative-ai/nova/creative/) offer capabilities in transforming text and image inputs into professional-grade visuals and short clips that promise to revolutionize preproduction workflows.
+In this blog we demonstrate how to create an offline-first application with optimistic UI using [AWS Amplify](https://aws.amazon.com/amplify/), [AWS AppSync](https://aws.amazon.com/appsync/), and [MongoDB Atlas](https://www.mongodb.com/products/platform/atlas-cloud-providers/aws). Developers design offline first applications to work without requiring an active internet connection. Optimistic UI then builds on top of the offline first approach by updating the UI with expected data changes, without depending on a response from the server. This approach typically utilizes a local cache strategy.
 
-This technological leap forward, however, presents its own set of challenges. Although these models excel at generating diverse concepts rapidly—a boon for creative exploration—maintaining consistent character designs and stylistic coherence across scenes remains a significant hurdle. Even subtle modifications to prompts or model configurations can yield dramatically different visual outputs, potentially disrupting narrative continuity and creating additional work for content creators.
+Applications that use offline first with optimistic UI provide a number of improvements for users. These include reducing the need to implement loading screens, better performance due to faster data access, reliability of data when an application is offline, and cost efficiency. While implementing offline capabilities manually can take sizable effort, you can use tools that simplify the process.
 
-To address these challenges, we’ve developed this two-part series exploring practical solutions for achieving visual consistency. In Part 1, we deep dive into prompt engineering and character development pipelines, sharing tested prompt patterns that deliver reliable, consistent results with Amazon Nova Canvas and Amazon Nova Reel. [Part 2](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-2/) explores techniques like fine-tuning Amazon Nova Canvas to achieve exceptional visual consistency and precise character control.
+We provide a [sample to-do application](https://github.com/mongodb-partners/amplify-mongodb-tanstack-offline) that renders results of MongoDB Atlas CRUD operations immediately on the UI before the request roundtrip has completed, improving the user experience. In other words, we implement optimistic UI that makes it easy to render loading and error states, while allowing developers to rollback changes on the UI when API calls are unsuccessful. The implementation leverages [TanStack Query](https://tanstack.com/query/latest/docs/react/overview) to handle the optimistic UI updates along with [AWS Amplify](https://docs.amplify.aws/react/build-a-backend/data/optimistic-ui/). The diagram in Figure 1 illustrates the interaction between the UI and the backend.
 
-<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
-  <img src="/images/3-BlogsTranslated/3.1-Blog1/image-1-1-300x169.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.1-Blog1/image-2-2-300x169.jpg" alt="Girl running with llama">
-  <img src="/images/3-BlogsTranslated/3.1-Blog1/image-3-300x169.jpg" alt="Girl running with llama">
-</div>
+TanStack Query is an asynchronous state management library for TypeScript/JavaScript, React, Solid, Vue, Svelte, and Angular. It simplifies fetching, caching, synchronizing, and updating server state in web applications. By leveraging TanStack Query’s caching mechanisms, the app ensures data availability even without an active network connection. AWS Amplify streamlines the development process, while AWS AppSync provides a robust GraphQL API layer, and MongoDB Atlas offers a scalable database solution. This integration showcases how TanStack Query’s offline caching can be effectively utilized within a full-stack application architecture.
 
-### Consistent character design with Amazon Nova Canvas
+![](/images/3-BlogsTranslated/3.1-Blog1/TanstackWithAtlas-793x1024.png)
 
-The foundation of effective storyboarding begins with establishing well-defined character designs. Amazon Nova Canvas offers several powerful techniques to create and maintain character consistency throughout your visual narrative. To help you implement these techniques in your own projects, we’ve provided comprehensive code examples and resources in our [Github repository](https://github.com/aws-samples/sample-character-consistent-storyboard/tree/main/01-character-consistent-storyboarding-with-amazon-nova). We encourage you to follow along as we walk through each step in detail. If you’re new to Amazon Nova Canvas, we recommend first reviewing [Generating images with Amazon Nova](https://docs.aws.amazon.com/nova/latest/userguide/image-generation.html) to familiarize yourself with the basic concepts.
+**Figure 1. Interaction Diagram**
 
-### Basic text prompting
+The sample application implements a classic to-do functionality and the exact app architecture is shown in **Figure 2.** The stack consists of:
 
-Amazon Nova Canvas transforms text descriptions into visual representations. Unlike large language models (LLMs), image generation models don’t interpret commands or engage in reasoning—they respond best to descriptive captions. Including specific details in your prompts, such as physical attributes, clothing, and styling elements, directly influences the generated output.
+* MongoDB Atlas for database services.
+* AWS Amplify the full-stack application framework.
+* AWS AppSync for GraphQL API management.
+* AWS Lambda Resolver for serverless computing.
+* Amazon Cognito for user management and authentication.
 
-For example, *“A 7-year-old Peruvian girl with dark hair in two low braids wearing a school uniform”* provides clear visual elements for the model to generate an initial character concept, as shown in the following example image.
+![](/images/3-BlogsTranslated/3.1-Blog1/architecture-1024x557.png)
 
-![Girl](/images/3-BlogsTranslated/3.1-Blog1/image-4-1-300x300.jpeg)
----
+**Figure 2. Architecture**
 
-### Visual style implementation
+### Deploy the Application
 
-Consistency in storyboarding requires both character features and unified visual style. Our approach separates style information into two key components in the prompt:
+To deploy the app in your AWS account, follow the steps below. Once deployed you can create a user, authenticate yourself, and create to-do entries – see Figure 8.
 
-- **Style description** – An opening phrase that defines the visual medium (for example, *“A graphic novel style illustration of”*)
+#### Set up the MongoDB Atlas cluster
 
-- **Style details** – A closing phrase that specifies artistic elements (for example, *“Bold linework, dramatic shadows, flat color palettes”*)
+1. Follow the [link](https://www.mongodb.com/docs/atlas/tutorial/create-atlas-account/) to the setup the [MongoDB Atlas cluster](https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/), Database, [User](https://www.mongodb.com/docs/atlas/tutorial/create-mongodb-user-for-cluster/) and [Network access](https://www.mongodb.com/docs/atlas/security/add-ip-address-to-list/)
+2. Set up the user
 
-This structured technique enables exploration of various artistic styles, including graphic novels, sketches, and 3D illustrations, while maintaining character consistency throughout the storyboard. The following is an example prompt template and some style information you can experiment with:
+  1. [Configure User](https://www.mongodb.com/docs/atlas/security-add-mongodb-users/)
 
-```yaml
-{style_description} A 7 year old peruvian girl with dark hair in two low braids wearing a
-school uniform. {style_details}
-styles = [
-    {
-        "name": "graphic-novel",
-        "description": "A graphic novel style illustation of",
-        "details": "Bold linework, dramatic shadows, and flat color palettes. Use
-            high contrast lighting and cinematic composition typical of comic book
-            panels. Include expressive line work to convey emotion and movement.",
-    },
-    {
-        "name": "sketch",
-        "description": "A simple black and white line sketch of",
-        "details": "Rough, sketch-like lines create a storyboard aesthetic. High
-            contrast. No color",
-    },
-    {
-        "name": "digital-illustration",
-        "description": "A 3D digital drawing of",
-        "details": "High contrast. Rounded character design. Smooth rendering.
-            Soft texture. Luminous lighting",
-    },
-]
+#### Clone the GitHub Repository
+
+1. Clone the sample application with the following command
+
+ `git clone https://github.com/mongodb-partners/amplify-mongodb-tanstack-offline`
+
+#### Setup the AWS CLI credentials (optional if you need to debug your application locally)
+
+1. If you would like to test the application locally using a [sandbox environment](https://docs.amplify.aws/react/deploy-and-host/sandbox-environments/setup/), you can setup temporary AWS credentials locally:
+
+```
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_SESSION_TOKEN=
 ```
 
+#### Deploy the Todo Application in AWS Amplify
 
-![Girl](/images/3-BlogsTranslated/3.1-Blog1/image-7-1.jpeg)
+1. Open the AWS Amplify console and Select the Github Option
 
-### Scene integration with consistent parameters
+![](/images/3-BlogsTranslated/3.1-Blog1/fig3-github-1024x317.png)
 
-Now we can put these techniques together to test for character consistency across different narrative contexts, as shown in the following example images. We maintain consistent input for style, `seed`, and `cfgScale`, varying only the scene description to make sure character remains recognizable throughout the scene sequences.
+**Figure 3. Select Github option**
 
-<div style="display: flex; flex-direction: column; gap: 24px; align-items: center; justify-content: center;">
-  <div style="display: flex; flex-direction: row; gap: 24px; align-items: flex-start; max-width: 800px;">
-    <img src="/images/3-BlogsTranslated/3.1-Blog1/image-8-288x300.jpg" alt="Girl" style="width: 288px; height: 300px;">
-    <div>
-      A graphic novel style illustration of a 7 year old Peruvian girl with dark hair in two low braids wearing a school uniform <b>riding a bike on a mountain pass</b>. Bold linework, dramatic shadows, and flat color palettes. Use high contrast lighting and cinematic composition typical of comic book panels. Include expressive line work to convey emotion and movement.
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: row; gap: 24px; align-items: flex-start; max-width: 800px;">
-    <img src="/images/3-BlogsTranslated/3.1-Blog1/image-9-288x300.jpg" alt="Girl" style="width: 288px; height: 300px;">
-    <div>
-      A graphic novel style illustration of a 7 year old Peruvian girl with dark hair in two low braids wearing a school uniform <b>walking on a path through tall grass in the Andes</b>. Bold linework, dramatic shadows, and flat color palettes. Use high contrast lighting and cinematic composition typical of comic book panels. Include expressive line work to convey emotion and movement.
-    </div>
-  </div>
-  <div style="display: flex; flex-direction: row; gap: 24px; align-items: flex-start; max-width: 800px;">
-    <img src="/images/3-BlogsTranslated/3.1-Blog1/image-10-288x300.jpg" alt="Girl" style="width: 288px; height: 300px;">
-    <div>
-      A graphic novel style illustration of a 7 year old Peruvian girl with dark hair in two low braids wearing a school uniform <b>eating ice cream at the beach</b>. Bold linework, dramatic shadows, and flat color palettes. Use high contrast lighting and cinematic composition typical of comic book panels. Include expressive line work to convey emotion and movement.
-    </div>
-  </div>
-</div>
+2. Configure the GitHub Repository
 
-### Storyboard development pipeline
+![](/images/3-BlogsTranslated/3.1-Blog1/fig4-permissions-1024x254.png)
 
-Building upon the character consistency techniques we’ve discussed, we can now implement an end-to-end storyboard development pipeline that transforms written scene and character descriptions into visually coherent storyboards. This systematic approach uses our established parameters for style descriptions, `seed` values, and `cfgScale` values to provide character consistency while adapting to different narrative contexts. The following are some example scene and character descriptions:
+**Figure 4. Configure repository permissions**
 
-```yaml
-"scenes":[
-    {
-        "description": "Mayu stands at the edge of a mountainous path, clutching
-            a book. Her mother, Maya, kneels beside her, offering words of encouragement
-            and handing her the book. Mayu looks nervous but determined as she prepares
-            to start her journey."
+3. Select the GitHub Repository and click Next
+
+![](/images/3-BlogsTranslated/3.1-Blog1/fig5-branch-1024x472.png)
+
+**Figure 5. Select repository and branch**
+
+4. Set all other options to default and deploy
+
+![](/images/3-BlogsTranslated/3.1-Blog1/fig6-deploy-1024x362.png)
+
+**Figure 6. Deploy application**
+
+#### **Configure the Environment Variables**
+
+Configure the Environment variables after the successful deployment
+
+![](/images/3-BlogsTranslated/3.1-Blog1/fig7-envs.png)
+
+**Figure 7. Configure environment variables**
+
+#### Open the application and test
+
+Open the application through the URL provided and test the application.
+
+![](/images/3-BlogsTranslated/3.1-Blog1/fig8-test-1024x521.png)
+
+**Figure 8. Sample todo entries**
+
+MongoDB Atlas Output
+
+![](/images/3-BlogsTranslated/3.1-Blog1/fig9-mongo-914x1024.png)
+
+**Figure 9. Data in Mongo**
+
+### Review the Application
+
+Now that the application is deployed, let’s discuss what happens under the hood and what was configured for us. We utilized Amplify’s git-based workflow to host our full-stack, serverless web application with continuous deployment. Amplify supports various frameworks, including server side rendered (SSR) frameworks like Next.js and Nuxt, single page application (SPA) frameworks like React and Angular, and static site generators (SSG) like Gatsby and Hugo. In this case, we deployed a SPA React based application. We can include feature branches, custom domains, pull request previews, end-to-end testing, and redirects/rewrites. Amplify Hosting provides a Git-based workflow enables atomic deployments ensuring that updates are only applied after the entire deployment is complete.
+
+To deploy our application we used AWS Amplify Gen 2, which is a tool designed to simplify the development and deployment of full-stack applications using TypeScript. It leverages the [AWS Cloud Development Kit](https://aws.amazon.com/cdk/) (CDK) to manage cloud resources, ensuring scalability and ease of use.
+
+Before we conclude, it is important to understand our application’s updates concurrency. We implemented a simple optimistic first-come first-served conflict resolution mechanism. The MongoDB Atlas cluster persists updates in the order it receives them. In case of conflicting updates, the latest arriving update will override previous updates. This mechanism works well in applications where update conflicts are rare. It is important to evaluate how this may or may not suit your production needs, requiring more sophisticated approaches. TanStack provides capabilities for more complex mechanisms to handle various connectivity scenarios. By default, TanStack Query provides an “online” network mode, where Queries and Mutations will not be triggered unless you have network connection. If a query runs because you are online, but you go offline while the fetch is still happening, TanStack Query will also pause the retry mechanism. Paused queries will then continue to run once you re-gain network connection. In order to optimistically update the UI with new or changed values, we can also update the local cache with what we expect the response to be. This is approach works well together with TanStack’s “online” network mode, where if the application has no network connectivity, the mutations will not fire, but will be added to the queue, but our local cache can be used to update the UI. Below is a key example of how our sample application optimistically updates the UI with the expected mutation.
+
+```
+const createMutation = useMutation({
+    mutationFn: async (input: { content: string }) => {
+    // Use the Amplify client to make the request to AppSync
+      const { data } = await amplifyClient.mutations.addTodo(input);
+      return data;
     },
-    {
-        "description": "Mayu encounters a 'danger' sign with a drawing of a
-            snake. She looks scared, but then remembers her mother's words. She takes a
-            deep breath, looks at her book for reassurance, and then searches for a stick
-            on the ground."
+    // When mutate is called:
+    onMutate: async (newTodo) => {
+      // Cancel any outgoing refetches
+      // so they don't overwrite our optimistic update
+      await tanstackClient.cancelQueries({ queryKey: ["listTodo"] });
+
+      // Snapshot the previous value
+      const previousTodoList = tanstackClient.getQueryData(["listTodo"]);
+
+      // Optimistically update to the new value
+      if (previousTodoList) {
+        tanstackClient.setQueryData(["listTodo"], (old: Todo[]) => [
+          ...old,
+          newTodo,
+        ]);
+      }
+
+      // Return a context object with the snapshotted value
+      return { previousTodoList };
     },
-    {
-        "description": "Mayu bravely makes her way through tall grass, swinging
-            her stick and making noise to scare off potential snakes. Her face shows a
-            mix of fear and courage as she pushes forward on her journey."
-    }
-],
-"characters":{
-    "Mayu":  "A 7-year-old Peruvian girl with dark hair in two low braids wearing a
-        school uniform",
-    "Maya":  "An older Peruvian woman with long dark hair tied back in a bun, wearing
-        traditional Peruvian clothing"
-}
-```
-![Diagram](/images/3-BlogsTranslated/3.1-Blog1/image-11-4.png)
-
-Our pipeline uses Amazon Nova Lite to first craft optimized image prompts incorporating our established best practices, which are then passed to Amazon Nova Canvas for image generation. By setting `numberOfImages` higher (typically three variations), while maintaining consistent `seed` and `cfgScale` values, we give creators multiple options that preserve character consistency. We used the following prompt for Amazon Nova Lite to generate optimized image prompts:
-
-```yaml
-Describe an image that best represents the scene described. Here are some examples:
-scene: Rosa is in the kitchen, rummaging through the pantry, looking for a snack. She
-    hears a strange noise coming from the back of the pantry and becomes startled.
-imagery: A dimly lit pantry with shelves stocked with various food items, and Rosa
-    peering inside, her face expressing curiosity and a hint of fear.
-scene: Rosa says goodbye to her mother, Maya. Maya offers her words of encouragement.
-imagery: A wide shot of Rosa's determined face, facing Maya and receiving a small wrapped
-    gift.
-Only describe the imagery. Use no more than 60 words.
-scene: {scene_description}
-imagery:
+    // If the mutation fails,
+    // use the context returned from onMutate to rollback
+    onError: (err, newTodo, context) => {
+      console.error("Error saving record:", err, newTodo);
+      if (context?.previousTodoList) {
+        tanstackClient.setQueryData(["listTodo"], context.previousTodoList);
+      }
+    },
+    // Always refetch after error or success:
+    onSettled: () => {
+      tanstackClient.invalidateQueries({ queryKey: ["listTodo"] });
+    },
+    onSuccess: () => {
+      tanstackClient.invalidateQueries({ queryKey: ["listTodo"] });
+    },
+  });
 ```
 
-Our pipeline generated the following storyboard panels.
+We welcome any [PRs](https://github.com/mongodb-partners/amplify-mongodb-tanstack-offline/pulls) implementing additional conflict resolution strategies.
 
-![Diagram](/images/3-BlogsTranslated/3.1-Blog1/1-1.png)
-
-Mayu stands at the edge of a mountainous path, clutching a book. Her mother, Maya, kneels beside her, offering words of encouragement and handing her the book. Mayu looks nervous but determined as she prepares to start her journey.
-
-![Diagram](/images/3-BlogsTranslated/3.1-Blog1/2-1.png)
-
-Mayu encounters a ‘danger’ sign with a drawing of a snake. She looks scared, but then remembers her mother’s words. She takes a deep breath, looks at her book for reassurance, and then searches for a stick on the ground.
-
-![Diagram](/images/3-BlogsTranslated/3.1-Blog1/3-1.png)
-Mayu bravely makes her way through tall grass, swinging her stick and making noise to scare off potential snakes. Her face shows a mix of fear and courage as she pushes forward on her journey.
-
-Although these techniques noticeably improve character consistency, they aren’t perfect. Upon closer inspection, you will notice that even images within the same scene show variations in character consistency. Using consistent `seed` values helps control these variations, and the techniques outlined in this post significantly improve consistency compared to basic prompt engineering. However, if your use case requires near-perfect character consistency, we recommend proceeding to [Part 2](https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-2/), where we explore advanced fine-tuning techniques.
-
-### Video generation for animated storyboards
-
-If you want to go beyond static scene images to transform your storyboard into short, animated video clips, you can use Amazon Nova Reel. We use Amazon Nova Lite to convert image prompts into video prompts, adding subtle motion and camera movements optimized for the Amazon Nova Reel model. These prompts, along with the original images, serve as creative constraints for Amazon Nova Reel to generate the final animated sequences. The following is the example prompt and its resulting animated scene in GIF format:
-
-```yaml
-A sunlit forest path with a 'Danger' sign featuring a snake. A 7-year-old Peruvian girl
-    stands, visibly scared but resolute. Bold linework, dramatic shadows, and flat color
-    palettes. High contrast lighting and cinematic composition. Mist slowly drifting.
-    Camera dolly in.
-```
-
-<div style="display: flex; flex-direction: row; gap: 16px; align-items: flex-start; justify-content: center;">
-  <div style="text-align: center;">
-    <img src="/images/3-BlogsTranslated/3.1-Blog1/image-15.jpeg" alt="Input image" width="300">
-    <div>Input image</div>
-  </div>
-  <div style="text-align: center;">
-    <img src="/images/3-BlogsTranslated/3.1-Blog1/image-16.gif" alt="Output video" width="300">
-    <div>Output video</div>
-  </div>
-</div>
-
-### Conclusion
-
-In this first part of our series, we explored fundamental techniques for achieving character and style consistency using Amazon Nova Canvas, from structured prompt engineering to building an end-to-end storyboarding pipeline. We demonstrated how combining style descriptions, `seed` values, and careful `cfgScale` parameter control can significantly improve character consistency across different scenes. We also showed how integrating Amazon Nova Lite with Amazon Nova Reel can enhance the storyboarding workflow, enabling both optimized prompt generation and animated sequences.
+* Try out MongoDB Atlas on [AWS MarketPlace](https://aws.amazon.com/marketplace/pp/prodview-pp445qepfdy34).
+* Get familiar with [AWS Amplify](https://aws.amazon.com/amplify/), [Amplify Gen2](https://docs.amplify.aws/react/how-amplify-works/) and [AppSync](https://aws.amazon.com/pm/appsync/).
+* For detailed instructions on deploying the application, refer to the [deployment section](https://docs.amplify.aws/react/start/quickstart/#deploy-a-fullstack-app-to-aws) of our documentation.
+* Submit a PR with your enhancements.

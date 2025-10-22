@@ -5,21 +5,19 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-### [Blog 1 - Xây dựng storyboard nhân vật nhất quán với Amazon Nova trong Amazon Bedrock – Phần 1](3.1-Blog1/)
+### [Blog 1 - Bộ nhớ đệm ngoại tuyến với AWS Amplify, TanStack, AppSync và MongoDB Atlas](3.1-Blog1/)
 
-Bài viết này giới thiệu cách xây dựng storyboard nhân vật nhất quán bằng Amazon Nova trong Amazon Bedrock. Bạn sẽ tìm hiểu lý do tại sao việc duy trì sự đồng nhất về thiết kế nhân vật và phong cách hình ảnh lại là một thách thức trong nội dung do AI tạo ra, cũng như cách kỹ thuật thiết kế prompt có cấu trúc, mô tả phong cách và các tham số cố định như seed và cfgScale có thể cải thiện kết quả. Bài viết cũng hướng dẫn cách thiết lập quy trình phát triển storyboard bằng cách kết hợp Amazon Nova Lite để tối ưu prompt với Amazon Nova Canvas để tạo hình ảnh, đồng thời mở rộng quy trình với Amazon Nova Reel để tạo storyboard động dưới dạng các đoạn hoạt hình ngắn.
+Bài viết trình bày cách xây dựng ứng dụng offline-first với giao diện người dùng lạc quan (optimistic UI) sử dụng AWS Amplify, AWS AppSync, TanStack Query và MongoDB Atlas. Ứng dụng mẫu to-do minh họa cách hiển thị tức thì kết quả CRUD trên giao diện trước khi hoàn tất yêu cầu tới server, cải thiện trải nghiệm người dùng. TanStack Query quản lý bộ nhớ đệm cục bộ, đảm bảo dữ liệu khả dụng khi offline, trong khi AWS Amplify và AppSync cung cấp framework full-stack và API GraphQL. MongoDB Atlas đảm nhận lưu trữ dữ liệu, kết hợp với AWS Lambda và Cognito cho tính năng serverless và quản lý người dùng. Ứng dụng triển khai dễ dàng qua Amplify Gen 2, hỗ trợ đồng bộ hóa dữ liệu và xử lý xung đột đơn giản theo cơ chế "first-come, first-served", phù hợp với các ứng dụng có ít xung đột cập nhật.
 
-### [Blog 2 - Truyền dữ liệu bảng Amazon DynamoDB tới Amazon S3 Tables để phân tích](3.2-Blog2/)
+### [Blog 2 - Giới thiệu chuỗi họp cộng đồng AWS CDK](3.2-Blog2/)
 
-Bài viết này hướng dẫn cách truyền dữ liệu từ Amazon DynamoDB đến Amazon S3 Tables để phân tích bằng các dịch vụ được quản lý của AWS. Bài viết đề cập đến hai mô hình chính: DynamoDB Streams với Lambda và Firehose, và Kinesis Data Streams cho thông lượng và khả năng lưu trữ cao hơn. Giải pháp sử dụng định dạng Iceberg của S3 Tables cho khả năng phân tích hiệu quả, có thể mở rộng, tích hợp với các dịch vụ AWS như Athena, và tự động hóa việc triển khai và quản trị với AWS CDK và Lake Formation. Hướng dẫn từng bước sẽ hướng dẫn bạn thiết lập, truyền dữ liệu, truy vấn và bảo trì, cho phép kiến ​​trúc hồ dữ liệu không cần máy chủ, ít bảo trì.
+AWS công bố chuỗi họp cộng đồng mới cho AWS Cloud Development Kit (CDK), nhằm tạo cơ hội cho các nhà phát triển, từ người mới đến chuyên gia, học hỏi, đặt câu hỏi và chia sẻ phản hồi trực tiếp với đội ngũ CDK. Các buổi họp diễn ra hai lần mỗi quý, được tổ chức trực tuyến để đảm bảo tính bao quát và dễ tiếp cận, với nội dung bao gồm cập nhật lộ trình, demo tính năng, đánh giá đề xuất, và Q&A mở. Buổi họp đầu tiên dự kiến vào ngày 24/6/2025, với hai khung giờ (8h-9h và 17h-18h PDT) để hỗ trợ cộng đồng toàn cầu. Thông tin chi tiết, tài liệu và bản ghi sẽ được đăng trên GitHub và YouTube. Cộng đồng có thể tham gia qua Slack, đề xuất chủ đề trên GitHub, và đóng góp ý kiến qua khảo sát để định hình tương lai của CDK.
 
-### [Blog 3 - Xây dựng storyboard nhất quán về nhân vật bằng Amazon Nova trong Amazon Bedrock – Phần 2](3.3-Blog3/)
+### [Blog 3 - Bảo mật API ứng dụng Express trong 5 phút với Cedar](3.3-Blog3/)
 
-Bài viết này trình bày cách tinh chỉnh Amazon Nova Canvas trong Amazon Bedrock để đạt được sự nhất quán ở cấp độ chuyên nghiệp về nhân vật trong storyboard. Nội dung giải thích quy trình tự động hóa gồm trích xuất và gán nhãn dữ liệu huấn luyện từ video bằng Amazon S3, ECS và Rekognition, sau đó tinh chỉnh mô hình Nova Canvas với các API của Bedrock. Bạn sẽ học cách chuẩn bị bộ dữ liệu nhân vật đa dạng, tạo mô tả bằng Nova Pro, và xác minh dữ liệu với Amazon A2I. Bài viết cũng cung cấp hướng dẫn từng bước để tạo job tinh chỉnh qua Bedrock Console và Python SDK, triển khai mô hình tùy chỉnh với provisioned throughput, và kiểm thử để tạo ra các hình ảnh storyboard mới có tính nhất quán cao.
+Bài viết giới thiệu gói `authorization-for-expressjs` của dự án mã nguồn mở Cedar, cho phép tích hợp kiểm tra phân quyền dựa trên chính sách vào ứng dụng Express trên Node.js chỉ trong vài phút, giảm 90% mã so với cách tích hợp thủ công. Sử dụng mẫu ứng dụng PetStore, Cedar tách biệt logic phân quyền khỏi mã ứng dụng, cho phép định nghĩa chính sách chi tiết thông qua ngôn ngữ Cedar, ví dụ: chỉ nhân viên được phép thực hiện các thao tác ghi (POST /pets, POST /pets/{petId}/sale), trong khi khách hàng chỉ được đọc (GET /pets, GET /pets/{petId}). Gói này tự động tạo lược đồ Cedar từ đặc tả OpenAPI, sinh chính sách mẫu và tích hợp middleware để kiểm tra phân quyền mà không cần gọi dịch vụ từ xa. Ứng dụng được bảo mật thông qua JWT và OIDC, với khả năng kiểm tra chính sách dễ dàng bằng lệnh `curl`, nâng cao hiệu suất phát triển và đơn giản hóa kiểm tra quyền truy cập.
 
-### [Blog 4 - Đẩy nhanh nghiên cứu HPC và AI trong các trường đại học với Amazon SageMaker HyperPod](3.4-Blog4/)
-
-Bài viết này giải thích cách các trường đại học có thể đẩy nhanh nghiên cứu AI và HPC với Amazon SageMaker HyperPod, một giải pháp quản lý giúp đơn giản hóa việc mở rộng, lưu trữ và quản lý cụm máy. Bằng cách tích hợp GPU NVIDIA, FSx for Lustre và S3, cùng với các tính năng như tùy chỉnh SLURM, theo dõi chi phí và truy cập liên kết, HyperPod giúp các tổ chức tối ưu hóa tài nguyên và ngân sách, để các nhà nghiên cứu tập trung vào khoa học thay vì hạ tầng.
+### [Blog 4 -](3.4-Blog4/)
 
 ### [Blog 5 - ...](3.5-Blog5/)
 

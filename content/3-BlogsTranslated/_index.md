@@ -5,21 +5,19 @@ chapter: false
 pre: " <b> 3. </b> "
 ---
 
-### [Blog 1 - Build character consistent storyboards using Amazon Nova in Amazon Bedrock – Part 1](3.1-Blog1/)
+### [Blog 1 - Offline caching with AWS Amplify, Tanstack, AppSync and MongoDB Atlas](3.1-Blog1/)
 
-This blog introduces how to build character-consistent storyboards using Amazon Nova in Amazon Bedrock. You will learn why maintaining consistent character design and visual style is challenging in AI-generated content, and how structured prompt engineering, style descriptions, and fixed parameters like seed and cfgScale can improve results. The article also shows how to set up a storyboard development pipeline by combining Amazon Nova Lite for optimized prompts with Amazon Nova Canvas for image generation, and how to extend the workflow with Amazon Nova Reel to create short animated storyboards.
+The article demonstrates how to build an offline-first application with optimistic UI using AWS Amplify, AWS AppSync, TanStack Query, and MongoDB Atlas. The sample to-do application showcases instant rendering of CRUD operation results on the UI before server requests complete, enhancing user experience. TanStack Query manages local caching to ensure data availability offline, while AWS Amplify and AppSync provide a full-stack framework and GraphQL API. MongoDB Atlas handles data storage, integrated with AWS Lambda and Cognito for serverless functionality and user management. The application is easily deployed via Amplify Gen 2, supporting data synchronization and a simple "first-come, first-served" conflict resolution mechanism, suitable for applications with minimal update conflicts.
 
-### [Blog 2 - Stream Amazon DynamoDB table data to Amazon S3 Tables for analytics](3.2-Blog2/)
+### [Blog 2 - Introducing AWS CDK Community Meetings](3.2-Blog2/)
 
-This post shows how to stream data from Amazon DynamoDB to Amazon S3 Tables for analytics using AWS managed services. It covers two main patterns: DynamoDB Streams with Lambda and Firehose, and Kinesis Data Streams for higher throughput and retention. The solution uses S3 Tables’ Iceberg format for efficient, scalable analytics, integrates with AWS services like Athena, and automates deployment and governance with AWS CDK and Lake Formation. Step-by-step instructions guide you through setup, data streaming, querying, and maintenance, enabling a serverless, low-maintenance data lake architecture.
+AWS announces a new community meeting series for the AWS Cloud Development Kit (CDK), providing opportunities for developers, from novices to experts, to learn, ask questions, and share feedback directly with the CDK team. Held twice quarterly, these virtual meetings cover roadmap updates, feature demos, RFC reviews, and open Q&A, with the first sessions scheduled for June 24, 2025, at 8–9 AM and 5–6 PM PDT to accommodate the global community. Details, agendas, and recordings will be shared on GitHub and YouTube. Community members can participate via Slack, propose topics on GitHub, and provide input through surveys to shape the CDK’s future.
 
-### [Blog 3 - Build character consistent storyboards using Amazon Nova in Amazon Bedrock – Part 2](3.3-Blog3/)
+### [Blog 3 - Secure your Express application APIs in 5 minutes with Cedar](3.3-Blog3/)
 
-This blog demonstrates how to fine-tune Amazon Nova Canvas in Amazon Bedrock to achieve professional-grade character consistency in storyboards. It explains an automated workflow that extracts and labels training data from video using Amazon S3, ECS, and Rekognition, then fine-tunes a Nova Canvas model with Bedrock APIs. You will learn how to prepare diverse character datasets, generate captions with Nova Pro, and validate data with Amazon A2I. The article also shows step-by-step instructions for creating fine-tuning jobs via the Bedrock console and Python SDK, deploying custom models with provisioned throughput, and testing them to generate new consistent storyboard images.
+The article introduces the authorization-for-expressjs package from the open-source Cedar project, enabling Express applications on Node.js to integrate policy-based authorization in minutes, reducing code by 90% compared to manual integration. Using the PetStore sample app, Cedar decouples authorization logic, allowing fine-grained policy definitions, e.g., restricting write operations (POST /pets, POST /pets/{petId}/sale) to employees while allowing read operations (GET /pets, GET /pets/{petId}) for customers. The package auto-generates Cedar schemas from OpenAPI specs, creates sample policies, and integrates middleware for authorization without remote calls. Security is enhanced via JWT and OIDC, with policy validation easily tested using curl commands, improving developer productivity and simplifying access audits.
 
-### [Blog 4 - Accelerating HPC and AI research in universities with Amazon SageMaker HyperPod](3.4-Blog4/)
-
-This blog explains how universities can speed up AI and HPC research with Amazon SageMaker HyperPod, a managed solution that simplifies scaling, storage, and cluster management. By integrating NVIDIA GPUs, FSx for Lustre, and S3, along with features like SLURM customization, cost tracking, and federated access, HyperPod helps institutions optimize resources and budgets so researchers can focus on science instead of infrastructure.
+### [Blog 4 - ](3.4-Blog4/)
 
 ### [Blog 5 - ...](3.5-Blog5/)
 
