@@ -4,55 +4,30 @@ weight: 1
 chapter: false
 pre: " <b> 1.8. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 8:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Tìm hiểu chuyên sâu hơn về giám sát, bảo mật và tối ưu vận hành hệ thống AWS.
+* Thực hành quản lý log và giám sát ứng dụng qua Amazon CloudWatch và CloudTrail.
+* Nghiên cứu các phương pháp bảo mật trong AWS Identity and Access Management (IAM) nâng cao.
+* Tìm hiểu AWS Trusted Advisor, Security Hub và các công cụ tối ưu chi phí.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                      |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ----------------------------------- |
+| 2   | - Tìm hiểu về CloudWatch Logs, tạo dashboard theo dõi metric ứng dụng EC2 và RDS.                                                                               | 27/10/2025   | 27/10/2025         | <https://000008.awsstudygroup.com/vi/>    | Giám sát log và hiệu năng.          |
+| 3   | - Kích hoạt CloudTrail để theo dõi hoạt động tài khoản, thực hành xem log API.                                                                               | 28/10/2025   | 28/10/2025         | <https://000085.awsstudygroup.com/vi/>    | Theo dõi truy cập hệ thống.         |
+| 4   | - Tìm hiểu IAM nâng cao: Permission Boundaries, Service Control Policy (SCP), và Policy Simulator.                                                                         | 29/10/2025   | 29/10/2025         | <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html> | Bảo mật truy cập nâng cao. |
+| 5   | - Sử dụng AWS Trusted Advisor và Security Hub để phát hiện và tối ưu cấu hình.                  | 30/10/2025   | 30/10/2025      | <https://000099.awsstudygroup.com/vi/> | Tối ưu bảo mật & chi phí. |
+| 6   | - Dịch Blog: “Best practices for securing multi-account AWS environments”                                                                                         | 31/10/2025   | 31/10/2025      | <https://aws.amazon.com/blogs/security/best-practices-for-securing-multi-account-aws-environments/> | Bổ sung lý thuyết bảo mật. |
 
 
 ### Kết quả đạt được tuần 8:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Giám sát hiệu năng hệ thống và ứng dụng bằng CloudWatch, tạo dashboard trực quan hóa CPU, RAM và storage metrics.
+* Kích hoạt và sử dụng CloudTrail để theo dõi, phân tích các hoạt động API trong tài khoản AWS.
+* Áp dụng các cơ chế bảo mật IAM nâng cao như Permission Boundaries và SCP để hạn chế quyền theo phạm vi.
+* Sử dụng AWS Trusted Advisor để phát hiện rủi ro bảo mật, cấu hình sai và đề xuất tối ưu chi phí.
+* Tìm hiểu cách Security Hub tổng hợp cảnh báo và hỗ trợ tuân thủ tiêu chuẩn bảo mật.
 
 

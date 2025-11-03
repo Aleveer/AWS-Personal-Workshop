@@ -4,54 +4,28 @@ weight: 2
 chapter: false
 pre: " <b> 1.12 </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 ### Mục tiêu tuần 12:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Tổng hợp và ôn tập toàn bộ kiến thức đã học về AWS.
+* Tập trung vào bảo mật, tối ưu chi phí và hoàn thiện báo cáo cuối khóa.
+* Phân tích chi phí sử dụng dịch vụ và đề xuất phương án tối ưu tài nguyên.
+* Hoàn thiện tài liệu, báo cáo và chuẩn bị thuyết trình tổng kết.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                    |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ---------------------------- |
+| 2   | - Phân tích chi phí dịch vụ bằng AWS Cost Explorer và Billing Dashboard.                                                                                             | 24/11/2025   | 24/11/2025      | <https://000097.awsstudygroup.com/vi/> | Phân tích chi phí. |
+| 3   | - Tìm hiểu tối ưu chi phí bằng Reserved Instances, Savings Plans, và S3 Lifecycle.                                            | 25/11/2025   | 25/11/2025      | <https://000098.awsstudygroup.com/vi/> | Giảm chi phí vận hành. |
+| 4   | - Ôn tập toàn bộ các dịch vụ AWS chính: EC2, S3, RDS, IAM, CloudWatch, Lambda. | 26/11/2025   | 26/11/2025      | <https://aws.amazon.com/training/> | Tổng ôn kiến thức. |
+| 5   | - Hoàn thiện báo cáo cuối khóa: kiến trúc hệ thống, quy trình triển khai, bài học rút ra.                  | 27/11/2025   | 27/11/2025      | Tự biên soạn | Viết báo cáo.
+| 6   | - Thuyết trình báo cáo và tổng kết toàn bộ quá trình học.                                                                                      | 28/11/2025   | 28/11/2025      |   | Kết thúc chương trình. |
 
 
 ### Kết quả đạt được tuần 12:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Biết cách phân tích và tối ưu chi phí sử dụng dịch vụ AWS.
+* Củng cố toàn bộ kiến thức và kỹ năng đã học trong chương trình.
+* Hoàn thiện báo cáo cuối khóa và chuẩn bị thuyết trình tổng kết.
+* Nắm được chiến lược tối ưu vận hành, bảo mật và quản lý chi phí.
+* Hoàn thành chương trình đào tạo AWS FCJ thành công.

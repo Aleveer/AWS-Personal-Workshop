@@ -4,55 +4,30 @@ weight: 1
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 7:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hoàn thiện kiến thức về triển khai ứng dụng web trên AWS.
+* Học cách tích hợp và triển khai ứng dụng frontend (Vue.js) và backend (Nest.js) lên AWS bằng Cloud9 và EC2.
+* Tìm hiểu cơ bản về CI/CD trong AWS (CodeCommit, CodeBuild, CodeDeploy).
+* Làm quen với quy trình triển khai container qua Amazon ECS và ECR.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |  Note                     |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | --------------------- |
+| 2   | - Tìm hiểu tổng quan về AWS Cloud9 và cấu hình môi trường phát triển cho dự án web chat.                                                                                             | 20/10/2025   | 20/10/2025      | <https://000013.awsstudygroup.com/vi/> | Làm quen IDE Cloud9 và tích hợp GitHub. |
+| 3   | - Tạo EC2 instance để triển khai ứng dụng Nest.js backend.                                            | 21/10/2025   | 21/10/2025      | <https://000004.awsstudygroup.com/vi/> | Triển khai ứng dụng backend. |
+| 4   | - Tạo S3 bucket và upload build Vue.js frontend, sau đó kết hợp CloudFront để phân phối nội dung. | 22/10/2025   | 22/10/2025      | <https://000094.awsstudygroup.com/vi/> | Triển khai frontend qua S3 + CDN. | 
+| 5   | - Tìm hiểu và thử nghiệm CI/CD cơ bản bằng AWS CodeCommit, CodeBuild và CodeDeploy.                  | 23/10/2025   | 23/10/2025      | <https://000110.awsstudygroup.com/vi/> | Tự động hóa triển khai. |
+| 6   | - Tìm hiểu về Amazon ECS và ECR. Tạo ECR repository và đẩy Docker image lên.                                                                                         | 24/10/2025   | 24/10/2025      | <https://000066.awsstudygroup.com/vi/> | Làm quen container deployment. |
 
 
 ### Kết quả đạt được tuần 7:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Làm quen với môi trường phát triển AWS Cloud9, kết nối GitHub, và quản lý mã nguồn dự án trực tiếp trên nền tảng đám mây.
+* Đã triển khai thành công backend Nest.js lên EC2 instance và cấu hình bảo mật cơ bản (Security Group, SSH key).
+* Xây dựng và triển khai frontend Vue.js lên S3 và CloudFront, đảm bảo có thể truy cập qua domain tĩnh.
+* Tìm hiểu về quy trình CI/CD trên AWS, nắm được cách commit mã, build và deploy tự động qua CodeCommit, CodeBuild và CodeDeploy.
+* Đã tạo repository trên ECR và đẩy thành công image container đầu tiên.
 
 

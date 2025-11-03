@@ -4,53 +4,28 @@ weight: 1
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 
 ### Week 7 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Enhance knowledge about deploying web applications on AWS.
+* Learn how to integrate and deploy frontend (Vue.js) and backend (Nest.js) applications on AWS using Cloud9 and EC2.
+* Study the basics of CI/CD in AWS (CodeCommit, CodeBuild, CodeDeploy).
+* Get familiar with container deployment using Amazon ECS and ECR.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note                     |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ------------------------- |
+| 2   | - Learn about AWS Cloud9 and configure the development environment for the web chat project.                                                                                                  | 20/10/2025 | 20/10/2025      | <https://000013.awsstudygroup.com/> | Get familiar with Cloud9 IDE and GitHub integration. |
+| 3   | - Create an EC2 instance to deploy the Nest.js backend application.                                              | 21/10/2025 | 21/10/2025      | <https://000004.awsstudygroup.com/> | Deploy backend application. |
+| 4   | - Create an S3 bucket and upload the built Vue.js frontend, then integrate CloudFront for content distribution. | 22/10/2025 | 22/10/2025      | <https://000094.awsstudygroup.com/> | Deploy frontend using S3 + CDN. |
+| 5   | - Learn and test basic CI/CD using AWS CodeCommit, CodeBuild, and CodeDeploy.                            | 23/10/2025 | 23/10/2025      | <https://000110.awsstudygroup.com/> | Automate deployment. |
+| 6   | - Learn about Amazon ECS and ECR. Create an ECR repository and push a Docker image.                                                                                     | 24/10/2025 | 24/10/2025      | <https://000066.awsstudygroup.com/> | Get familiar with container deployment. |
 
 
 ### Week 7 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Got familiar with AWS Cloud9 development environment, connected to GitHub, and managed project source code directly on the cloud platform.
+* Successfully deployed the Nest.js backend to an EC2 instance and configured basic security (Security Group, SSH key).
+* Built and deployed the Vue.js frontend on S3 and CloudFront, ensuring public access through a static domain.
+* Learned the CI/CD process in AWS and understood how to commit, build, and deploy automatically using CodeCommit, CodeBuild, and CodeDeploy.
+* Created an ECR repository and successfully pushed the first container image.

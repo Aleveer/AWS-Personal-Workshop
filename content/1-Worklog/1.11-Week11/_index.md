@@ -4,53 +4,28 @@ weight: 2
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 
 ### Week 11 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Learn how to automate AWS infrastructure deployment using CloudFormation and AWS CDK.
+* Write templates to automatically deploy EC2, S3, RDS, and IAM configurations.
+* Integrate the automation process into CI/CD pipelines for consistent deployments.
+* Explore stack management and rollback features.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note                   |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ---------- |
+| 2   | - Introduction to Infrastructure as Code (IaC) and AWS CloudFormation.                                                                                                  | 17/11/2025 | 17/11/2025      | <https://000113.awsstudygroup.com/> | Learn IaC concepts. |
+| 3   | - Create CloudFormation templates to deploy EC2, S3, and RDS resources.                                              | 18/11/2025 | 18/11/2025      | <https://000114.awsstudygroup.com/> | Automate resource creation. |
+| 4   | - Explore AWS CDK and create a simple stack using TypeScript. | 19/11/2025 | 19/11/2025      | <https://000115.awsstudygroup.com/> | Hands-on with CDK. |
+| 5   | - Integrate CloudFormation/CDK stacks into CI/CD pipelines using CodePipeline.                            | 20/11/2025 | 20/11/2025      | <https://000110.awsstudygroup.com/> | Automate deployment process. |
+| 6   | - Practice stack updates and rollback scenarios.                                                                                     | 21/11/2025 | 21/11/2025      | <https://000116.awsstudygroup.com/> | Safe deployment management. |
 
 
 ### Week 11 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Learned how to define AWS resources using CloudFormation templates.
+* Practiced building CDK stacks with TypeScript for modern IaC development.
+* Automated infrastructure provisioning through CI/CD.
+* Understood rollback and stack update mechanisms.
+* Gained practical experience managing infrastructure as code.

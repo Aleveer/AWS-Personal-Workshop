@@ -4,55 +4,28 @@ weight: 2
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 10:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Tiếp tục tìm hiểu các dịch vụ nâng cao của AWS với trọng tâm là kiến trúc serverless và event-driven.
+* Học cách triển khai backend NestJS trên AWS Lambda và kết nối với API Gateway.
+* Tích hợp frontend (Vue.js) với backend để kiểm thử hoạt động.
+* Hiểu và thực hành giám sát, ghi log trong môi trường serverless.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                    |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | --------------- |
+| 2   | - Tìm hiểu khái niệm và quy trình hoạt động của AWS Lambda và API Gateway.                                                                                             | 10/11/2025   | 10/11/2025      | <https://000070.awsstudygroup.com/vi/> | Làm quen kiến trúc serverless. |
+| 3   | - Triển khai backend NestJS dưới dạng hàm Lambda bằng AWS SAM hoặc container image.                                            | 11/11/2025   | 11/11/2025      | <https://000071.awsstudygroup.com/vi/> | Triển khai backend serverless. |
+| 4   | - Tích hợp API Gateway với Lambda để tạo RESTful API phục vụ frontend Vue.js. | 12/11/2025   | 12/11/2025      | <https://000072.awsstudygroup.com/vi/> | Kết nối frontend và backend. |
+| 5   | - Kết nối Lambda với DynamoDB để thực hiện thao tác lưu trữ và truy vấn dữ liệu.                  | 13/11/2025   | 13/11/2025      | <https://000061.awsstudygroup.com/vi/> | Thực hành xử lý dữ liệu serverless. |
+| 6   | - Cấu hình CloudWatch để theo dõi log và giám sát hiệu năng Lambda.                                                                                         | 14/11/2025   | 14/11/2025      | <https://000008.awsstudygroup.com/vi/> | Giám sát hệ thống serverless. |
 
 
 ### Kết quả đạt được tuần 10:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Hiểu rõ nguyên lý hoạt động của kiến trúc serverless trong AWS.
+* Triển khai thành công backend NestJS dưới dạng Lambda function.
+* Kết nối API Gateway và xây dựng REST API phục vụ frontend Vue.js.
+* Tích hợp DynamoDB để lưu trữ và xử lý dữ liệu theo mô hình serverless.
+* Cấu hình CloudWatch để theo dõi log và hiệu năng Lambda.
