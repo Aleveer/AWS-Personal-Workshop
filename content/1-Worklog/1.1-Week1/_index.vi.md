@@ -22,28 +22,15 @@ pre: " <b> 1.1. </b> "
 
 ### Kết quả đạt được tuần 1:
 
-* Gained foundational knowledge of AWS account and user management  
-    * Created and managed AWS accounts  
-    * Set up IAM users and administrators with appropriate permissions  
 * Nắm vững kiến thức nền tảng về quản lý tài khoản và người dùng AWS  
     * Tạo và quản lý tài khoản AWS  
     * Thiết lập IAM user và admin với quyền phù hợp  
 
-* Developed skills in AWS cost and budget management  
-    * Created cost, usage, RI, and Savings Plans budgets  
-    * Applied cleanup practices to manage budgets efficiently  
 * Phát triển kỹ năng quản lý chi phí và ngân sách trên AWS  
     * Tạo ngân sách chi phí, usage, RI và Savings Plans  
     * Thực hiện cleanup để quản lý ngân sách hiệu quả  
 
-* Acquired understanding of AWS Support services  
-    * Differentiated between AWS support packages  
-    * Created and managed support requests  
-    * Learned how to change support packages when needed  
 * Hiểu và sử dụng các dịch vụ hỗ trợ AWS  
     * Phân biệt các gói hỗ trợ AWS  
     * Tạo và quản lý yêu cầu hỗ trợ (support requests)  
-    * Biết cách thay đổi gói hỗ trợ khi cần thiết  
-
-
-
+    * Biết cách thay đổi gói hỗ trợ khi cần thiết

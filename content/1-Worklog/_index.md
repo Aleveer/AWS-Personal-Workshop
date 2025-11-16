@@ -11,7 +11,7 @@ pre: " <b> 1. </b> "
 
 **Week 3:** [Gain knowledge of database service in AWS(RDS, DynamoDB), compute knowledge using Lightsail, understanding DNS management with Route 53](1.3-week3/)
 
-**Week 4:** [Doing task C...](1.4-week4/)
+**Week 4:** [Gain knowledge of EC2, CloudWatch, in-memory caching using ElastiCache, VPC/Subnets/Route Tables/Security Groups, content delivery via CloudFront + Lambda@Edge, and directory services with AWS Managed Microsoft AD.](1.4-week4/)
 
 **Week 5:** [Doing task D...](1.5-week5/)
 

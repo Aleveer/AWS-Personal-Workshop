@@ -11,7 +11,7 @@ pre: " <b> 1. </b> "
 
 **Tuần 3:** [Nắm kiến thức về dịch vụ Database của AWS(RDS, DynamoDB), Lightsail, tìm hiểu cách quản lý DNS qua Route 53](1.3-week3/)
 
-**Tuần 4:** [Làm công việc C...](1.4-week4/)
+**Tuần 4:** [Nam được kiến thức về EC2, CloudWatch, bộ nhớ đệm trong bộ nhớ sử dụng ElastiCache, VPC/Subnets/Route Tables/Security Groups, phân phối nội dung qua CloudFront + Lambda@Edge, và dịch vụ thư mục với AWS Managed Microsoft AD.](1.4-week4/)
 
 **Tuần 5:** [Làm công việc D...](1.5-week5/)
 
