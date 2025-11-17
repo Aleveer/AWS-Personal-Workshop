@@ -6,31 +6,31 @@ pre: " <b> 1.1. </b> "
 ---
 
 ### Mục tiêu tuần 1:
-
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+- Đọc và nắm quy trình và nội quy của chương trình thực tập First Cloud.
+- Kết nối, làm quen với các thành viên trong chương trình thực tập.
+- Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            				  | Note							|
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | -------------------------------------------------------------------------- | -----------------------------------------------------------	|
-| 2   | - Học từ module 01-01 đến 01-07                                                                                             								    | 08/09/2025   | 08/09/2025      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> | Nắm các thông tin, dịch vụ của AWS  			|
-| 3   | - Học từ module 01-Lab01-01 đến 01-Lab01-04                                            													    | 09/09/2025   | 09/09/2025      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> | Biết cách thiết lập tài khoản AWS, quản lý user và admin   	|					
-| 4   | - Học từ module 01-Lab07-01 đến 01-Lab07-06 																		    | 10/09/2025   | 10/09/2025      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> | Biết kiểm soát chi phí AWS qua ngân sách và cleanup		|					
-| 5   | - Học từ module 01-Lab09-01 đến 01-Lab09-04	                  															    | 11/09/2025   | 11/09/2025      | <https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i> | Hiểu các gói hỗ trợ AWS và cách quản lý yêu cầu hỗ trợ      |					
-| 6   | - Dịch blog 1: "Xây dựng storyboard nhân vật nhất quán với Amazon Nova trong Amazon Bedrock – Phần 1"                                                                                       | 12/09/2025   | 12/09/2025      | <https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-1/> |				        			|					
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Note |
+| --- | --------- | ------------ | --------------- | -------------- | ---- |
+| 2 | - Xem video YouTube hướng dẫn cài đặt và triển khai Workshop template với Hugo server.<br>- Nắm bắt các tài liệu học. | 08/09/2025 | 08/09/2025 | [Hugo Workshop Guide](https://www.youtube.com/...) (liên kết nếu có)<br>Tài liệu nội bộ First Cloud | Làm quen với môi trường workshop |
+| 3 | - Tạo tài khoản AWS.<br>- Thiết lập MFA cho tài khoản AWS. | 09/09/2025 | 09/09/2025 | AWS Console<br>[AWS CLI Docs](https://aws.amazon.com/cli/) | Bảo mật tài khoản root |
+| 4 | - Xem các video YouTube Module 01 và ghi chép các khái niệm về Data Center, Region, AZ, Edge Location.<br>- Tạo Admin Group và Admin User.<br>- Khám phá AWS Management Console. | 10/09/2025 | 10/09/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i | Ghi chú khái niệm cơ bản |
+| 5 | - Biết về AWS Command Line Interface (CLI).<br>- Xem cách yêu cầu hỗ trợ từ AWS Support. | 11/09/2025 | 11/09/2025 | AWS CLI Documentation<br>AWS Support Center | Thực hành lệnh cơ bản |
+| 6 | - Thực hành bài Lab 000001 Thiết lập MFA, tạo Admin Group và User, khám phá yêu cầu hỗ trợ, điều hướng AWS Console, và bắt đầu với AWS CLI.) | 12/09/2025 | 12/09/2025 | Lab Guide nội bộ<br>YouTube Module 01 | Hoàn thành Lab đầu tiên |
 
 ### Kết quả đạt được tuần 1:
-
-* Nắm vững kiến thức nền tảng về quản lý tài khoản và người dùng AWS  
-    * Tạo và quản lý tài khoản AWS  
-    * Thiết lập IAM user và admin với quyền phù hợp  
-
-* Phát triển kỹ năng quản lý chi phí và ngân sách trên AWS  
-    * Tạo ngân sách chi phí, usage, RI và Savings Plans  
-    * Thực hiện cleanup để quản lý ngân sách hiệu quả  
-
-* Hiểu và sử dụng các dịch vụ hỗ trợ AWS  
-    * Phân biệt các gói hỗ trợ AWS  
-    * Tạo và quản lý yêu cầu hỗ trợ (support requests)  
-    * Biết cách thay đổi gói hỗ trợ khi cần thiết
+- Hoàn thành việc đọc và nắm vững quy trình, nội quy chương trình thực tập First Cloud.
+- Kết nối và làm quen thành công với các thành viên trong nhóm thực tập.
+- Thiết lập môi trường làm việc:
+  - Cài đặt và chạy thử Workshop template với Hugo server.
+  - Tạo tài khoản AWS và kích hoạt MFA.
+  - Tạo Admin Group, Admin User với quyền phù hợp.
+- Nắm vững các khái niệm cơ bản về hạ tầng AWS:
+  - Data Center, Region, Availability Zone (AZ), Edge Location.
+- Làm quen với công cụ quản trị AWS:
+  - Sử dụng AWS Management Console.
+  - Biết cách dùng AWS CLI cơ bản.
+  - Hiểu quy trình yêu cầu hỗ trợ từ AWS Support.
+- Hoàn thành bài Lab 000001 thành công.

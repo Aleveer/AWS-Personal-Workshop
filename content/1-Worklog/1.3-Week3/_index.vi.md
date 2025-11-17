@@ -6,28 +6,39 @@ pre: " <b> 1.3. </b> "
 ---
 
 ### Mục tiêu Tuần 3:
-* Nắm vững kiến thức nền tảng về các dịch vụ cơ sở dữ liệu trên AWS, bao gồm Amazon RDS và DynamoDB.
-* Học cách tạo, cấu hình và bảo mật các phiên bản RDS (MySQL/PostgreSQL), bao gồm thao tác sao lưu và phục hồi.
-* Khám phá dịch vụ máy chủ tính toán cơ bản với Amazon Lightsail, bao gồm tạo VPS và quản lý ứng dụng.
-* Triển khai và quản lý ứng dụng dạng container bằng Amazon Lightsail Containers.
-* Hiểu quản lý DNS với Amazon Route 53, bao gồm vùng lưu trữ, bản ghi và chính sách định tuyến.
-* Thực hành sử dụng AWS CLI để quản lý tài nguyên và tự động hóa cơ bản.
+- Củng cố kiến thức VPC, EC2, IAM thông qua thực hành lặp lại và dọn dẹp tài nguyên.
+- Hiểu sâu cơ chế kết nối mạng: Internet Gateway → EC2 Public, NAT Gateway → EC2 Private.
+- Nắm các phương thức truy cập EC2 an toàn: Bastion Host, Connect Endpoint, Session Manager.
+- Nắm vững Site-to-Site VPN và IAM qua thực hành Lab.
+- Làm quen với EC2, AMI tùy chỉnh, Snapshot, khôi phục keypair, và triển khai Node.js trên cả Linux & Windows.
 
 ### Các công việc cần triển khai trong tuần này:
-| Ngày | Nhiệm vụ                                                                                                                        | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo | Ghi chú                                   |
-| --- | --------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ------------------ | -------------------------------------- |
-| 2   | - Nghiên cứu các khái niệm cơ bản về Amazon RDS và DynamoDB<br>- Tạo và cấu hình một phiên bản RDS (MySQL/PostgreSQL)              | 22/09/2025 | 22/09/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/>                    												   | Kiến thức cơ bản về database, thiết lập RDS       |
-| 3   | - Cấu hình nhóm bảo mật và kết nối cho RDS<br>- Thực hành sao lưu, snapshot và phục hồi trên RDS              | 23/09/2025 | 23/09/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/4-create-rds/>, <https://000005.awsstudygroup.com/vi/6-backup/>       | Bảo mật RDS, sao lưu/phục hồi           |
-| 4   | - Khám phá Amazon Lightsail và tạo VPS<br>- Triển khai và quản lý ứng dụng cơ bản (WordPress, LAMP, Node.js)           | 24/09/2025 | 24/09/2025      | <https://000045.awsstudygroup.com/vi/1-database/>, <https://000045.awsstudygroup.com/vi/2-wp-instance/>                   | Lightsail VPS, quản lý ứng dụng          |
-| 5   | - Triển khai ứng dụng dạng container bằng Lightsail Containers<br>               | 25/09/2025 | 25/09/2025      | <https://000046.awsstudygroup.com/vi/2-create-containerservice/>, <https://000046.awsstudygroup.com/vi/3-deploy-publicimage/>                   | Triển khai container  |
-| 6   | - Thiết lập vùng lưu trữ và bản ghi DNS trên Route 53<br>- Cấu hình chính sách định tuyến cơ bản<br>- Cài đặt và cấu hình AWS CLI<br>- Thực hành các lệnh CLI cơ bản cho EC2, S3, IAM, RDS<br>- Tạo và quản lý bảng DynamoDB, thực hiện thao tác CRUD<br> - Dịch blog: "Accelerating HPC and AI research in universities with Amazon SageMaker HyperPod" | 26/09/2025 | 26/09/2025            | <https://000010.awsstudygroup.com/vi/>, <https://000010.awsstudygroup.com/vi/2-prerequiste/>, <https://000010.awsstudygroup.com/vi/5-setuphyriddns/>, <https://docs.aws.amazon.com/cli/latest/>, <https://www.youtube.com/watch?v=FGicpWOmMDI&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=45>                   | DNS, CLI, CRUD DynamoDB                |
+
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Xóa toàn bộ tài nguyên từ tuần trước.<br>- Thực hành lại từ đầu Lab 000003 (toàn bộ):<br> • Tạo VPC, Subnet, IGW, NATGW, Route Table, SG<br> • Khởi chạy EC2 Public & Private<br> • SSH qua Bastion Host, Connect Endpoint, Session Manager<br> • Kiểm tra kết nối Internet:<br>  – EC2 Public → qua Internet Gateway<br>  – EC2 Private → qua NAT Gateway<br> • Tìm hiểu tại sao cấu hình như vậy | 22/09/2025 | 22/09/2025 | Lab 000003 Guide<br>AWS Console | Củng cố kiến trúc mạng |
+| 3 | - Xem Module 02 (phần nâng cao).<br>- Thực hành Lab 000003 – Site-to-Site VPN:<br> • Tạo Customer Gateway, Virtual Private Gateway<br> • Cấu hình VPN Connection<br> • Kiểm tra kết nối<br> • Dọn dẹp tài nguyên | 23/09/2025 | 23/09/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i (Module 02)<br>AWS VPN Docs | Mạng kết nối hybrid |
+| 4 | - Xem và nắm vững AWS IAM (Users, Groups, Roles, Policies, MFA).<br>- Thực hành Lab 000002:<br> • Tạo IAM User, Group, Role<br> • Gắn Policy (inline & managed)<br> • Kích hoạt MFA<br> • Kiểm thử quyền truy cập<br> • Dọn dẹp | 24/09/2025 | 24/09/2025 | https://000002.awsstudygroup.com/vi/<br>AWS IAM Console | Quản trị truy cập |
+| 5 | - Dịch Blog cá nhân (Bản dịch + bản tiếng Anh). | 25/09/2025 | 25/09/2025 | AWS Blogs<br>Ví dụ: Secure VPC Design[](https://aws.amazon.com/blogs/architecture/) |  |
+| 6 | - Xem Module 03.<br>- Thực hành Lab 000004 (phần 1):<br> • Tạo VPC + Security Group chuẩn bị cho Linux & Windows<br> • Khởi chạy EC2 Windows Instance<br> • Khởi chạy EC2 Linux Instance<br> • Dọn dẹp tài nguyên | 26/09/2025 | 26/09/2025 | Module 03 Videos<br>Lab 000004 Guide |  |
+| 6 | - Hoàn thành Lab 000004 (phần 2):<br> • Thay đổi instance type<br> • Tạo Snapshot → Custom AMI<br> • Mất keypair → khôi phục bằng Systems Manager<br> • Triển khai Node.js app trên:<br>  – EC2 Linux (User Data + PM2)<br>  – EC2 Windows (IIS hoặc Node trực tiếp)<br> • Dọn dẹp toàn bộ | 26/09/2025 | 26/09/2025 | Lab 000004 Guide<br>Node.js on EC2[](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp.html) | AMI, khôi phục, deploy app |
 
 ### Kết quả đạt được tuần 3:
-
-- Đã tạo và cấu hình thành công các phiên bản Amazon RDS (MySQL/PostgreSQL) và hiểu các khái niệm cơ bản về cơ sở dữ liệu.
-- Thực hành bảo mật RDS với nhóm bảo mật và thực hiện các thao tác sao lưu, snapshot, phục hồi.
-- Khám phá Amazon Lightsail, khởi tạo VPS và triển khai các ứng dụng cơ bản (WordPress, LAMP, Node.js).
-- Triển khai ứng dụng dạng container bằng Lightsail Containers.
-- Thiết lập vùng lưu trữ và bản ghi DNS trên Route 53, cấu hình chính sách định tuyến.
-- Cài đặt và cấu hình AWS CLI, thực hành các lệnh CLI cơ bản cho EC2, S3, IAM, RDS.
-- Tạo và quản lý bảng DynamoDB, thực hiện thao tác CRUD qua AWS CLI.
+- Nắm kiến thức về kiến trúc VPC đa tầng:
+  - Hiểu rõ lý do dùng IGW cho Public, NATGW cho Private.
+  - Thực hành thành công 3 phương thức kết nối EC2:
+    - Bastion Host → truyền thống, cần mở port 22
+    - Connect Endpoint → private-only, không cần public IP
+    - Session Manager → không cần SSH key, audit log, IAM control
+- Thành công thiết lập Site-to-Site VPN:
+  - Cấu hình kết nối on-premise ↔ AWS VPC.
+  - Kiểm tra ping, traceroute qua tunnel.
+- Nắm vững AWS IAM:
+  - Tạo và quản lý User, Group, Role, Policy.
+  - Áp dụng MFA, Least Privilege, Policy Conditions.
+- Nắm kiến thức về EC2 nâng cao:
+  - So sánh Linux vs Windows EC2 (RDP vs SSH).
+  - Tạo Custom AMI từ Snapshot.
+  - Khôi phục truy cập khi mất keypair bằng Session Manager.
+  - Triển khai thành công ứng dụng Node.js trên cả Linux (systemd/PM2) và Windows (NSSM/IIS).
+- Hoàn thành Lab 000002, 000003 (VPN), 000004 với đầy đủ yêu cầu.

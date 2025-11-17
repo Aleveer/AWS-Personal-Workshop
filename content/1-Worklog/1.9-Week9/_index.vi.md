@@ -30,5 +30,3 @@ pre: " <b> 1.9. </b> "
 * Thiết lập giám sát hệ thống toàn diện qua CloudWatch và CloudTrail.
 * Triển khai backup và restore tự động cho cơ sở dữ liệu.
 * Chuẩn bị báo cáo tổng hợp giữa kỳ: mô tả hệ thống, quy trình triển khai, và các bài học rút ra.
-
-

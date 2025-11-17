@@ -6,27 +6,40 @@ pre: " <b> 1.3. </b> "
 ---
 
 ### Week 3 Objectives:
-* Gain foundational knowledge of database services in AWS, including Amazon RDS and DynamoDB.
-* Learn how to create, configure, and secure RDS instances (MySQL/PostgreSQL), including backup and restore operations.
-* Explore basic compute services with Amazon Lightsail, including VPS creation and application management.
-* Deploy and manage containerized applications using Amazon Lightsail Containers.
-* Understand DNS management with Amazon Route 53, including hosted zones, records, and routing policies.
-* Practice using AWS CLI for basic resource management and automation.
+- Reinforce knowledge of VPC, EC2, IAM through repeated practice and resource cleanup.
+- Deeply understand network connectivity mechanisms: Internet Gateway → Public EC2, NAT Gateway → Private EC2.
+- Secure EC2 access methods: Bastion Host, Connect Endpoint, Session Manager.
+- Secure Site-to-Site VPN and IAM through Lab practice.
+- Get familiar with Windows EC2, custom AMI, Snapshot, keypair recovery, and deploy Node.js on both Linux & Windows.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                        | Start Date | Completion Date | Reference Material | Note                                   |
-| --- | --------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ------------------ | -------------------------------------- |
-| 2   | - Study basic concepts of Amazon RDS and DynamoDB<br>- Create and configure an RDS instance (MySQL/PostgreSQL)              | 09/22/2025 | 09/22/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/>                    												   | Database fundamentals, RDS setup       |
-| 3   | - Configure RDS security groups and connectivity<br>- Practice backup, snapshot, and restore operations on RDS              | 09/23/2025 | 09/23/2025      | <https://www.youtube.com/watch?v=oKNBD-J4cvE>, <https://000005.awsstudygroup.com/vi/4-create-rds/>, <https://000005.awsstudygroup.com/vi/6-backup/>       | RDS security, backup/restore           |
-| 4   | - Explore Amazon Lightsail and create a VPS<br>- Deploy and manage a basic application (WordPress, LAMP, Node.js)           | 09/24/2025 | 09/24/2025      | <https://000045.awsstudygroup.com/vi/1-database/>, <https://000045.awsstudygroup.com/vi/2-wp-instance/>                   | Lightsail VPS, app management          |
-| 5   | - Deploy containerized applications using Lightsail Containers<br>- Compare Lightsail Containers with ECS/EKS               | 09/25/2025 | 09/25/2025      | <https://000046.awsstudygroup.com/vi/2-create-containerservice/>, <https://000046.awsstudygroup.com/vi/3-deploy-publicimage/>                   | Container deployment  |
-| 6   | - Set up hosted zones and DNS records in Route 53<br>- Configure basic routing policies<br>- Install and configure AWS CLI<br>- Practice basic CLI commands for EC2, S3, IAM, RDS<br>- Create and manage DynamoDB tables, perform CRUD operations<br> - Translate blog: "Accelerating HPC and AI research in universities with Amazon SageMaker HyperPod" | 09/26/2025 | 09/26/2025            | <https://000010.awsstudygroup.com/vi/>, <https://000010.awsstudygroup.com/vi/2-prerequiste/>, <https://000010.awsstudygroup.com/vi/5-setuphyriddns/>, <https://docs.aws.amazon.com/cli/latest/>, <https://www.youtube.com/watch?v=FGicpWOmMDI&list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i&index=45>                   | DNS, CLI, DynamoDB CRUD                |
-### Week 3 Achievements:
 
-- Successfully created and configured Amazon RDS instances (MySQL/PostgreSQL) and understood key database concepts.
-- Practiced securing RDS with security groups and performed backup, snapshot, and restore operations.
-- Explored Amazon Lightsail, launched VPS instances, and deployed basic applications (WordPress).
-- Deployed containerized applications using Lightsail Containers.
-- Set up hosted zones and DNS records in Route 53, and configured routing policies.
-- Installed and configured AWS CLI, practiced basic CLI commands for EC2, S3, IAM, and RDS.
-- Created and managed DynamoDB tables, performing CRUD operations via AWS CLI.
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Delete all resources from the previous week.<br>- Re-practice Lab 000003 from scratch (entire):<br> • Create VPC, Subnet, IGW, NATGW, Route Table, SG<br> • Launch Public & Private EC2<br> • SSH via Bastion Host, Connect Endpoint, Session Manager<br> • Test Internet connectivity:<br>  – Public EC2 → via Internet Gateway<br>  – Private EC2 → via NAT Gateway<br> • Understand why configured this way | 09/22/2025 | 09/22/2025 | Lab 000003 Guide<br>AWS Console | Reinforce network architecture |
+| 3 | - Watch Module 02 (advanced part).<br>- Practice Lab 000003 – Site-to-Site VPN:<br> • Create Customer Gateway, Virtual Private Gateway<br> • Configure VPN Connection<br> • Verify connectivity<br> • Clean up resources | 09/23/2025 | 09/23/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i (Module 02)<br>AWS VPN Docs | Hybrid network connectivity |
+| 4 | - Study and acknowledge AWS IAM (Users, Groups, Roles, Policies, MFA).<br>- Practice Lab 000002:<br> • Create IAM User, Group, Role<br> • Attach Policy (inline & managed)<br> • Enable MFA<br> • Test access permissions<br> • Clean up | 09/24/2025 | 09/24/2025 | https://000002.awsstudygroup.com/vi/<br>AWS IAM Console | Access management |
+| 5 | - Translate personal blog (Vietnamese translation + original English). | 09/25/2025 | 09/25/2025 | AWS Blogs<br>Example: Secure VPC Design[](https://aws.amazon.com/blogs/architecture/) |  |
+| 6 | - Watch Module 03.<br>- Practice Lab 000004 (part 1):<br> • Create VPC + Security Group prepared for Linux & Windows<br> • Launch EC2 Windows Instance<br> • Launch EC2 Linux Instance<br> • Clean up resources | 09/26/2025 | 09/26/2025 | Module 03 Videos<br>Lab 000004 Guide |  |
+| 6 | - Complete Lab 000004 (part 2):<br> • Change instance type<br> • Create Snapshot → Custom AMI<br> • Lost keypair → recover using Systems Manager<br> • Deploy Node.js app on:<br>  – EC2 Linux (User Data + PM2)<br>  – EC2 Windows (IIS or direct Node)<br> • Clean up everything | 09/26/2025 | 09/26/2025 | Lab 000004 Guide<br>Node.js on EC2[](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp.html) | AMI, recovery, app deployment |
+
+### Week 3 Achievements:
+- Fully Acknowledged multi-tier VPC architecture:
+  - Clearly understood why use IGW for Public, NATGW for Private.
+  - Proficiently practiced 3 EC2 connection methods:
+    - Bastion Host → traditional, requires port 22 open
+    - Connect Endpoint → private-only, no public IP needed
+    - Session Manager → no SSH key, audit log, IAM control
+- Acknowledged Site-to-Site VPN:
+  - Configured on-premise ↔ AWS VPC connection.
+  - Verified ping, traceroute through tunnel.
+- Acknowledge AWS IAM:
+  - Created and managed User, Group, Role, Policy.
+  - Applied MFA, Least Privilege, Policy Conditions.
+- Completed high-quality blog translation with accurate summary and technical terminology.
+- Acknowledged advanced EC2:
+  - Compared Linux vs Windows EC2 (RDP vs SSH).
+  - Created Custom AMI from Snapshot.
+  - Recovered access when keypair lost using Session Manager.
+  - Successfully deployed Node.js app on both Linux (systemd/PM2) and Windows (NSSM/IIS).
+- Completed Lab 000002, 000003 (VPN), 000004 with all requirements.

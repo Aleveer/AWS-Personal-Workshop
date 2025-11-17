@@ -5,29 +5,30 @@ chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-### Mục tiêu tuần 4:
-
-* Học cách tự động mở rộng ứng dụng bằng EC2 Auto Scaling, bao gồm launch template, scaling group và scaling policy.  
-* Giám sát và phân tích hiệu suất hệ thống với Amazon CloudWatch, bao gồm metrics, alarms và log monitoring.  
-* Tìm hiểu giải pháp bộ nhớ đệm trong bộ nhớ với Amazon ElastiCache (Redis/Memcached) để tối ưu hiệu năng cơ sở dữ liệu.  
-* Thực hành các khái niệm mạng cơ bản trên AWS, bao gồm VPC, Subnet, Route Table và Security Group.  
-* Hiểu cơ chế phân phối nội dung với Amazon CloudFront và áp dụng điện toán biên với Lambda@Edge cho các kịch bản nâng cao.  
-* Tìm hiểu về quản lý danh tính và dịch vụ thư mục với AWS Managed Microsoft AD.  
+### Mục tiêu Tuần 4:
+- Nắm cơ chế Auto Scaling với EC2: Launch Template, Auto Scaling Group, Load Balancer.
+- Hiểu cách quản lý truy cập S3 bằng IAM User + Access Key.
+- Tìm hiểu, khám phá về Amazon S3 như một nền tảng lưu trữ và triển khai website tĩnh.
 
 ### Các công việc cần triển khai trong tuần này:
-| Ngày | Nhiệm vụ                                                                                                               | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo | Ghi chú                                  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------- | ------------------ | ---------------------------------------- |
-| 2    | - Học các khái niệm cơ bản về EC2 Auto Scaling<br>- Tạo launch template và Auto Scaling Group<br>- Cấu hình scaling policy | 29/09/2025   | 29/09/2025       | <https://000006.awsstudygroup.com/vi/>   | Kiến thức nền tảng Auto Scaling          |
-| 3    | - Khám phá metrics và dashboard của Amazon CloudWatch<br>- Thiết lập CloudWatch alarms<br>- Làm việc với CloudWatch Logs | 30/09/2025   | 30/09/2025       | <https://000008.awsstudygroup.com/vi/>   | Giám sát & ghi log                       |
-| 4    | - Tìm hiểu cơ bản về Amazon ElastiCache (Redis, Memcached)<br>- Tạo ElastiCache cluster<br>- Tích hợp caching với RDS   | 01/10/2025   | 01/10/2025       | <https://000061.awsstudygroup.com/vi/>   | Bộ nhớ đệm trong RAM, tăng hiệu năng     |
-| 5    | - Workshop: Cấu hình mạng AWS<br>- VPC, Subnet, Route Table, Security Group<br>- Thực hành thiết lập kết nối            | 02/10/2025   | 02/10/2025       | <https://000092.awsstudygroup.com/vi/>   | Nền tảng mạng                            |
-| 6    | - Tạo CloudFront distribution với S3/EC2<br>- Khám phá các trường hợp Lambda@Edge (redirect, headers, A/B testing)<br>- Triển khai Windows Server trên EC2 và cài đặt ứng dụng IIS/.NET<br>- Tạo và quản lý AWS Managed Microsoft AD | 03/10/2025 | 03/10/2025 | <https://000094.awsstudygroup.com/vi/>, <https://000130.awsstudygroup.com/vi/>, <https://000095.awsstudygroup.com/vi/> | CloudFront, Edge computing, Microsoft AD |
+
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Thực hành lại Lab 000004 để ôn kiến thức EC2.<br>- Tiếp tục Lab 000006: Tạo Launch Template, Auto Scaling Group, cấu hình Load Balancer để đảm bảo khả năng mở rộng linh hoạt. | 29/09/2025 | 29/09/2025 | Hướng dẫn Lab 000006<br>AWS EC2 & ELB Console | Auto Scaling & High Availability |
+| 3 | - Thực hành Lab 000048: Tạo IAM User với Access Key / Secret Access Key.<br>- Upload file lên S3 bucket bằng AWS CLI hoặc SDK.<br>- Dọn dẹp tài nguyên (xóa user, bucket). | 30/09/2025 | 30/09/2025 | Hướng dẫn Lab 000048<br>AWS S3 & IAM Console | Quản lý truy cập S3 |
+| 4 | - Xem YouTube Module 04 về Amazon S3 (các khái niệm: bucket, object, versioning, lifecycle, static website). | 01/10/2025 | 01/10/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i (Module 04) | Kiến thức nền S3 |
+| 5 | - Thực hành Lab 000057:<br> • Chuẩn bị file website (HTML, CSS, JS).<br> • Tạo S3 bucket, bật Static Website Hosting.<br> • Cấu hình bucket policy cho phép public read.<br> • Upload file và truy cập qua URL S3. | 02/10/2025 | 02/10/2025 | Hướng dẫn Lab 000057<br>AWS S3 Console | Triển khai website tĩnh |
+| 6 | - Ôn lại toàn bộ các Lab tuần 4 và dọn dẹp tất cả tài nguyên để tránh phí. | 03/10/2025 | 03/10/2025 | AWS Console (Cost Explorer) | Kiểm soát chi phí |
 
 ### Kết quả đạt được tuần 4:
-
-- Đã tạo và cấu hình EC2 Auto Scaling group với launch template và scaling policy.  
-- Thiết lập CloudWatch dashboard, alarm và log để giám sát tình trạng và hiệu năng hệ thống.  
-- Triển khai ElastiCache cluster (Redis/Memcached) giúp giảm tải cơ sở dữ liệu và cải thiện tốc độ phản hồi.  
-- Hoàn thành workshop về mạng với VPC, Subnet, Route Table và Security Group.  
-- Cấu hình CloudFront distribution và áp dụng Lambda@Edge cho các logic xử lý tại edge.  
-- Tạo và quản lý AWS Managed Microsoft AD cho dịch vụ thư mục doanh nghiệp.  
+- Thành công thiết lập EC2 Auto Scaling:
+  - Tạo và cấu hình Launch Template.
+  - Thiết lập Auto Scaling Group với min/max/desired capacity.
+  - Kết hợp Elastic Load Balancer (ALB/NLB) để phân tải tự động.
+- Thành công thiết lập truy cập S3 bằng IAM:
+  - Tạo IAM User với Access Key / Secret Key.
+  - Upload file thành công qua CLI/SDK.
+  - Dọn dẹp sạch user và bucket.
+- Triển khai website tĩnh trên S3:
+  - Hiểu rõ S3 bucket, static website hosting, bucket policy.
+  - Hoàn thành Lab 000057 – website truy cập được qua URL public.

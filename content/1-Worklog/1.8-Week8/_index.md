@@ -6,26 +6,37 @@ pre: " <b> 1.8. </b> "
 ---
 
 ### Week 8 Objectives:
-
-* Gain deeper understanding of system monitoring, security, and operational optimization on AWS.
-* Practice managing logs and monitoring applications through Amazon CloudWatch and CloudTrail.
-* Research advanced security methods in AWS Identity and Access Management (IAM).
-* Learn about AWS Trusted Advisor, Security Hub, and cost optimization tools.
+- Plan and kick off the group web chat project.
+- Study technologies: MongoDB, Vue.js, Nest.js, Socket.IO, Docker.
+- Set up Git repository and GitHub Pages for the workshop.
+- Adjust worklog according to the group's overall progress.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note                     |
-| --- |  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | -------------------- |
-| 2   | - Learn about CloudWatch Logs and create dashboards to monitor EC2 and RDS application metrics.                                                                                                  | 27/10/2025 | 27/10/2025      | <https://000008.awsstudygroup.com/> | Monitor logs and performance. |
-| 3   | - Enable CloudTrail to track account activity and practice viewing API logs.                                              | 28/10/2025 | 28/10/2025      | <https://000085.awsstudygroup.com/> | Track system access. |
-| 4   | - Study advanced IAM topics: Permission Boundaries, Service Control Policy (SCP), and Policy Simulator. | 29/10/2025 | 29/10/2025      | <https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html> | Advanced access security. |
-| 5   | - Use AWS Trusted Advisor and Security Hub to identify and optimize configurations.                            | 30/10/2025 | 30/10/2025      | <https://000099.awsstudygroup.com/> | Security and cost optimization. |
-| 6   | - Translate blog: “Best practices for securing multi-account AWS environments.”                                                               | 31/10/2025 | 31/10/2025      | <https://aws.amazon.com/blogs/security/best-practices-for-securing-multi-account-aws-environments/> | Add theoretical background on security. |
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Plan the web chat project: define requirements.<br>- Create MongoDB collections (users, rooms, messages, ...).<br>- Select stack: MongoDB + Vue.js + Nest.js + Socket.IO + Docker. | 10/27/2025 | 10/27/2025 | Internal Project Docs<br>MongoDB University |  |
+| 3 | - Study MongoDB: local installation, practice CRUD, aggregation, indexing.<br>- Study Vue.js: component, Vue Router, Pinia (state management). | 10/28/2025 | 10/28/2025 | MongoDB Docs<br>Vue.js Guide |  |
+| 4 | - Study Nest.js: module, controller, service, DTO, JWT auth.<br>- Study Socket.IO: WebSocket, rooms, events, real-time messaging. | 10/29/2025 | 10/29/2025 | NestJS Docs<br>Socket.IO Docs | Backend & real-time |
+| 5 | - Study Docker: Dockerfile, docker-compose, multi-container app.<br>- Group project discussion: assign tasks (frontend, backend, DevOps).<br>- Adjust worklog based on group progress. | 10/30/2025 | 10/30/2025 | Docker Docs<br>Team Meeting |  |
+| 6 | - Create Git repository (GitHub/GitLab).<br> | 10/31/2025 | 10/31/2025 | GitHub<br>GitHub Pages Guide |  |
 
 ### Week 8 Achievements:
-
-* Monitored system and application performance using CloudWatch and created dashboards to visualize CPU, RAM, and storage metrics.
-* Enabled and used CloudTrail to track and analyze API activities within the AWS account.
-* Applied advanced IAM mechanisms such as Permission Boundaries and SCP to restrict permissions by scope.
-* Used AWS Trusted Advisor to detect security risks, misconfigurations, and provide cost optimization recommendations.
-* Learned how Security Hub aggregates alerts and helps with compliance to security standards.
+- Completed web chat project planning:
+  - Fully defined functional and non-functional requirements.
+  - Designed MongoDB schema (users, chat rooms, messages).
+  - Finalized official technology stack.
+- Mastered core technologies:
+  - MongoDB: practiced CRUD, aggregation pipeline.
+  - Vue.js: built components, routing, state management.
+  - Nest.js: module structure, REST API, authentication.
+  - Socket.IO: implemented real-time chat events.
+  - Docker: wrote Dockerfile, docker-compose.yml.
+- Clearly assigned group tasks:
+  - Frontend: Vue.js + UI/UX.
+  - Backend: Nest.js + Socket.IO + MongoDB.
+  - DevOps: Docker + CI/CD + AWS deployment.
+- Set up version control system:
+  - Created Git repository with branch strategy.
+  - Deployed GitHub Pages to store workshop documentation.
+- Synchronized group worklog to ensure consistent progress.

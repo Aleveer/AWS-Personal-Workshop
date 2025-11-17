@@ -5,51 +5,34 @@ chapter: false
 pre: " <b> 1.5. </b> "
 ---
 
-
 ### Week 5 Objectives:
-
-* Grasped and understood the technologies Route 53, CLI, DynamoDB, ElastiCache (Redis), and CloudFront.
+- Learn relational databases with Amazon RDS.
+- Explore Amazon Lightsail: create VPS, deploy applications, and containers.
+- Effectively monitor systems using Amazon CloudWatch.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note			   												|
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------|
-| 2   | - Create a public hosted zone and add a record pointing a domain to an IP address                                                                                                   		       | 10/06/2025 | 10/06/2025      |	<https://000010.awsstudygroup.com/>	  | Learn how Route 53, as a scalable DNS service, maps domain names to IP addresses.				   		| 
-| 3   | - Install and configure the AWS CLI. Practice basic commands to list S3 buckets or describe EC2 instances                                              						       | 10/07/2025 | 10/07/2025      | <https://000011.awsstudygroup.com/>	  | I will understand that the AWS CLI is a tool for managing AWS services via the command line, enabling automation		|
-| 4   | - Create a simple DynamoDB table. Use the console to add, update, and delete items 														       | 10/08/2025 | 10/08/2025      | <https://000060.awsstudygroup.com/> 	  | Learn that DynamoDB is a managed NoSQL database and how to perform basic CRUD operations				   	|
-| 5   | - Launch a Redis cluster. Connect to it and practice basic SET and GET commands                            											       | 10/09/2025 | 10/09/2025      | <https://000061.awsstudygroup.com/> 	  | Lnderstand how ElastiCache (Redis) works as an in-memory caching service to improve application performance			| 
-| 6   | - Create a CloudFront distribution for an S3 bucket containing a static website.                                                                                     				       | 10/10/2025 | 10/10/2025      | <https://000094.awsstudygroup.com/> 	  | Learn that CloudFront is a CDN that speeds up content delivery by caching it at edge locations				|
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Learn about Amazon RDS (MySQL/PostgreSQL).<br>- Practice Lab 000005: Create RDS instance, configure Security Group, connect to database, backup snapshot. | 10/06/2025 | 10/06/2025 | Lab 000005 Guide<br>AWS RDS Console | Relational database |
+| 3 | - Explore Amazon Lightsail.<br>- Practice Lab 000045: Create VPS, deploy basic applications (WordPress, LAMP stack, Node.js). | 10/07/2025 | 10/07/2025 | Lab 000045 Guide<br>Lightsail Console | Simple VPS & applications |
+| 4 | - Continue with Lightsail Containers.<br>- Practice Lab 000046: Create container service, deploy Docker image (e.g., Nginx, custom app). | 10/08/2025 | 10/08/2025 | Lab 000046 Guide<br>Lightsail Containers | Container deployment |
+| 5 | - Learn about Amazon CloudWatch.<br>- Practice Lab 000008: Create dashboard, set up alarms (CPU, memory), collect and view logs from EC2 or Lightsail. | 10/09/2025 | 10/09/2025 | Lab 000008 Guide<br>CloudWatch Console | Monitoring & alerting |
+| 6 | - Review all Week 5 labs.<br>- Clean up resources: delete RDS, Lightsail instances, containers, alarms to avoid charges. | 10/10/2025 | 10/10/2025 | AWS Cost Explorer | Cost control |
 
 ### Week 5 Achievements:
-
-* Gained practical experience with AWS core services across multiple categories
-  * Networking & Content Delivery: Route 53 (DNS), CloudFront (CDN).
-  * Database & Storage: DynamoDB (NoSQL), ElastiCache for Redis (In-memory caching).
-  * Management Tools: AWS CLI (Command-line interface).
-
-* Configured DNS management using Amazon Route 53
-  * Created a public hosted zone and added an A record mapping a custom domain name to a public IP address.
-  * Understood how Route 53 enables scalable and reliable domain name resolution for web applications.
-
-* Installed and configured AWS CLI for command-line management
-  * Set up Access Key, Secret Key, and Default Region.
-  * Practiced commands such as listing S3 buckets and describing EC2 instances
-  * Learned how the AWS CLI facilitates automation and scripting for managing AWS resources.
-
-* Built a DynamoDB table to explore NoSQL concepts:
-  * Created a table via AWS Management Console.
-  * Practiced CRUD operations (Create, Read, Update, Delete) on data items.
-  * Understood DynamoDB’s serverless and managed nature for handling structured data at scale.
-
-* Deployed an ElastiCache (Redis) cluster to enhance performance:
-  * Launched and connected to a Redis cluster.
-  * Executed SET and GET commands to store and retrieve cached data.
-  * Understood the role of in-memory caching in reducing database load and improving response time.
-
-* Implemented CloudFront for content delivery optimization:
-  * Created a CloudFront distribution for an S3-hosted static website.
-  * Learned how caching at AWS edge locations accelerates global content delivery and enhances user experience.
-
-* Developed a cohesive understanding of how AWS services interconnect:
-  * Route 53 for DNS mapping, CloudFront for content delivery, and DynamoDB/Redis for data management.
-  * Recognized how these services collectively support scalability, reliability, and performance in modern cloud architectures.
+- Acknowledged Amazon RDS:
+  - Created and configured RDS instance (MySQL/PostgreSQL).
+  - Connected from application/local, executed queries.
+  - Enabled automatic backups and restored from snapshot.
+- Acknowledged Amazon Lightsail:
+  - Successfully created VPS, installed WordPress, LAMP, Node.js.
+  - Deployed stable applications with public IP.
+- Deployed containers on Lightsail:
+  - Created container service, pushed Docker image.
+  - Accessed application via public URL.
+- Monitored systems with CloudWatch:
+  - Built dashboards to track CPU, memory, network.
+  - Set up alarms to send notifications via email/SNS.
+  - Collected and analyzed logs from instances.
+- Completed Lab 000005, 000045, 000046, 000008.

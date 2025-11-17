@@ -2,34 +2,42 @@
 title: "Worklog Tuần 2"
 weight: 1
 chapter: false
-pre: " <b> 1.1. </b> "
+pre: " <b> 1.2. </b> "
 ---
 
 ### Mục tiêu Tuần 2:
-
-* Hiểu rõ về Virtual Private Cloud (VPC) và các khái niệm cơ bản về mạng trong AWS.  
-* Khám phá Amazon EC2, bao gồm các loại instance và cách quản lý.  
-* Tìm hiểu về Amazon S3, các lớp lưu trữ và chiến lược quản lý hiệu quả.  
-* Nghiên cứu IAM trong AWS: vai trò, chính sách và các thực hành tốt nhất trong quản lý truy cập.  
+- Ôn lại bài Lab 000001 và nâng cao hiểu biết về quản lý chi phí AWS.
+- Nắm vững các khái niệm mạng VPC và xây dựng kiến trúc mạng an toàn.
+- Thực hành kết nối EC2, kiểm tra bảo mật và phân tích khả năng kết nối.
+- Làm quen với các phương thức truy cập an toàn vào EC2.
 
 ### Các công việc cần triển khai trong tuần này:
-| Ngày | Công việc                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Tài liệu tham khảo                                                                                               | Ghi chú                                 |
-| ---- | --------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| 2    | - Tìm hiểu các khái niệm mạng cơ bản và VPC trong AWS                                                                       | 15/09/2025   | 15/09/2025      | <https://000003.awsstudygroup.com/vi/>, <https://www.youtube.com/watch?v=jGLUTFs7-1c>                            | Khái niệm mạng cơ bản                   |
-| 2    | - Tìm hiểu IAM: người dùng, nhóm, vai trò và chính sách; bật MFA và kiểm thử kiểm soát truy cập                             | 15/09/2025   | 15/09/2025      | <https://000002.awsstudygroup.com/vi/>     | IAM roles, policies, và truy cập        |
-| 3    | - Tạo VPC, cấu hình subnet, route table và security group                                                                   | 16/09/2025   | 16/09/2025      | <https://www.youtube.com/watch?v=jGLUTFs7-1c>, <https://000003.awsstudygroup.com/vi/3-prerequisite/>            | Thực hành tạo VPC                       |
-| 4    | - Khởi chạy và quản lý EC2 instances; tìm hiểu các loại instance và theo dõi hiệu năng                                      | 17/09/2025   | 17/09/2025      | <https://000003.awsstudygroup.com/vi/4-createec2server/>, <https://www.youtube.com/watch?v=6PqZVGoeEEA> | Quản lý EC2 instance                    |
-| 5    | - Tạo S3 bucket, tải file lên và xem xét các lớp lưu trữ; thiết lập bucket policy                                           | 18/09/2025   | 18/09/2025      | <https://www.youtube.com/watch?v=p9ddQvOoNQ4>                                              | Quản lý lưu trữ với S3                  |
-| 6    | - Dịch Blog 2: "Xây dựng storyboard nhân vật nhất quán bằng Amazon Nova trong Amazon Bedrock – Phần 2"                      | 19/09/2025   | 19/09/2025      | <https://aws.amazon.com/blogs/machine-learning/build-character-consistent-storyboards-using-amazon-nova-in-amazon-bedrock-part-2/> |                                         |
+
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Ôn lại Lab 000001.<br>- Thực hành Lab 000007: Quản lý chi phí với AWS Budgets – tạo ngân sách theo template cho Cost, Usage, Savings Plans.<br>- Dọn dẹp (cleanup) toàn bộ tài nguyên đã tạo.<br>- (Nhận 20$ thưởng khi tạo Budget thành công) | 15/09/2025 | 15/09/2025 | AWS Budgets Console<br>[Tài liệu Quản lý Chi phí AWS](https://docs.aws.amazon.com/cost-management/) | Kiểm soát chi phí & dọn dẹp |
+| 3 | - Xem video Module 02 và ghi chép các khái niệm cốt lõi:<br> • VPC<br> • Subnet (Public & Private)<br> • Route Table<br> • Interface/Gateway Endpoints<br> • Internet Gateway / NAT Gateway | 16/09/2025 | 16/09/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i (Module 02) | Cơ bản về mạng |
+| 4 | - Thực hành Lab 000003.3:<br> • Tạo VPC<br> • Tạo Public Subnet và Private Subnet<br> • Gắn Internet Gateway<br> • Cấu hình Route Table<br> • Tạo Security Groups | 17/09/2025 | 17/09/2025 | Hướng dẫn Lab 000003.3<br>AWS VPC Console | Thiết lập nền tảng mạng |
+| 5 | - Tiếp tục Lab 000003 (phần còn lại):<br> • Khởi chạy EC2 trong Public và Private Subnet<br> • SSH từ Public EC2 → Private EC2<br> • Kiểm tra kết nối Internet từ cả hai instance<br> • Dùng Reachability Analyzer để kiểm tra đường đi giữa 2 EC2 | 18/09/2025 | 18/09/2025 | Hướng dẫn Lab 000003<br>[Tài liệu Reachability Analyzer](https://docs.aws.amazon.com/vpc/latest/reachability/) | Kết nối & kiểm tra mạng EC2 |
+| 6 | - Thực hành và so sánh 3 cách kết nối EC2:<br> 1. Bastion Host (Jump Server)<br> 2. VPC Interface Endpoint + EC2 Instance Connect<br> 3. AWS Systems Manager – Session Manager<br>- Ghi chú ưu/nhược điểm và mức độ bảo mật | 19/09/2025 | 19/09/2025 | [Tài liệu Session Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager.html)<br>[EC2 Connect Endpoint](https://docs.aws.amazon.com/vpc/latest/privatelink/endpoint-services-overview.html) | Truy cập EC2 an toàn |
 
 ### Kết quả đạt được tuần 2:
-* Xây dựng nền tảng kiến thức về quản lý tài khoản và người dùng trong AWS  
-    * Tạo và cấu hình thành công nhiều tài khoản AWS cho các mục đích khác nhau  
-    * Thiết lập IAM users và administrators, gán quyền và vai trò phù hợp  
-    * Thực hành bật xác thực đa yếu tố (MFA) để tăng cường bảo mật tài khoản  
-
-* Phát triển kỹ năng thực hành với dịch vụ mạng và tính toán trong AWS  
-    * Tạo Virtual Private Cloud (VPC), cấu hình subnet, route table và security group  
-    * Khởi chạy và quản lý nhiều loại EC2 instance, thử nghiệm các loại instance và theo dõi hiệu năng  
-    * Tìm hiểu Amazon S3 bằng cách tạo bucket, tải lên và quản lý đối tượng, cũng như xem xét các tùy chọn lớp lưu trữ  
-    * Thực hành thiết lập IAM roles và policies, gán quyền cho người dùng và dịch vụ để quản lý truy cập an toàn  
+- Ôn tập thành công Lab 000001 và áp dụng tốt các thực hành quản lý tài nguyên.
+- Nắm vững AWS Budgets:
+  - Tạo ngân sách Cost, Usage, Savings Plans theo template.
+  - Thực hiện dọn dẹp tài nguyên triệt để để kiểm soát chi phí.
+  - Nhận thưởng 20$ từ nhiệm vụ tạo Budget.
+- Nắm chắc kiến thức mạng VPC AWS:
+  - Phân biệt rõ Public vs Private Subnet, Route Table, Internet/NAT Gateway, Endpoint.
+  - Xây dựng thành công kiến trúc VPC đa tầng hoạt động ổn định.
+- Thực hành được EC2 trong môi trường cách ly:
+  - Khởi chạy và cấu hình EC2 ở cả public và private subnet.
+  - Kiểm chứng SSH nối tiếp và hành vi kết nối Internet.
+  - Sử dụng Reachability Analyzer để chẩn đoán và xác nhận đường mạng.
+- Tiếp thu các phương thức truy cập EC2 an toàn:
+  - Triển khai và so sánh:
+    - Bastion Host (SSH truyền thống qua jump server)
+    - EC2 Instance Connect Endpoint (truy cập riêng tư)
+    - Session Manager (không cần agent, kiểm soát bằng IAM, hỗ trợ audit)
+  - Hiểu rõ ưu nhược về bảo mật, tiện lợi, khả năng kiểm tra.
+- Hoàn thành Lab 000007 và Lab 000003 với đầy đủ yêu cầu.

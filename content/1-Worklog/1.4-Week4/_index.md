@@ -6,28 +6,29 @@ pre: " <b> 1.4. </b> "
 ---
 
 ### Week 4 Objectives:
-
-* Learn how to automatically scale applications using EC2 Auto Scaling, including launch templates, scaling groups, and scaling policies.  
-* Monitor and analyze system performance with Amazon CloudWatch, including metrics, alarms, and log monitoring.  
-* Explore in-memory caching solutions with Amazon ElastiCache (Redis/Memcached) to optimize database performance.  
-* Gain hands-on experience with networking fundamentals on AWS, including VPC, Subnets, Route Tables, and Security Groups.  
-* Understand content delivery with Amazon CloudFront and apply edge computing with Lambda@Edge for advanced scenarios.  
-* Explore identity and directory management with AWS Managed Microsoft AD.  
+- Acknowledge the Auto Scaling mechanism with EC2: Launch Template, Auto Scaling Group, Load Balancer.
+- Understand how to manage S3 access using IAM User + Access Key.
+- Learn about Amazon S3 as a storage platform and static website deployment.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                   | Start Date | Completion Date | Reference Material | Note                                   |
-| --- | ---------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ------------------ | -------------------------------------- |
-| 2   | - Study EC2 Auto Scaling basics<br>- Create a launch template and Auto Scaling Group<br>- Configure scaling policies    | 09/29/2025 | 09/29/2025      | <https://000006.awsstudygroup.com/vi/> | Auto Scaling fundamentals              |
-| 3   | - Explore Amazon CloudWatch metrics and dashboards<br>- Set up CloudWatch alarms<br>- Work with CloudWatch Logs        | 09/30/2025 | 09/30/2025      | <https://000008.awsstudygroup.com/vi/> | Monitoring & logging                   |
-| 4   | - Learn Amazon ElastiCache basics (Redis, Memcached)<br>- Create an ElastiCache cluster<br>- Integrate caching with RDS | 10/01/2025 | 10/01/2025      | <https://000061.awsstudygroup.com/vi/> | In-memory caching, performance boost   |
-| 5   | - Workshop: Configure AWS networking<br>- VPC, Subnets, Route Tables, Security Groups<br>- Practice connectivity setup  | 10/02/2025 | 10/02/2025      | <https://000092.awsstudygroup.com/vi/> | Networking fundamentals                |
-| 6   | - Create a CloudFront distribution with S3/EC2<br>- Explore Lambda@Edge use cases (redirect, headers, A/B testing)<br>- Deploy Windows Server on EC2 and install IIS/.NET apps<br>- Create and manage AWS Managed Microsoft AD | 10/03/2025 | 10/03/2025 | <https://000094.awsstudygroup.com/vi/>, <https://000130.awsstudygroup.com/vi/>, <https://000095.awsstudygroup.com/vi/> | CloudFront, Edge computing Microsoft AD |
+
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Re-practice Lab 000004 to review EC2 knowledge.<br>- Continue Lab 000006: Create Launch Template, Auto Scaling Group, configure Load Balancer to ensure flexible scalability. | 09/29/2025 | 09/29/2025 | Lab 000006 Guide<br>AWS EC2 & ELB Console | Auto Scaling & High Availability |
+| 3 | - Practice Lab 000048: Create IAM User with Access Key / Secret Access Key.<br>- Upload file to S3 bucket using AWS CLI or SDK.<br>- Clean up resources (delete user, bucket). | 09/30/2025 | 09/30/2025 | Lab 000048 Guide<br>AWS S3 & IAM Console | S3 access management |
+| 4 | - Watch YouTube Module 04 about Amazon S3 (concepts: bucket, object, versioning, lifecycle, static website). | 10/01/2025 | 10/01/2025 | https://www.youtube.com/playlist?list=PLahN4TLWtox2a3vElknwzU_urND8hLn1i (Module 04) | S3 foundational knowledge |
+| 5 | - Practice Lab 000057:<br> • Prepare website files (HTML, CSS, JS).<br> • Create S3 bucket, enable Static Website Hosting.<br> • Configure bucket policy to allow public read.<br> • Upload files and access via S3 URL. | 10/02/2025 | 10/02/2025 | Lab 000057 Guide<br>AWS S3 Console | Static website deployment |
+| 6 | - Review all Week 4 labs and clean up all resources to avoid charges. | 10/03/2025 | 10/03/2025 | AWS Console (Cost Explorer) | Cost control |
 
 ### Week 4 Achievements:
-
-- Created and configured EC2 Auto Scaling groups with launch templates and scaling policies.  
-- Set up CloudWatch dashboards, alarms, and logs to monitor system health and performance.  
-- Implemented ElastiCache clusters (Redis/Memcached) to reduce database load and improve response times.  
-- Completed hands-on networking workshop with VPC, Subnets, Route Tables, and Security Groups.  
-- Configured CloudFront distributions and applied Lambda@Edge for custom edge logic.  
-- Created and managed AWS Managed Microsoft AD for enterprise directory services.  
+- Acknowledged EC2 Auto Scaling:
+  - Created and configured Launch Template.
+  - Set up Auto Scaling Group with min/max/desired capacity.
+  - Integrated Elastic Load Balancer (ALB/NLB) for automatic load distribution.
+- Acknowledged S3 access via IAM:
+  - Created IAM User with Access Key / Secret Key.
+  - Successfully uploaded files via CLI/SDK.
+  - Cleaned up user and bucket completely.
+- Deployed static website on S3:
+  - Understood S3 bucket, static website hosting, bucket policy.
+  - Completed Lab 000057 – website accessible via public URL.

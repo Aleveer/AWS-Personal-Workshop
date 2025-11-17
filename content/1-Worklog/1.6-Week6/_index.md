@@ -6,49 +6,32 @@ pre: " <b> 1.6. </b> "
 ---
 
 ### Week 6 Objectives:
-
-* Understand the fundamentals of MongoDB and how to use it as a NoSQL database for the project.
-* Learn the core concepts of Vue.js to build interactive and responsive user interfaces.
-* Understand the architecture and key features of Nest.js for developing scalable server-side applications.
-* Explore Socket.IO and learn how to integrate real-time communication into the web chat project. 
+- Acknowledge DNS with Amazon Route 53: hosted zone, record, routing policy.
+- Acknowledge AWS CLI: installation, configuration, basic command practice.
+- Acknowledge DynamoDB via CLI: create table, perform CRUD operations.
+- Deploy and use ElastiCache Redis: launch cluster, SET/GET commands.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note												|
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 2   | - Came up with the idea for a web chat project, created the collections, and selected the technologies to implement it                                                                                 | 10/13/2025 | 10/13/2025      |						  | Grasp the main functionalities of the web chat project.												|
-| 3   | - Learned about MongoDB.                                               																       | 10/14/2025 | 10/14/2025      | <https://cloudjourney.awsstudygroup.com/> | Understood how it works as a NoSQL database.							|
-| 4   | - Learned about Vue.js. 																					       | 10/15/2025 | 10/15/2025      | <https://cloudjourney.awsstudygroup.com/> | understood its core concepts for building interactive user interfaces.				|
-| 5   | - Learned about Nest.js.                            																		       | 10/16/2025 | 10/16/2025      | <https://cloudjourney.awsstudygroup.com/> | understood its architecture and core features for building scalable server-side applications.	|
-| 6   | - Learned about Socket.IO.                                                                                    											       | 10/17/2025 | 10/17/2025      | <https://cloudjourney.awsstudygroup.com/> | explored how to apply it to the project for real-time communication.				|
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Practice Lab 000010: Create public hosted zone on Route 53.<br>- Add records (A, CNAME, MX).<br>- Configure routing policy (Simple, Weighted, Latency). | 10/13/2025 | 10/13/2025 | Lab 000010 Guide<br>Route 53 Console | DNS management |
+| 3 | - Practice Lab 000011: Install AWS CLI.<br>- Configure profile (Access Key, Secret Key, Region).<br>- Practice basic commands: aws ec2 describe-instances, aws s3 ls, aws iam list-users, aws rds describe-db-instances. | 10/14/2025 | 10/14/2025 | Lab 000011 Guide<br>AWS CLI Docs | Admin automation |
+| 4 | - Practice Lab 000060: Create DynamoDB table via CLI (aws dynamodb create-table).<br>- Perform CRUD: put-item, get-item, update-item, delete-item.<br>- Query and Scan data. | 10/15/2025 | 10/15/2025 | Lab 000060 Guide<br>DynamoDB Console & CLI | NoSQL via CLI |
+| 5 | - Practice Lab 000061: Launch Redis cluster on ElastiCache.<br>- Connect using redis-cli or application.<br>- Practice SET key value and GET key commands. | 10/16/2025 | 10/16/2025 | Lab 000061 Guide<br>ElastiCache Console | In-memory cache |
+| 6 | - (Reserve) Review all Week 6 labs.<br>- Clean up resources: delete hosted zone, DynamoDB table, Redis cluster, remove CLI profile if needed. | 10/17/2025 | 10/17/2025 | AWS Cost Explorer | Cost control |
 
 ### Week 6 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+- Acknowledged Route 53:
+  - Created and managed public hosted zone.
+  - Configured records and flexible routing policies.
+- Acknowledged AWS CLI:
+  - Installed and configured profile successfully.
+  - Executed EC2, S3, IAM, RDS management commands smoothly.
+- Managed DynamoDB via CLI:
+  - Created table with primary key.
+  - Performed full CRUD, Query, Scan operations.
+- Deployed ElastiCache Redis:
+  - Launched cluster with stable connection.
+  - Used SET/GET commands to store and retrieve in-memory data.
+- Completed labs 000010, 000011, 000060, 000061.
