@@ -14,11 +14,11 @@ pre: " <b> 1.11. </b> "
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
-| 2 | - Xây dựng workshop.<br>- Hoàn thiện proposal trên Hugo: viết nội dung, thêm sơ đồ, deploy site. | 17/11/2025 | 17/11/2025 | Hugo Docs<br>Reveal.js / Markdown Slides ||
-| 3 | - Cấu hình mạng AWS: tạo VPC, public subnet, Internet Gateway, Route Table.<br>- Thiết lập Security Group cho backend/frontend. | 18/11/2025 | 18/11/2025 | AWS VPC Console<br>Lab 000003 Guide ||
-| 4 | - Triển khai MongoDB trên Atlas Free Tier: tạo cluster, user, connection string.<br>- Kết nối backend Nest.js với Atlas MongoDB. | 19/11/2025 | 19/11/2025 | MongoDB Atlas Docs<br>Mongoose Config ||
-| 5 | - Đưa backend lên EC2: build Docker image, push ECR, chạy container trên EC2.<br>- Đưa frontend lên S3 + CloudFront: build Vue.js, upload S3, tạo distribution. | 20/11/2025 | 20/11/2025 | AWS EC2/ECR Console<br>S3/CloudFront Guide ||
-| 6 | - Thiết lập CloudWatch: log groups, dashboard (CPU, memory, connections), alarms (high latency).<br>- Kiểm tra live: test chat real-time với 5+ users, fix issues.<br>- Theo dõi chi phí AWS (Cost Explorer), dọn dẹp nếu cần. | 21/11/2025 | 21/11/2025 | CloudWatch Console<br>AWS Cost Explorer ||
+| 2 | - Xây dựng workshop.<br>- Hoàn thiện proposal trên Hugo: viết nội dung, thêm sơ đồ, deploy site. | 17/11/2025 | 17/11/2025 | | |
+| 3 | - Cấu hình mạng AWS: tạo VPC, public subnet, Internet Gateway, Route Table.<br>- Thiết lập Security Group cho backend/frontend. | 18/11/2025 | 18/11/2025 | | |
+| 4 | - Triển khai MongoDB trên Atlas Free Tier: tạo cluster, user, connection string.<br>- Kết nối backend Nest.js với Atlas MongoDB. | 19/11/2025 | 19/11/2025 | | |
+| 5 | - Đưa backend lên EC2: build Docker image, push ECR, chạy container trên EC2.<br>- Đưa frontend lên S3 + CloudFront: build Vue.js, upload S3, tạo distribution. | 20/11/2025 | 20/11/2025 | | |
+| 6 | - Thiết lập CloudWatch: log groups, dashboard (CPU, memory, connections), alarms (high latency).<br>- Kiểm tra live: test chat real-time với 5+ users, fix issues.<br>- Theo dõi chi phí AWS (Cost Explorer), dọn dẹp nếu cần. | 21/11/2025 | 21/11/2025 | | |
 
 ### Kết quả đạt được tuần 11:
 - Hoàn thiện proposal với sơ đồ hệ thống.

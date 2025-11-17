@@ -16,11 +16,11 @@ pre: " <b> 1.10. </b> "
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
-| 2 | - Kiểm thử backend: API (REST), WebSocket (real-time).<br>| 10/11/2025 | 10/11/2025 | Postman<br>NestJS Docs | |
-| 3 | - Hoàn thiện frontend UI. <br>- Xử lý lỗi. | 11/11/2025 | 11/11/2025 | Vue.js, Tailwind/Bootstrap<br>Socket.IO Reconnect | |
-| 4 | - Thiết kế kiến trúc AWS:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 12/11/2025 | 12/11/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart | |
-| 5 | - Chuẩn bị tài liệu:<br> • API docs (Swagger)<br> • Deployment guide | 13/11/2025 | 13/11/2025 | Swagger UI<br>C4-PlantUML | |
-| 6 | - Team review: duyệt tài liệu, sơ đồ, demo local.<br>- Sửa lỗi, tối ưu hệ thống.<br>- Chuẩn bị deploy script (Docker + AWS CLI). | 14/11/2025 | 14/11/2025 | GitHub PR Review<br>Docker Compose | |
+| 2 | - Kiểm thử backend: API (REST), WebSocket (real-time).<br>| 10/11/2025 | 10/11/2025 | https://www.postman.com/ |  |
+| 3 | - Hoàn thiện frontend UI. <br>- Xử lý lỗi. | 11/11/2025 | 11/11/2025 | |  |
+| 4 | - Thiết kế kiến trúc AWS:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 12/11/2025 | 12/11/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
+| 5 | - Chuẩn bị tài liệu:<br> • API docs (Swagger)<br> • Deployment guide | 13/11/2025 | 13/11/2025 | Swagger UI<br>C4-PlantUML |  |
+| 6 | - Team review: duyệt tài liệu, sơ đồ, demo local.<br>- Sửa lỗi, tối ưu hệ thống.<br>- Chuẩn bị deploy script (Docker + AWS CLI). | 14/11/2025 | 14/11/2025 | |  |
 
 ### Kết quả đạt được tuần 10:
 - Backend ổn định và đầy đủ tính năng:

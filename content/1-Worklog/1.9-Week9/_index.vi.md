@@ -17,11 +17,11 @@ pre: " <b> 1.9. </b> "
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
-| 2 | - Setup môi trường phát triển local: Node.js, MongoDB, Docker, VS Code.<br>- Khởi tạo monorepo với 2 apps: frontend (Vue.js), backend (Nest.js). | 03/11/2025 | 03/11/2025 | Vue CLI, Nest CLI<br>Nx/Turborepo Docs | |
-| 3 | - Phát triển frontend Vue.js: giao diện chat cơ bản (login, room list, chat box).<br>- Tích hợp Socket.IO client để nhận/gửi tin nhắn real-time. | 04/11/2025 | 04/11/2025 | Vue.js Guide<br>Socket.IO Client | |
-| 4 | - Phát triển backend Nest.js: WebSocket gateway, message service, user controller,... <br>- Xử lý kết nối người dùng, broadcast tin nhắn theo room. | 05/11/2025 | 05/11/2025 | NestJS WebSocket<br>Socket.IO Server | |
-| 5 | - Thiết kế schema MongoDB: collections users, rooms, messages, .. <br>- Kết nối Mongoose trong Nest.js, thực hiện CRUD tin nhắn. | 06/11/2025 | 06/11/2025 | Mongoose Docs<br>MongoDB Schema Design | Database modeling |
-| 6 | - Docker hóa ứng dụng: Dockerfile cho frontend, backend, mongo.<br>- Viết docker-compose.yml để chạy toàn bộ stack local.<br>- Test real-time chat giữa nhiều tab/user. | 07/11/2025 | 07/11/2025 | Docker Docs<br>docker-compose | Containerization & local run |
+| 2 | - Setup môi trường phát triển local: Node.js, MongoDB, Docker, VS Code.<br>- Khởi tạo monorepo với 2 apps: frontend (Vue.js), backend (Nest.js). | 03/11/2025 | 03/11/2025 | - https://doc.vueframework.com/ <br> - https://docs.nestjs.com/ |  |
+| 3 | - Phát triển frontend Vue.js: giao diện chat cơ bản (login, room list, chat box).<br>- Tích hợp Socket.IO client để nhận/gửi tin nhắn real-time. | 04/11/2025 | 04/11/2025 | https://socket.io/docs/v4  |  |
+| 4 | - Phát triển backend Nest.js: WebSocket gateway, message service, user controller,... <br>- Xử lý kết nối người dùng, broadcast tin nhắn theo room. | 05/11/2025 | 05/11/2025 | |  |
+| 5 | - Thiết kế schema MongoDB: collections users, rooms, messages, .. <br>- Kết nối Mongoose trong Nest.js, thực hiện CRUD tin nhắn. | 06/11/2025 | 06/11/2025 | | Database modeling |
+| 6 | - Docker hóa ứng dụng: Dockerfile cho frontend, backend, mongo.<br>- Viết docker-compose.yml để chạy toàn bộ stack local.<br>- Test real-time chat giữa nhiều tab/user. | 07/11/2025 | 07/11/2025 | | Containerization & local run |
 
 ### Kết quả đạt được tuần 9:
 - Hoàn thiện môi trường phát triển local:

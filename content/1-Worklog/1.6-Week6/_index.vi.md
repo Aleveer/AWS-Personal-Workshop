@@ -15,11 +15,11 @@ pre: " <b> 1.6. </b> "
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
-| 2 | - Thực hành Lab 000010: Tạo public hosted zone trên Route 53.<br>- Thêm các bản ghi (A, CNAME, MX).<br>- Cấu hình routing policy (Simple, Weighted, Latency). | 13/10/2025 | 13/10/2025 | Hướng dẫn Lab 000010<br>Route 53 Console | DNS quản lý |
-| 3 | - Thực hành Lab 000011: Cài đặt AWS CLI.<br>- Cấu hình profile (Access Key, Secret Key, Region).<br>- Thực hành lệnh cơ bản: aws ec2 describe-instances, aws s3 ls, aws iam list-users, aws rds describe-db-instances. | 14/10/2025 | 14/10/2025 | Hướng dẫn Lab 000011<br>AWS CLI Docs | Tự động hóa quản trị |
-| 4 | - Thực hành Lab 000060: Tạo bảng DynamoDB qua CLI (aws dynamodb create-table).<br>- Thực hiện CRUD: put-item, get-item, update-item, delete-item.<br>- Query và Scan dữ liệu. | 15/10/2025 | 15/10/2025 | Hướng dẫn Lab 000060<br>DynamoDB Console & CLI | NoSQL qua CLI |
-| 5 | - Thực hành Lab 000061: Khởi tạo Redis cluster trên ElastiCache.<br>- Kết nối bằng redis-cli hoặc ứng dụng.<br>- Thực hành lệnh SET key value và GET key. | 16/10/2025 | 16/10/2025 | Hướng dẫn Lab 000061<br>ElastiCache Console | In-memory cache |
-| 6 | - (Dự phòng) Ôn lại toàn bộ Lab tuần 6.<br>- Dọn dẹp tài nguyên: xóa hosted zone, bảng DynamoDB, Redis cluster, xóa CLI profile nếu cần. | 17/10/2025 | 17/10/2025 | AWS Cost Explorer | Kiểm soát chi phí |
+| 2 | - Thực hành Lab 000010: Tạo public hosted zone trên Route 53.<br>- Thêm các bản ghi (A, CNAME, MX).<br>- Cấu hình routing policy (Simple, Weighted, Latency). | 13/10/2025 | 13/10/2025 | https://000010.awsstudygroup.com/ | DNS quản lý |
+| 3 | - Thực hành Lab 000011: Cài đặt AWS CLI.<br>- Cấu hình profile (Access Key, Secret Key, Region).<br>- Thực hành lệnh cơ bản: aws ec2 describe-instances, aws s3 ls, aws iam list-users, aws rds describe-db-instances. | 14/10/2025 | 14/10/2025 | https://000011.awsstudygroup.com/ | Tự động hóa quản trị |
+| 4 | - Thực hành Lab 000060: Tạo bảng DynamoDB qua CLI (aws dynamodb create-table).<br>- Thực hiện CRUD: put-item, get-item, update-item, delete-item.<br>- Query và Scan dữ liệu. | 15/10/2025 | 15/10/2025 | https://000060.awsstudygroup.com/ | NoSQL qua CLI |
+| 5 | - Thực hành Lab 000061: Khởi tạo Redis cluster trên ElastiCache.<br>- Kết nối bằng redis-cli hoặc ứng dụng.<br>- Thực hành lệnh SET key value và GET key. | 16/10/2025 | 16/10/2025 | https://000061.awsstudygroup.com/ | In-memory cache |
+| 6 | - (Dự phòng) Ôn lại toàn bộ Lab tuần 6.<br>- Dọn dẹp tài nguyên: xóa hosted zone, bảng DynamoDB, Redis cluster, xóa CLI profile nếu cần. | 17/10/2025 | 17/10/2025 | | Kiểm soát chi phí |
 
 ### Kết quả đạt được tuần 6:
 - Nắm kiến thức về Route 53:

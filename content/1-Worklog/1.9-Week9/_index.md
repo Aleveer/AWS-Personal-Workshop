@@ -17,11 +17,11 @@ pre: " <b> 1.9. </b> "
 
 | Day | Task | Start Date | Completion Date | Reference Material | Note |
 | ---- | ---- | ---------- | --------------- | ------------------ | ---- |
-| 2 | - Set up local development environment: Node.js, MongoDB, Docker, VS Code.<br>- Initialize monorepo with 2 apps: frontend (Vue.js), backend (Nest.js). | 11/03/2025 | 11/03/2025 | Vue CLI, Nest CLI<br>Nx/Turborepo Docs |  |
-| 3 | - Develop Vue.js frontend: basic chat UI (login, room list, chat box).<br>- Integrate Socket.IO client to send/receive real-time messages. | 11/04/2025 | 11/04/2025 | Vue.js Guide<br>Socket.IO Client |  |
-| 4 | - Develop Nest.js backend: WebSocket gateway, message service, user controller, etc.<br>- Handle user connections, broadcast messages by room. | 11/05/2025 | 11/05/2025 | NestJS WebSocket<br>Socket.IO Server |  |
-| 5 | - Design MongoDB schema: collections for users, rooms, messages, etc.<br>- Connect Mongoose in Nest.js, perform message CRUD. | 11/06/2025 | 11/06/2025 | Mongoose Docs<br>MongoDB Schema Design | Database modeling |
-| 6 | - Dockerize the application: Dockerfile for frontend, backend, mongo.<br>- Write docker-compose.yml to run the full stack locally.<br>- Test real-time chat across multiple tabs/users. | 11/07/2025 | 11/07/2025 | Docker Docs<br>docker-compose | Containerization & local run |
+| 2 | - Set up local development environment: Node.js, MongoDB, Docker, VS Code.<br>- Initialize monorepo with 2 apps: frontend (Vue.js), backend (Nest.js). | 11/03/2025 | 11/03/2025 | - https://doc.vueframework.com/ <br> - https://docs.nestjs.com/ |  |
+| 3 | - Develop Vue.js frontend: basic chat UI (login, room list, chat box).<br>- Integrate Socket.IO client to send/receive real-time messages. | 11/04/2025 | 11/04/2025 | https://socket.io/docs/v4  |  |
+| 4 | - Develop Nest.js backend: WebSocket gateway, message service, user controller, etc.<br>- Handle user connections, broadcast messages by room. | 11/05/2025 | 11/05/2025 | |  |
+| 5 | - Design MongoDB schema: collections for users, rooms, messages, etc.<br>- Connect Mongoose in Nest.js, perform message CRUD. | 11/06/2025 | 11/06/2025 | | Database modeling |
+| 6 | - Dockerize the application: Dockerfile for frontend, backend, mongo.<br>- Write docker-compose.yml to run the full stack locally.<br>- Test real-time chat across multiple tabs/users. | 11/07/2025 | 11/07/2025 | | Containerization & local run |
 
 ### Week 9 Achievements:
 - Completed local development environment:

@@ -14,11 +14,11 @@ pre: " <b> 1.7. </b> "
 
 | Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
-| 2 | - Hoàn thành Lab 000092: Workshop về mạng AWS.<br> | 20/10/2025 | 20/10/2025 | Hướng dẫn Lab 000092<br>AWS VPC Console | |
-| 3 | - Thực hành Lab 000094: Tạo CloudFront distribution cho S3 static website.<br> | 21/10/2025 | 21/10/2025 | Hướng dẫn Lab 000094<br>CloudFront Console | CDN cơ bản |
-| 4 | - Thực hành Lab 000130: Áp dụng Lambda@Edge.<br>- Tạo Lambda function (Viewer Request/Response, Origin Request).<br> | 22/10/2025 | 22/10/2025 | Hướng dẫn Lab 000130<br>Lambda & CloudFront Console | Edge computing |
-| 5 | - Thực hành Lab 000101: Triển khai WordPress trên AWS.<br>- Tạo EC2 (Linux), cài MySQL, cấu hình Apache/Nginx, upload WordPress.<br> | 23/10/2025 | 23/10/2025 | Hướng dẫn Lab 000101<br>EC2 & RDS Console | CMS trên Cloud |
-| 6 | - Ôn lại toàn bộ Lab tuần 7.<br>- Dọn dẹp tài nguyên: xóa CloudFront distribution, Lambda@Edge, EC2 WordPress, RDS, S3 bucket. | 24/10/2025 | 24/10/2025 | AWS Cost Explorer | |
+| 2 | - Hoàn thành Lab 000092: Workshop về mạng AWS.<br> | 20/10/2025 | 20/10/2025 | https://000092.awsstudygroup.com/ |  |
+| 3 | - Thực hành Lab 000094: Tạo CloudFront distribution cho S3 static website.<br> | 21/10/2025 | 21/10/2025 | https://000094.awsstudygroup.com/ | CDN cơ bản |
+| 4 | - Thực hành Lab 000130: Áp dụng Lambda@Edge.<br>- Tạo Lambda function (Viewer Request/Response, Origin Request).<br> | 22/10/2025 | 22/10/2025 | https://000130.awsstudygroup.com/vi/ | Edge computing |
+| 5 | - Thực hành Lab 000101: Triển khai WordPress trên AWS.<br>- Tạo EC2 (Linux), cài MySQL, cấu hình Apache/Nginx, upload WordPress.<br> | 23/10/2025 | 23/10/2025 | https://000130.awsstudygroup.com/vi/ | CMS trên Cloud |
+| 6 | - Ôn lại toàn bộ Lab tuần 7.<br>- Dọn dẹp tài nguyên: xóa CloudFront distribution, Lambda@Edge, EC2 WordPress, RDS, S3 bucket. | 24/10/2025 | 24/10/2025 |  |  |
 
 ### Kết quả đạt được tuần 7:
 - Hoàn thành workshop mạng (Lab 000092):
