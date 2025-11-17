@@ -11,10 +11,10 @@ chapter: false
 |                       | **Person 1**                 | **Person 2**           | **Person 3**           | **Person 4**           |
 |-----------------------|------------------------------|------------------------|------------------------|------------------------|
 | **Full Name**         | Nguyen Anh Danh              | Phan Duy               |                        |                        |
-| **Student id**        | 3121410103                   |3121410003                        |                        |                        |
-| **Phone Number**      | 0384876891                   | 0901109472                        |                        |                        |
-| **Email**             | danhanh.nguyen1643@gmail.com | duyphan1305@gmail.com                        |                        |                        |
-| **Major**             | Information Technology       | Information Technology                        |                        |                        |
+| **Student id**        | 3121410103                   | 3121410003             |                        |                        |
+| **Phone Number**      | 0384876891                   | 0901109472             |                        |                        |
+| **Email**             | danhanh.nguyen1643@gmail.com | duyphan1305@gmail.com  |                        |                        |
+| **Major**             | Information Technology       | Information Technology |                        |                        |
 
 &emsp; **Class:** AWS082025
 
