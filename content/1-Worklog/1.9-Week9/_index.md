@@ -6,26 +6,38 @@ pre: " <b> 1.9. </b> "
 ---
 
 ### Week 9 Objectives:
-
-* Summarize all acquired knowledge to build and operate a complete web system on AWS.
-* Practice integrating services: EC2, S3, CloudFront, RDS, DynamoDB, and ElastiCache into a unified system.
-* Optimize cost, monitoring, and full-system backup.
+- Set up a complete local development environment.
+- Build a monorepo project structure with Vue.js (frontend) and Nest.js (backend).
+- Develop a basic chat interface and real-time connection.
+- Build WebSocket backend, manage messages and users.
+- Design MongoDB schema and Dockerize the entire application.
+- Run local tests with Docker Compose, ensure real-time chat works.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note         |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ------------ |
-| 2   | - Design the overall architecture for the AWS-based web chat system (frontend, backend, database, caching).                                                                                                   | 03/11/2025 | 03/11/2025      | <https://000012.awsstudygroup.com/> | Combine system components. |
-| 3   | - Integrate RDS, DynamoDB, and Redis into the Nest.js backend, ensuring scalability and fast response.                                              | 04/11/2025 | 04/11/2025      | <https://000060.awsstudygroup.com/>, <https://000061.awsstudygroup.com/> | Connect multiple data sources. |
-| 4   | - Combine S3 and CloudFront to serve the frontend, implement CI/CD for automated build and deployment. | 05/11/2025 | 05/11/2025      | <https://000094.awsstudygroup.com/> | Complete DevOps workflow. |
-| 5   | - Set up CloudWatch to monitor backend logs and performance alerts.                            | 06/11/2025 | 06/11/2025      | <https://000008.awsstudygroup.com/> | Monitor the entire system. |
-| 6   | - Create automated backups for RDS and DynamoDB, and practice data restoration.                                                                                     | 07/11/2025 | 07/11/2025      | <https://000005.awsstudygroup.com/vi/6-backup/> | Backup and disaster recovery. |
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Set up local development environment: Node.js, MongoDB, Docker, VS Code.<br>- Initialize monorepo with 2 apps: frontend (Vue.js), backend (Nest.js). | 11/03/2025 | 11/03/2025 | Vue CLI, Nest CLI<br>Nx/Turborepo Docs |  |
+| 3 | - Develop Vue.js frontend: basic chat UI (login, room list, chat box).<br>- Integrate Socket.IO client to send/receive real-time messages. | 11/04/2025 | 11/04/2025 | Vue.js Guide<br>Socket.IO Client |  |
+| 4 | - Develop Nest.js backend: WebSocket gateway, message service, user controller, etc.<br>- Handle user connections, broadcast messages by room. | 11/05/2025 | 11/05/2025 | NestJS WebSocket<br>Socket.IO Server |  |
+| 5 | - Design MongoDB schema: collections for users, rooms, messages, etc.<br>- Connect Mongoose in Nest.js, perform message CRUD. | 11/06/2025 | 11/06/2025 | Mongoose Docs<br>MongoDB Schema Design | Database modeling |
+| 6 | - Dockerize the application: Dockerfile for frontend, backend, mongo.<br>- Write docker-compose.yml to run the full stack locally.<br>- Test real-time chat across multiple tabs/users. | 11/07/2025 | 11/07/2025 | Docker Docs<br>docker-compose | Containerization & local run |
 
 ### Week 9 Achievements:
-
-* Completed the full architecture of the web chat system including frontend (Vue.js), backend (Nest.js), and databases (RDS + DynamoDB + Redis).
-* Integrated CI/CD for automated deployment and application updates.
-* Optimized performance with CloudFront and Redis caching.
-* Set up comprehensive system monitoring with CloudWatch and CloudTrail.
-* Implemented automated database backup and restore procedures.
-* Prepared the midterm summary report describing system architecture, deployment process, and key takeaways.
+- Completed local development environment:
+  - Monorepo runs smoothly with Vue.js frontend and Nest.js backend.
+  - IDE, Git, Docker fully ready.
+- Basic chat interface operational:
+  - Login, room selection, send/receive real-time messages.
+  - Responsive UI, state management with Pinia.
+- Nest.js backend handles WebSocket stably:
+  - Manages user connections and chat rooms.
+  - Accurate message broadcasting, no data loss.
+- Well-designed MongoDB schema:
+  - Stores user, room, message with optimized indexes.
+  - Message CRUD via API and WebSocket.
+- Successfully Dockerized:
+  - 3 containers: vue-frontend, nest-backend, mongo-db.
+  - docker-compose up runs the entire local system.
+- Real-time chat works across multiple users:
+  - Tested with 3–5 tabs/browsers, instant message sync.

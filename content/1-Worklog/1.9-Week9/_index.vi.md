@@ -5,28 +5,39 @@ chapter: false
 pre: " <b> 1.9. </b> "
 ---
 
-### Mục tiêu tuần 9:
-
-* Tổng hợp toàn bộ kiến thức đã học để xây dựng và vận hành hệ thống web hoàn chỉnh trên AWS.
-* Thực hành kết nối các dịch vụ: EC2, S3, CloudFront, RDS, DynamoDB, và ElastiCache trong một hệ thống duy nhất.
-* Tối ưu chi phí, giám sát, và sao lưu toàn hệ thống.
-
+### Mục tiêu Tuần 9:
+- Thiết lập môi trường phát triển local hoàn chỉnh.
+- Xây dựng cấu trúc dự án monorepo với Vue.js (frontend) và Nest.js (backend).
+- Phát triển giao diện chat cơ bản và kết nối real-time.
+- Xây dựng backend WebSocket, quản lý tin nhắn và người dùng.
+- Thiết kế schema MongoDB và Docker hóa toàn bộ ứng dụng.
+- Chạy thử nghiệm local với Docker Compose, đảm bảo real-time chat hoạt động.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                      |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ----------------------------------- |
-| 2   | - Thiết kế kiến trúc tổng thể cho hệ thống web chat trên AWS (frontend, backend, database, caching).                                                                          | 03/11/2025   | 03/11/2025      | <https://000012.awsstudygroup.com/vi/> | Tổng hợp các thành phần. |
-| 3   | - Tích hợp RDS, DynamoDB, Redis vào backend Nest.js, đảm bảo khả năng mở rộng và tốc độ phản hồi.                                            | 04/11/2025   | 04/11/2025      | <https://000060.awsstudygroup.com/vi/>, <https://000061.awsstudygroup.com/vi/> | Kết nối dữ liệu đa nguồn. |
-| 4   | - Kết hợp S3 và CloudFront để phục vụ frontend, triển khai CI/CD để tự động build và deploy. | 05/11/2025   | 05/11/2025      | <https://000094.awsstudygroup.com/vi/> | Hoàn thiện quy trình DevOps. |
-| 5   | - Thiết lập CloudWatch để theo dõi log backend và cảnh báo hiệu năng.                  | 06/11/2025   | 06/11/2025      | <https://000008.awsstudygroup.com/vi/> | Giám sát toàn hệ thống. |
-| 6   | - Tạo bản sao lưu tự động cho RDS và DynamoDB, thực hành khôi phục dữ liệu.                                                                                         | 07/11/2025   | 07/11/2025      | <https://000005.awsstudygroup.com/vi/6-backup/> | Backup và DR. |
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Setup môi trường phát triển local: Node.js, MongoDB, Docker, VS Code.<br>- Khởi tạo monorepo với 2 apps: frontend (Vue.js), backend (Nest.js). | 03/11/2025 | 03/11/2025 | Vue CLI, Nest CLI<br>Nx/Turborepo Docs | |
+| 3 | - Phát triển frontend Vue.js: giao diện chat cơ bản (login, room list, chat box).<br>- Tích hợp Socket.IO client để nhận/gửi tin nhắn real-time. | 04/11/2025 | 04/11/2025 | Vue.js Guide<br>Socket.IO Client | |
+| 4 | - Phát triển backend Nest.js: WebSocket gateway, message service, user controller,... <br>- Xử lý kết nối người dùng, broadcast tin nhắn theo room. | 05/11/2025 | 05/11/2025 | NestJS WebSocket<br>Socket.IO Server | |
+| 5 | - Thiết kế schema MongoDB: collections users, rooms, messages, .. <br>- Kết nối Mongoose trong Nest.js, thực hiện CRUD tin nhắn. | 06/11/2025 | 06/11/2025 | Mongoose Docs<br>MongoDB Schema Design | Database modeling |
+| 6 | - Docker hóa ứng dụng: Dockerfile cho frontend, backend, mongo.<br>- Viết docker-compose.yml để chạy toàn bộ stack local.<br>- Test real-time chat giữa nhiều tab/user. | 07/11/2025 | 07/11/2025 | Docker Docs<br>docker-compose | Containerization & local run |
 
 ### Kết quả đạt được tuần 9:
-
-* Hoàn thiện kiến trúc web chat gồm frontend (Vue.js), backend (Nest.js), và database (RDS + DynamoDB + Redis).
-* Tích hợp CI/CD để tự động hóa triển khai và cập nhật ứng dụng.
-* Tối ưu hiệu năng với CloudFront và caching Redis.
-* Thiết lập giám sát hệ thống toàn diện qua CloudWatch và CloudTrail.
-* Triển khai backup và restore tự động cho cơ sở dữ liệu.
-* Chuẩn bị báo cáo tổng hợp giữa kỳ: mô tả hệ thống, quy trình triển khai, và các bài học rút ra.
+- Hoàn thiện môi trường phát triển local:
+  - Monorepo chạy mượt với frontend Vue.js và backend Nest.js.
+  - IDE, Git, Docker sẵn sàng.
+- Giao diện chat cơ bản hoạt động:
+  - Login, chọn phòng, gửi/nhận tin nhắn real-time.
+  - UI responsive, state management với Pinia.
+- Backend Nest.js xử lý WebSocket ổn định:
+  - Quản lý kết nối người dùng, phòng chat.
+  - Broadcast tin nhắn chính xác, không mất dữ liệu.
+- MongoDB schema hợp lý:
+  - Lưu trữ user, room, message với index tối ưu.
+  - CRUD tin nhắn qua API và WebSocket.
+- Docker hóa thành công:
+  - 3 container: vue-frontend, nest-backend, mongo-db.
+  - docker-compose up chạy toàn bộ hệ thống local.
+- Real-time chat hoạt động giữa nhiều người dùng:
+  - Test với 3-5 tab/browser, tin nhắn đồng bộ tức thì.

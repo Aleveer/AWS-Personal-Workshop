@@ -6,26 +6,32 @@ pre: " <b> 1.10. </b> "
 ---
 
 ### Week 10 Objectives:
-
-* Continue exploring advanced AWS services focusing on serverless and event-driven architecture.
-* Learn how to deploy a NestJS backend on AWS Lambda and connect it with API Gateway.
-* Integrate frontend (Vue.js) with backend endpoints for testing.
-* Understand monitoring and logging in a serverless environment.
+- Test, polish UI, and prepare for deployment.
+- Add missing backend features and thoroughly test API & real-time.
+- Finalize frontend UI and handle connection/state errors.
+- Design AWS deployment architecture.
+- Prepare API documentation and system diagrams.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note                   |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ---------- |
-| 2   | - Study the concept and workflow of AWS Lambda and API Gateway.                                                                                                   | 10/11/2025 | 10/11/2025      | <https://000070.awsstudygroup.com/> | Learn serverless concepts. |
-| 3   | - Deploy a NestJS backend as a Lambda function using AWS SAM or container image.                                              | 11/11/2025 | 11/11/2025      | <https://000071.awsstudygroup.com/> | Implement serverless backend. |
-| 4   | - Integrate API Gateway with Lambda to expose RESTful APIs for Vue.js frontend. | 12/11/2025 | 12/11/2025      | <https://000072.awsstudygroup.com/> | Connect backend and frontend. |
-| 5   | - Store and retrieve data using DynamoDB within the Lambda-based backend.                            | 13/11/2025 | 13/11/2025      | <https://000061.awsstudygroup.com> | Practice serverless data management. |
-| 6   | - Configure CloudWatch for log tracking and Lambda performance monitoring.                                                                                     | 14/11/2025 | 14/11/2025      | <https://000008.awsstudygroup.com/> | Monitor serverless system. |
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Test backend: REST API and WebSocket (real-time).<br> | 11/10/2025 | 11/10/2025 | Postman<br>NestJS Docs |  |
+| 3 | - Finalize frontend UI.<br>- Implement error handling and reconnection logic. | 11/11/2025 | 11/11/2025 | Vue.js, Tailwind/Bootstrap<br>Socket.IO Reconnect |  |
+| 4 | - Design AWS architecture:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 11/12/2025 | 11/12/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
+| 5 | - Prepare documentation:<br> • API docs (Swagger)<br> • Deployment guide | 11/13/2025 | 11/13/2025 | Swagger UI<br>C4-PlantUML |  |
+| 6 | - Team review: review documents, diagrams, and local demo.<br>- Fix bugs, optimize performance (lazy loading, debounce).<br>- Prepare deployment scripts (Docker + AWS CLI). | 11/14/2025 | 11/14/2025 | GitHub PR Review<br>Docker Compose |  |
 
 ### Week 10 Achievements:
-
-* Understood how serverless architecture works with Lambda and API Gateway.
-* Deployed NestJS backend on AWS Lambda successfully.
-* Exposed REST APIs through API Gateway and tested connections with Vue.js frontend.
-* Integrated DynamoDB for serverless database operations.
-* Configured CloudWatch to monitor function performance and logs.
+- Backend stable and feature-complete:
+  - 100% REST API coverage, WebSocket connection never drops.
+- Frontend fully polished:
+  - Beautiful, responsive UI and emoji support.
+- Clear AWS architecture:
+  - Detailed system diagram (frontend → CDN → backend → DB).
+  - Services chosen for optimal cost and performance.
+- Complete documentation:
+  - Auto-generated API docs via Swagger.
+  - Step-by-step deployment guide.
+- All code reviewed and successfully tested locally with multiple users.
+- Fully ready for AWS deployment.

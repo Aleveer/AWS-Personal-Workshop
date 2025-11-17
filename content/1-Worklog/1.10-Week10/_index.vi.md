@@ -5,27 +5,34 @@ chapter: false
 pre: " <b> 1.10. </b> "
 ---
 
-### Mục tiêu tuần 10:
-
-* Tiếp tục tìm hiểu các dịch vụ nâng cao của AWS với trọng tâm là kiến trúc serverless và event-driven.
-* Học cách triển khai backend NestJS trên AWS Lambda và kết nối với API Gateway.
-* Tích hợp frontend (Vue.js) với backend để kiểm thử hoạt động.
-* Hiểu và thực hành giám sát, ghi log trong môi trường serverless.
+### Mục tiêu Tuần 10:
+- Kiểm thử, hoàn thiện UI và chuẩn bị deploy.
+- Bổ sung tính năng backend, kiểm thử toàn diện API & real-time.
+- Hoàn thiện frontend UI, xử lý lỗi kết nối và trạng thái.
+- Thiết kế kiến trúc AWS.
+- Chuẩn bị tài liệu API và sơ đồ hệ thống.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | --------------- |
-| 2   | - Tìm hiểu khái niệm và quy trình hoạt động của AWS Lambda và API Gateway.                                                                                             | 10/11/2025   | 10/11/2025      | <https://000070.awsstudygroup.com/vi/> | Làm quen kiến trúc serverless. |
-| 3   | - Triển khai backend NestJS dưới dạng hàm Lambda bằng AWS SAM hoặc container image.                                            | 11/11/2025   | 11/11/2025      | <https://000071.awsstudygroup.com/vi/> | Triển khai backend serverless. |
-| 4   | - Tích hợp API Gateway với Lambda để tạo RESTful API phục vụ frontend Vue.js. | 12/11/2025   | 12/11/2025      | <https://000072.awsstudygroup.com/vi/> | Kết nối frontend và backend. |
-| 5   | - Kết nối Lambda với DynamoDB để thực hiện thao tác lưu trữ và truy vấn dữ liệu.                  | 13/11/2025   | 13/11/2025      | <https://000061.awsstudygroup.com/vi/> | Thực hành xử lý dữ liệu serverless. |
-| 6   | - Cấu hình CloudWatch để theo dõi log và giám sát hiệu năng Lambda.                                                                                         | 14/11/2025   | 14/11/2025      | <https://000008.awsstudygroup.com/vi/> | Giám sát hệ thống serverless. |
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Kiểm thử backend: API (REST), WebSocket (real-time).<br>| 10/11/2025 | 10/11/2025 | Postman<br>NestJS Docs | |
+| 3 | - Hoàn thiện frontend UI. <br>- Xử lý lỗi. | 11/11/2025 | 11/11/2025 | Vue.js, Tailwind/Bootstrap<br>Socket.IO Reconnect | |
+| 4 | - Thiết kế kiến trúc AWS:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 12/11/2025 | 12/11/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart | |
+| 5 | - Chuẩn bị tài liệu:<br> • API docs (Swagger)<br> • Deployment guide | 13/11/2025 | 13/11/2025 | Swagger UI<br>C4-PlantUML | |
+| 6 | - Team review: duyệt tài liệu, sơ đồ, demo local.<br>- Sửa lỗi, tối ưu hệ thống.<br>- Chuẩn bị deploy script (Docker + AWS CLI). | 14/11/2025 | 14/11/2025 | GitHub PR Review<br>Docker Compose | |
 
 ### Kết quả đạt được tuần 10:
-
-* Hiểu rõ nguyên lý hoạt động của kiến trúc serverless trong AWS.
-* Triển khai thành công backend NestJS dưới dạng Lambda function.
-* Kết nối API Gateway và xây dựng REST API phục vụ frontend Vue.js.
-* Tích hợp DynamoDB để lưu trữ và xử lý dữ liệu theo mô hình serverless.
-* Cấu hình CloudWatch để theo dõi log và hiệu năng Lambda.
+- Backend ổn định và đầy đủ tính năng:
+  - API REST hoạt động 100%, WebSocket không mất kết nối.
+  - Typing, online status, message seen hoạt động real-time.
+- Frontend hoàn thiện:
+  - UI đẹp, hỗ trợ emoji, responsive.
+- Kiến trúc AWS rõ ràng:
+  - Sơ đồ hệ thống chi tiết.
+  - Lựa chọn dịch vụ tối ưu chi phí & hiệu năng.
+- Tài liệu đầy đủ:
+  - API docs tự động từ Swagger.
+  - Hướng dẫn deploy từng bước.
+- Toàn bộ code đã review, test local đa user thành công.
+- Sẵn sàng deploy lên AWS.

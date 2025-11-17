@@ -5,29 +5,30 @@ chapter: false
 pre: " <b> 1.11. </b> "
 ---
 
-### Mục tiêu tuần 11:
-
-* Tìm hiểu cách tự động hóa triển khai hạ tầng AWS bằng CloudFormation và AWS CDK.
-* Viết template để tự động tạo tài nguyên như EC2, S3, RDS, IAM.
-* Kết hợp quá trình tự động này vào pipeline CI/CD để đảm bảo triển khai đồng nhất.
-* Làm quen với quản lý stack, cập nhật và rollback trong môi trường thực tế.
+### Mục tiêu Tuần 11:
+- Xây dựng workshop và hoàn thiện proposal trên Hugo.
+- Triển khai dự án lên AWS Cloud: mạng, database, backend, frontend.
+- Giám sát hệ thống bằng CloudWatch, kiểm tra live, theo dõi chi phí.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ---------------------------- |
-| 2   | - Giới thiệu khái niệm Infrastructure as Code (IaC) và AWS CloudFormation.                                                                                             | 17/11/2025   | 17/11/2025      | <https://000113.awsstudygroup.com/vi/> | Làm quen IaC. |
-| 3   | - Viết CloudFormation template để triển khai EC2, S3, và RDS.                                            | 18/11/2025   | 18/11/2025      | <https://000114.awsstudygroup.com/vi/> | Tự động hóa hạ tầng. |
-| 4   | - Tìm hiểu AWS CDK và thực hành tạo stack bằng TypeScript. | 19/11/2025   | 19/11/2025      | <https://000115.awsstudygroup.com/vi/> | Thực hành CDK. |
-| 5   | - Kết hợp CloudFormation/CDK với CodePipeline để tự động triển khai hạ tầng.                  | 20/11/2025   | 20/11/2025      | <https://000110.awsstudygroup.com/vi/> | Tự động hóa CI/CD. |
-| 6   | - Thực hành cập nhật và rollback stack trong CloudFormation.                                                                                         | 21/11/2025   | 21/11/2025      | <https://000116.awsstudygroup.com/vi/> | Quản lý cập nhật hạ tầng. |
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Xây dựng workshop.<br>- Hoàn thiện proposal trên Hugo: viết nội dung, thêm sơ đồ, deploy site. | 17/11/2025 | 17/11/2025 | Hugo Docs<br>Reveal.js / Markdown Slides ||
+| 3 | - Cấu hình mạng AWS: tạo VPC, public subnet, Internet Gateway, Route Table.<br>- Thiết lập Security Group cho backend/frontend. | 18/11/2025 | 18/11/2025 | AWS VPC Console<br>Lab 000003 Guide ||
+| 4 | - Triển khai MongoDB trên Atlas Free Tier: tạo cluster, user, connection string.<br>- Kết nối backend Nest.js với Atlas MongoDB. | 19/11/2025 | 19/11/2025 | MongoDB Atlas Docs<br>Mongoose Config ||
+| 5 | - Đưa backend lên EC2: build Docker image, push ECR, chạy container trên EC2.<br>- Đưa frontend lên S3 + CloudFront: build Vue.js, upload S3, tạo distribution. | 20/11/2025 | 20/11/2025 | AWS EC2/ECR Console<br>S3/CloudFront Guide ||
+| 6 | - Thiết lập CloudWatch: log groups, dashboard (CPU, memory, connections), alarms (high latency).<br>- Kiểm tra live: test chat real-time với 5+ users, fix issues.<br>- Theo dõi chi phí AWS (Cost Explorer), dọn dẹp nếu cần. | 21/11/2025 | 21/11/2025 | CloudWatch Console<br>AWS Cost Explorer ||
 
 ### Kết quả đạt được tuần 11:
-
-* Nắm vững khái niệm và lợi ích của Infrastructure as Code.
-* Viết và triển khai CloudFormation template cho các tài nguyên cơ bản.
-* Làm quen với AWS CDK và triển khai stack bằng TypeScript.
-* Tích hợp quá trình IaC vào CI/CD pipeline để tự động hóa triển khai.
-* Hiểu và thực hành cập nhật, rollback stack trong CloudFormation.
-
-
+- Hoàn thiện proposal với sơ đồ hệ thống.
+- Triển khai thành công lên AWS:
+  - Mạng VPC ổn định, public subnet cho frontend/backend.
+  - MongoDB Atlas kết nối mượt.
+  - Backend chạy trên EC2 Docker, frontend truy cập qua CloudFront.
+- Giám sát hệ thống:
+  - CloudWatch dashboard theo dõi real-time metrics/logs.
+  - Alarms gửi alert cho high load, low health.
+- Kiểm tra live toàn diện:
+  - Chat hoạt động không lỗi với multiple users, real-time sync.
+  - Latency < 200ms, no dropped messages.
