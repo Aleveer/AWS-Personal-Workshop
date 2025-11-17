@@ -5,7 +5,7 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 ### Real-Time Chat Application
-1. Executive Summary
+### 1. Executive Summary
 
 The Serverless Web Chat Platform is developed to provide a fast, secure, and easy-to-operate internal communication solution. The application supports real-time messaging between lab members through a lightweight web interface, with flexible scalability for future needs. The platform leverages AWS Serverless services such as API Gateway, AWS Lambda, DynamoDB, and Amazon Cognito to ensure stable operation, low cost, and no server management requirements. Access is restricted to lab members, ensuring security and privacy during information exchange.
 

@@ -5,7 +5,7 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 ### Ứng dụng trò chuyện thời gian thực
-1. Tóm tắt điều hành
+### 1. Tóm tắt điều hành
 
 Serverless Web Chat Platform được phát triển nhằm cung cấp một giải pháp giao tiếp nội bộ nhanh chóng, bảo mật và dễ vận hành. Ứng dụng hỗ trợ nhắn tin thời gian thực giữa các thành viên thông qua giao diện web nhẹ, có kha năng mở rộng linh hoạt trong tương lai. Nền tảng tận dụng các dịch vụ AWS Serverless như API Gateway AWS Lambda, DynamoDB và Amazon Cognito để đảm bảo vận hành ổn định, chi phí thấp và không yêu cầu quản lý máy chủ. Quyền truy cập được giới hạn cho các thành viên phòng lab, đảm bảo bảo mật và tính riêng tư trong quá trình trao đổi thông tin.
 
