@@ -18,7 +18,7 @@ pre: " <b> 1.10. </b> "
 | ---- | ---- | ---------- | --------------- | ------------------ | ---- |
 | 2 | - Test backend: REST API and WebSocket (real-time).<br> | 11/10/2025 | 11/10/2025 | https://www.postman.com/ |  |
 | 3 | - Finalize frontend UI.<br>- Implement error handling and reconnection logic. | 11/11/2025 | 11/11/2025 | |  |
-| 4 | - Design AWS architecture:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 11/12/2025 | 11/12/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
+| 4 | - Design AWS architecture:<br> • Frontend: S3 + CloudFront<br> • Backend: Serverless(AWS Lambda, Amazon API Gateway)<br> • Database: DynamoDB<br> • Real-time: WebSocket | 11/12/2025 | 11/12/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
 | 5 | - Prepare documentation:<br> • API docs (Swagger)<br> • Deployment guide | 11/13/2025 | 11/13/2025 | Swagger UI<br>C4-PlantUML |  |
 | 6 | - Team review: review documents, diagrams, and local demo.<br>- Fix bugs, optimize performance (lazy loading, debounce).<br>- Prepare deployment scripts (Docker + AWS CLI). | 11/14/2025 | 11/14/2025 | |  |
 

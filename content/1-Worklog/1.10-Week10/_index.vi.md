@@ -18,7 +18,7 @@ pre: " <b> 1.10. </b> "
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
 | 2 | - Kiểm thử backend: API (REST), WebSocket (real-time).<br>| 10/11/2025 | 10/11/2025 | https://www.postman.com/ |  |
 | 3 | - Hoàn thiện frontend UI. <br>- Xử lý lỗi. | 11/11/2025 | 11/11/2025 | |  |
-| 4 | - Thiết kế kiến trúc AWS:<br> • Frontend: S3 + CloudFront<br> • Backend: EC2/ECS<br> • Database: MongoDB Atlas/DynamoDB<br> • Real-time: WebSocket | 12/11/2025 | 12/11/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
+| 4 | - Thiết kế kiến trúc AWS:<br> • Frontend: S3 + CloudFront<br> • Backend: Serverless(AWS Lambda, Amazon API Gateway)<br> • Database: DynamoDB<br> • Real-time: WebSocket | 12/11/2025 | 12/11/2025 | AWS Architecture Icons<br>Draw.io / Lucidchart |  |
 | 5 | - Chuẩn bị tài liệu:<br> • API docs (Swagger)<br> • Deployment guide | 13/11/2025 | 13/11/2025 | Swagger UI<br>C4-PlantUML |  |
 | 6 | - Team review: duyệt tài liệu, sơ đồ, demo local.<br>- Sửa lỗi, tối ưu hệ thống.<br>- Chuẩn bị deploy script (Docker + AWS CLI). | 14/11/2025 | 14/11/2025 | |  |
 

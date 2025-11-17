@@ -16,15 +16,15 @@ pre: " <b> 1.11. </b> "
 | ---- | --------- | ------------ | --------------- | -------------- | ------- |
 | 2 | - Xây dựng workshop.<br>- Hoàn thiện proposal trên Hugo: viết nội dung, thêm sơ đồ, deploy site. | 17/11/2025 | 17/11/2025 | | |
 | 3 | - Cấu hình mạng AWS: tạo VPC, public subnet, Internet Gateway, Route Table.<br>- Thiết lập Security Group cho backend/frontend. | 18/11/2025 | 18/11/2025 | | |
-| 4 | - Triển khai MongoDB trên Atlas Free Tier: tạo cluster, user, connection string.<br>- Kết nối backend Nest.js với Atlas MongoDB. | 19/11/2025 | 19/11/2025 | | |
-| 5 | - Đưa backend lên EC2: build Docker image, push ECR, chạy container trên EC2.<br>- Đưa frontend lên S3 + CloudFront: build Vue.js, upload S3, tạo distribution. | 20/11/2025 | 20/11/2025 | | |
+| 4 | - Triển khai database trên DyanmoDB tạo cluster, user, connection string.<br>- Kết nối backend Nest.js với DyanmoDB | 19/11/2025 | 19/11/2025 | | |
+| 5 | - Đưa backend lên AWS Lambda, Amazon API Gateway<br>- Đưa frontend lên S3 + CloudFront: build Vue.js, upload S3, tạo distribution. | 20/11/2025 | 20/11/2025 | | |
 | 6 | - Thiết lập CloudWatch: log groups, dashboard (CPU, memory, connections), alarms (high latency).<br>- Kiểm tra live: test chat real-time với 5+ users, fix issues.<br>- Theo dõi chi phí AWS (Cost Explorer), dọn dẹp nếu cần. | 21/11/2025 | 21/11/2025 | | |
 
 ### Kết quả đạt được tuần 11:
 - Hoàn thiện proposal với sơ đồ hệ thống.
 - Triển khai thành công lên AWS:
   - Mạng VPC ổn định, public subnet cho frontend/backend.
-  - MongoDB Atlas kết nối mượt.
+  - Kết nối tốt DynamoDB với Backend.
   - Backend chạy trên EC2 Docker, frontend truy cập qua CloudFront.
 - Giám sát hệ thống:
   - CloudWatch dashboard theo dõi real-time metrics/logs.
