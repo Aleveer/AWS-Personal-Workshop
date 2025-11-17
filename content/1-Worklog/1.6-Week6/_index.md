@@ -15,11 +15,11 @@ pre: " <b> 1.6. </b> "
 
 | Day | Task | Start Date | Completion Date | Reference Material | Note |
 | ---- | ---- | ---------- | --------------- | ------------------ | ---- |
-| 2 | - Practice Lab 000010: Create public hosted zone on Route 53.<br>- Add records (A, CNAME, MX).<br>- Configure routing policy (Simple, Weighted, Latency). | 10/13/2025 | 10/13/2025 | Lab 000010 Guide<br>Route 53 Console | DNS management |
-| 3 | - Practice Lab 000011: Install AWS CLI.<br>- Configure profile (Access Key, Secret Key, Region).<br>- Practice basic commands: aws ec2 describe-instances, aws s3 ls, aws iam list-users, aws rds describe-db-instances. | 10/14/2025 | 10/14/2025 | Lab 000011 Guide<br>AWS CLI Docs | Admin automation |
-| 4 | - Practice Lab 000060: Create DynamoDB table via CLI (aws dynamodb create-table).<br>- Perform CRUD: put-item, get-item, update-item, delete-item.<br>- Query and Scan data. | 10/15/2025 | 10/15/2025 | Lab 000060 Guide<br>DynamoDB Console & CLI | NoSQL via CLI |
-| 5 | - Practice Lab 000061: Launch Redis cluster on ElastiCache.<br>- Connect using redis-cli or application.<br>- Practice SET key value and GET key commands. | 10/16/2025 | 10/16/2025 | Lab 000061 Guide<br>ElastiCache Console | In-memory cache |
-| 6 | - (Reserve) Review all Week 6 labs.<br>- Clean up resources: delete hosted zone, DynamoDB table, Redis cluster, remove CLI profile if needed. | 10/17/2025 | 10/17/2025 | AWS Cost Explorer | Cost control |
+| 2 | - Practice Lab 000010: Create public hosted zone on Route 53.<br>- Add records (A, CNAME, MX).<br>- Configure routing policy (Simple, Weighted, Latency). | 10/13/2025 | 10/13/2025 | https://000010.awsstudygroup.com/ | DNS management |
+| 3 | - Practice Lab 000011: Install AWS CLI.<br>- Configure profile (Access Key, Secret Key, Region).<br>- Practice basic commands: aws ec2 describe-instances, aws s3 ls, aws iam list-users, aws rds describe-db-instances. | 10/14/2025 | 10/14/2025 | https://000011.awsstudygroup.com/ | Admin automation |
+| 4 | - Practice Lab 000060: Create DynamoDB table via CLI (aws dynamodb create-table).<br>- Perform CRUD: put-item, get-item, update-item, delete-item.<br>- Query and Scan data. | 10/15/2025 | 10/15/2025 | https://000060.awsstudygroup.com/ | NoSQL via CLI |
+| 5 | - Practice Lab 000061: Launch Redis cluster on ElastiCache.<br>- Connect using redis-cli or application.<br>- Practice SET key value and GET key commands. | 10/16/2025 | 10/16/2025 | https://000061.awsstudygroup.com/ | In-memory cache |
+| 6 | - (Reserve) Review all Week 6 labs.<br>- Clean up resources: delete hosted zone, DynamoDB table, Redis cluster, remove CLI profile if needed. | 10/17/2025 | 10/17/2025 | | Cost control |
 
 ### Week 6 Achievements:
 - Acknowledged Route 53:

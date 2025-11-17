@@ -15,11 +15,11 @@ pre: " <b> 1.8. </b> "
 
 | Day | Task | Start Date | Completion Date | Reference Material | Note |
 | ---- | ---- | ---------- | --------------- | ------------------ | ---- |
-| 2 | - Plan the web chat project: define requirements.<br>- Create MongoDB collections (users, rooms, messages, ...).<br>- Select stack: MongoDB + Vue.js + Nest.js + Socket.IO + Docker. | 10/27/2025 | 10/27/2025 | Internal Project Docs<br>MongoDB University |  |
-| 3 | - Study MongoDB: local installation, practice CRUD, aggregation, indexing.<br>- Study Vue.js: component, Vue Router, Pinia (state management). | 10/28/2025 | 10/28/2025 | MongoDB Docs<br>Vue.js Guide |  |
-| 4 | - Study Nest.js: module, controller, service, DTO, JWT auth.<br>- Study Socket.IO: WebSocket, rooms, events, real-time messaging. | 10/29/2025 | 10/29/2025 | NestJS Docs<br>Socket.IO Docs | Backend & real-time |
-| 5 | - Study Docker: Dockerfile, docker-compose, multi-container app.<br>- Group project discussion: assign tasks (frontend, backend, DevOps).<br>- Adjust worklog based on group progress. | 10/30/2025 | 10/30/2025 | Docker Docs<br>Team Meeting |  |
-| 6 | - Create Git repository (GitHub/GitLab).<br> | 10/31/2025 | 10/31/2025 | GitHub<br>GitHub Pages Guide |  |
+| 2 | - Plan the web chat project: define requirements.<br>- Create schema of MongoDB collections (users, rooms, messages, ...).<br>- Select stack: MongoDB + Vue.js + Nest.js + Socket.IO + Docker. | 10/27/2025 | 10/27/2025 | Internal Project Docs<br>MongoDB University |  |
+| 3 | - Study MongoDB: local installation, practice CRUD, aggregation, indexing.<br>- Study Vue.js: component, Vue Router, Pinia (state management). | 10/28/2025 | 10/28/2025 | - https://www.mongodb.com/docs/<br>- https://doc.vueframework.com/ |  |
+| 4 | - Study Nest.js: module, controller, service, DTO, JWT auth.<br>- Study Socket.IO: WebSocket, rooms, events, real-time messaging. | 10/29/2025 | 10/29/2025 | - https://docs.nestjs.com/<br>- https://socket.io/docs/v4 | Backend & real-time |
+| 5 | - Study Docker: Dockerfile, docker-compose, multi-container app.<br>- Group project discussion: assign tasks (frontend, backend, DevOps).<br>- Adjust worklog based on group progress. | 10/30/2025 | 10/30/2025 | - https://docs.docker.com/<br>Team Meeting |  |
+| 6 | - Create Git repository (GitHub/GitLab).<br> | 10/31/2025 | 10/31/2025 | GitHub |  |
 
 ### Week 8 Achievements:
 - Completed web chat project planning:

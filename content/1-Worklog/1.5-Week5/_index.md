@@ -14,11 +14,11 @@ pre: " <b> 1.5. </b> "
 
 | Day | Task | Start Date | Completion Date | Reference Material | Note |
 | ---- | ---- | ---------- | --------------- | ------------------ | ---- |
-| 2 | - Learn about Amazon RDS (MySQL/PostgreSQL).<br>- Practice Lab 000005: Create RDS instance, configure Security Group, connect to database, backup snapshot. | 10/06/2025 | 10/06/2025 | Lab 000005 Guide<br>AWS RDS Console | Relational database |
-| 3 | - Explore Amazon Lightsail.<br>- Practice Lab 000045: Create VPS, deploy basic applications (WordPress, LAMP stack, Node.js). | 10/07/2025 | 10/07/2025 | Lab 000045 Guide<br>Lightsail Console | Simple VPS & applications |
-| 4 | - Continue with Lightsail Containers.<br>- Practice Lab 000046: Create container service, deploy Docker image (e.g., Nginx, custom app). | 10/08/2025 | 10/08/2025 | Lab 000046 Guide<br>Lightsail Containers | Container deployment |
-| 5 | - Learn about Amazon CloudWatch.<br>- Practice Lab 000008: Create dashboard, set up alarms (CPU, memory), collect and view logs from EC2 or Lightsail. | 10/09/2025 | 10/09/2025 | Lab 000008 Guide<br>CloudWatch Console | Monitoring & alerting |
-| 6 | - Review all Week 5 labs.<br>- Clean up resources: delete RDS, Lightsail instances, containers, alarms to avoid charges. | 10/10/2025 | 10/10/2025 | AWS Cost Explorer | Cost control |
+| 2 | - Learn about Amazon RDS (MySQL/PostgreSQL).<br>- Practice Lab 000005: Create RDS instance, configure Security Group, connect to database, backup snapshot. | 10/06/2025 | 10/06/2025 | https://000005.awsstudygroup.com/ | Relational database |
+| 3 | - Explore Amazon Lightsail.<br>- Practice Lab 000045: Create VPS, deploy basic applications (WordPress, LAMP stack, Node.js). | 10/07/2025 | 10/07/2025 | https://000045.awsstudygroup.com/ | Simple VPS & applications |
+| 4 | - Continue with Lightsail Containers.<br>- Practice Lab 000046: Create container service, deploy Docker image (e.g., Nginx, custom app). | 10/08/2025 | 10/08/2025 | https://000046.awsstudygroup.com/ | Container deployment |
+| 5 | - Learn about Amazon CloudWatch.<br>- Practice Lab 000008: Create dashboard, set up alarms (CPU, memory), collect and view logs from EC2 or Lightsail. | 10/09/2025 | 10/09/2025 | https://000008.awsstudygroup.com/ | Monitoring & alerting |
+| 6 | - Review all Week 5 labs.<br>- Clean up resources: delete RDS, Lightsail instances, containers, alarms to avoid charges. | 10/10/2025 | 10/10/2025 | | Cost control |
 
 ### Week 5 Achievements:
 - Acknowledged Amazon RDS:
