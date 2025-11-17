@@ -1,109 +1,118 @@
 ---
-title: "Proposal"
+title: "Project Proposal"
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
+### Real-Time Chat Application
+1. Executive Summary
 
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
+The Serverless Web Chat Platform is developed to provide a fast, secure, and easy-to-operate internal communication solution. The application supports real-time messaging between lab members through a lightweight web interface, with flexible scalability for future needs. The platform leverages AWS Serverless services such as API Gateway, AWS Lambda, DynamoDB, and Amazon Cognito to ensure stable operation, low cost, and no server management requirements. Access is restricted to lab members, ensuring security and privacy during information exchange.
 
-### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+### 2. Problem Statement  
+*Current Challenges*  
+The team is developing a chat application for learning and research purposes on building real-time web systems. If implemented using a traditional model (self-hosted servers, self-managed databases, and maintained WebSocket connections), the team would face numerous difficulties, including complex infrastructure setup, handling scalability with many concurrent connections, ensuring stability and security, as well as comprehensive system logging and monitoring. Not utilizing AWS services makes it difficult for the team to simulate modern infrastructure models, while also wasting time on operational tasks instead of focusing on core application development and technical learning.
 
-### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
+*Solution*  
+The Web Chat application is implemented using AWS services to simulate a modern application architecture. The backend uses NestJS, packaged and run on Amazon ECS or deployed directly on Amazon EC2 depending on the team's testing needs. DynamoDB is used to store messages and user information. Amazon S3 combined with CloudFront serves the VueJS frontend, optimizing content delivery speed. Route 53 is used for domain management and routing access to the frontend and backend. The entire system is monitored using Amazon CloudWatch, including logs, performance metrics, and alerts. This architecture enables the team to research the operation, deployment, and scaling of real-world applications in the AWS environment. It allows the team to easily experiment, expand features, and understand application operations in a cloud environment.
 
-### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
+*Benefits and Return on Investment (ROI)*  
+The solution enables the team to practice building a complete chat application from frontend to backend, combined with commonly used cloud services in enterprise environments. By leveraging the AWS Free Tier and test resources, deployment costs are low while still ensuring sufficient practicality for the team to gain a deep understanding of infrastructure management, monitoring, scaling, and security. Deploying on AWS reduces manual configuration time and creates a solid foundation for advanced research such as chatbots, user activity data processing, or AI system integration. The return on investment is nearly immediate due to no hardware costs and significantly reduced operational effort.
 
-### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
-
-### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
+### 3. Solution Architecture  
+The platform adopts an AWS Serverless architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15 stations. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load into another S3 bucket for analytics purposes. Lambda and API Gateway handle additional processing, while Amplify with Next.js provides a dashboard secured by Cognito.  
 
 ![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
 
 ![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
 
-### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
+*AWS Services Utilized*  
+- *AWS IoT Core*: Ingests MQTT data from 5 stations, scalable to 15.  
+- *AWS Lambda*: Processes data and triggers Glue jobs (2 functions).  
+- *Amazon API Gateway*: Interfaces with the web application.  
+- *Amazon S3*: Stores raw data (data lake) and processed data (2 buckets).  
+- *AWS Glue*: Crawlers index data; ETL jobs transform and load data.  
+- *AWS Amplify*: Hosts the Next.js web interface.  
+- *Amazon Cognito*: Manages access for lab users.  
 
-### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
+*Component Design*  
+- *Edge Devices*: Raspberry Pi collects and filters sensor data, sends to IoT Core.  
+- *Data Ingestion*: AWS IoT Core receives MQTT messages from edge devices.  
+- *Data Storage*: Raw data stored in S3 data lake; processed data in a separate S3 bucket.  
+- *Data Processing*: AWS Glue Crawlers index data; ETL jobs transform for analysis.  
+- *Web Interface*: AWS Amplify hosts the Next.js application for dashboard and real-time analytics.  
+- *User Management*: Amazon Cognito limits access to 5 active accounts.  
 
-### 4. Technical Implementation
-**Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
+### 4. Technical Implementation  
+**Implementation Phases**  
+The Web Chat project consists of 2 main parts — backend and frontend — each undergoing 4 phases:  
 
-**Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
+1. **Research and Architecture Design**: Study VueJS, NestJS, and AWS services (EC2/ECS, S3, DynamoDB, CloudFront, Route53, CloudWatch). Design overall architecture, data flow, database, and real-time connections (1 month before internship).  
+2. **Cost Estimation and Feasibility Check**: Use AWS Pricing Calculator to estimate costs for EC2/ECS, DynamoDB, S3, CloudFront, CloudWatch and adjust the design accordingly (Month 1).  
+3. **Architecture Optimization for Cost/Solution**: Fine-tune ECS/EC2 configuration, optimize DynamoDB queries, cache frontend with CloudFront, and program NestJS/VueJS to reduce backend load, ensuring cost-effectiveness and performance (Month 2).  
+4. **Development, Testing, Deployment**: Program NestJS backend and VueJS frontend; deploy ECS/EC2, S3 + CloudFront, DynamoDB, Route53, CloudWatch; conduct system testing (functional, load test) and go live (Months 2–3).  
 
-### 5. Timeline & Milestones
-**Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+---
 
-### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
+**_Technical Requirements_**  
+- **Backend**: NestJS with real-time connectivity (WebSocket or REST), store chat and user data in DynamoDB, log and monitor via CloudWatch, container deployment on ECS or EC2, domain integration via Route53.  
+- **Frontend**: VueJS, distributed via S3 + CloudFront for speed optimization, load assets and real-time chat interface.  
+- **Infrastructure & CI/CD**: Use Infrastructure as Code (CloudFormation / CDK) to deploy ECS/EC2, S3, DynamoDB, CloudFront, Route53; Dockerize backend for easy deployment and scaling.  
+- **Real-time & Performance**: WebSocket or API Gateway (if using REST) for real-time message sending/receiving; cache frontend with CloudFront to reduce direct backend requests.  
+- **Security & User Management**: Use JWT or Cognito if needed for authentication, authorize access to internal chat data.  
 
-### Infrastructure Costs
-- AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
+### 5. Roadmap & Milestones  
+- *Pre-Internship (Month 0)*: 1 month surveying project requirements, selecting technologies (VueJS, NestJS, EC2, S3, DynamoDB, CloudFront, Route53, ECS, CloudWatch) and building the overall plan.
+- *Internship (Months 1–3)*:  
+    - Month 1: Learn and familiarize with AWS (EC2, ECS, DynamoDB, S3, CloudFront, Route53, CloudWatch). Set up development environment, create NestJS backend and VueJS frontend prototypes. 
+    - Month 2: Design and adjust system architecture, build core features (real-time chat, message storage, basic UI). Set up AWS infrastructure: ECS/EC2 for backend, S3 + CloudFront for frontend, DynamoDB for data, Route53 for domain.  
+    - Month 3: Official deployment, testing (functional, load 20–30 users), performance optimization, configure CloudWatch monitoring and put into operation. 
+- *Post-Deployment*: Continue research and feature expansion for 1 year (chatbot, data analytics, UI/UX improvements, security and cost optimization).  
 
-Total: $0.7/month, $8.40/12 months
+### 6. Budget Estimation  (to be calculated)
+View costs on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01)  
+Or download the [budget estimation file](../attachments/budget_estimation.pdf).  
 
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
+*Infrastructure Costs*  (not yet calculated)
+- EC2: 0.00 USD/month (instance type & running hours not yet estimated).
+- ECS (Fargate or EC2-backed): 0.00 USD/month (vCPU/Memory not yet estimated).
+- DynamoDB: 0.00 USD/month (~30,000 writes, 0.086 GB data, On-Demand or RCU/WCU not yet estimated).
+- S3 Standard: 0.00 USD/month (~2.15 GB storage, 3,750 requests/month).
+- CloudFront: 0.00 USD/month (static frontend distribution + reduced S3 load).
+- CloudWatch: 0.00 USD/month (~56 MB logs/month).
+- Route53: 0.00 USD/month (1 hosted zone + DNS queries).
+- Data Transfer: 0.00 USD/month (~0.387 GB outbound/month).
 
-### 7. Risk Assessment
-#### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
+*Total*: 0.7 USD/month, 8.40 USD/12 months  
+- *Hardware*: 265 USD one-time (Raspberry Pi 5 and sensors).  
 
-#### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
+### 7. Risk Assessment  
+**Risk Matrix**  
+- Network loss / internet outage: Medium impact, medium probability.  
+- Backend EC2/ECS downtime: High impact, low probability.  
+- Data errors / DynamoDB: High impact, low probability.  
+- AWS budget overrun: Medium impact, low probability.  
+- Frontend / CloudFront errors: Low impact, medium probability.  
 
-#### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+**Mitigation Strategies**  
+- Network/Internet loss: Use frontend cache (CloudFront) and retry logic in NestJS; temporarily store messages locally if offline (localStorage or IndexedDB).  
+- Backend downtime: Deploy ECS with autoscaling and health checks; use multi-AZ EC2 if needed.  
+- Data errors / DynamoDB: Enable automatic backups, validate schema; log and monitor with CloudWatch.  
+- AWS budget overrun: Set CloudWatch billing alarms, control log retention, optimize instances/services.  
+- Frontend / CloudFront errors: Use versioned deployments for quick rollback if needed.  
 
-### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
-#### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+**Contingency Plan**  
+- Use Infrastructure as Code (CloudFormation / Terraform) to quickly recreate AWS infrastructure.  
+- If AWS experiences prolonged issues, run a **local dev server version (VueJS + NestJS on personal or lab machines)** to continue internal chat.  
+- Regularly check CloudWatch logs and health metrics to detect issues early.
+
+### 8. Expected Outcomes  
+**Technical Improvements**  
+- Real-time chat application, replacing manual exchanges via email or notes.  
+- Centralized storage of messages and attachments, easy to retrieve and manage.  
+- Modular architecture with NestJS backend, VueJS frontend, and AWS infrastructure (EC2/ECS, S3, DynamoDB, CloudFront, Route53, CloudWatch) scalable to serve 50 to 100 users in the future.  
+
+**Long-Term Value**  
+- The platform can store chat data and usage logs for 1 year for research, user experience evaluation, or testing AI/ML features such as chatbots and user behavior analysis.  
+- The architecture and codebase can be reused for other team projects or internal lab applications.  
+- Helps the team become proficient in deploying, managing, and monitoring cloud-native systems on AWS.
