@@ -1,31 +1,33 @@
 ---
 title: "Week 12 Worklog"
-weight: 2
+weight: 12
 chapter: false
 pre: " <b> 1.12. </b> "
 ---
 
 ### Week 12 Objectives:
-
-* Summarize and review all AWS skills learned throughout the program.
-* Focus on security optimization, cost management, and final report preparation.
-* Perform system analysis and propose optimization strategies.
-* Prepare the final project documentation and presentation.
+- Summarize the entire web chat internship project.
+- Finalize the final report, workshop, and proposal.
+- Clean up all AWS resources and analyze costs.
+- Evaluate learning outcomes and draw lessons.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        | Note                   |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- | ---------------------------- |
-| 2   | - Analyze AWS usage costs with AWS Cost Explorer and Billing Dashboard.                                                                                                   | 24/11/2025 | 24/11/2025      | <https://000097.awsstudygroup.com/> | Cost analysis and monitoring. |
-| 3   | - Study cost optimization with Reserved Instances, Savings Plans, and S3 lifecycle policies.                                              | 25/11/2025 | 25/11/2025      | <https://000098.awsstudygroup.com/> | Optimize cost and storage. |
-| 4   | - Review all key AWS services: EC2, S3, RDS, IAM, CloudWatch, and Lambda. | 26/11/2025 | 26/11/2025      | <https://aws.amazon.com/training/> | Full system review. |
-| 5   | - Complete final report: system architecture, deployment process, and lessons learned.                            | 27/11/2025 | 27/11/2025      | Self-prepared | Write and format report. |
-| 6   | - Present final report and summarize the entire AWS learning journey.                                                                                     | 28/11/2025 | 28/11/2025      |  | End of AWS training. |
 
+| Day | Task | Start Date | Completion Date | Reference Material | Note |
+| ---- | ---- | ---------- | --------------- | ------------------ | ---- |
+| 2 | - Compile the final report: describe the system, AWS architecture, deployment results.<br> | 11/24/2025 | 11/24/2025 | Hugo Site<br>Google Slides / Reveal.js |  |
+| 3 | - Conduct workshop demo: present the proposal, run the live web chat system (frontend, backend, real-time).<br> | 11/25/2025 | 11/25/2025 | AWS Live System<br>Zoom/Meet |  |
+| 4 | - Analyze AWS costs: summarize Cost Explorer, identify the most expensive services (EC2, CloudFront, MongoDB).<br>- Clean up all resources. | 11/26/2025 | 11/26/2025 | AWS Cost Explorer<br>Console Cleanup |  |
+| 5 | - Update Hugo site: add final report, demo link, system screenshots.<br>- Backup all code and documents to GitHub. | 11/27/2025 | 11/27/2025 | Hugo Build<br>GitHub Release |  |
+| 6 | - Submit Hugo workshop report | 11/28/2025 | 11/28/2025 | Google Docs<br>Drive |  |
 
 ### Week 12 Achievements:
-
-* Gained deeper understanding of AWS cost optimization and billing management.
-* Consolidated all core AWS concepts and hands-on skills.
-* Completed final documentation summarizing project architecture and deployment.
-* Practiced presentation and reporting skills.
-* Successfully completed the AWS FCJ training program.
+- Final report completed:
+  - Detailed description covering all 11 weeks, complete proposal, and polished workshop.
+  - System architecture: VPC → EC2 (Docker) → S3 + CloudFront → MongoDB Atlas → CloudWatch.
+  - Live results: smooth real-time chat, multi-user support, low latency.
+- Workshop successful:
+  - Clear presentation, stable live demo.
+- Hugo site finalized:
+  - Full worklogs from Week 1–12, proposal, diagrams, demo screenshots.
+- Completed the First Cloud Journey internship program.

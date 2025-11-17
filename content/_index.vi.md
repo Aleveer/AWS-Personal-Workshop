@@ -11,10 +11,10 @@ chapter: false
 |                       | **Thành viên 1**             | **Thành viên 2**       | **Thành viên 3**       | **Thành viên 4**       |
 |-----------------------|------------------------------|------------------------|------------------------|------------------------|
 | **Họ và tên**         | Nguyễn Anh Danh              | Phan Duy               |                        |                        |
-| **Mã sinh viên**      | 3121410103                   |                        |                        |                        |
-| **Số điện thoại**     | 0384876891                   |                        |                        |                        |
-| **Email**             | danhanh.nguyen1643@gmail.com |                        |                        |                        |
-| **Ngành**             | Information Technology       |                        |                        |                        |
+| **Mã sinh viên**      | 3121410103                   | 3121410003             |                        |                        |
+| **Số điện thoại**     | 0384876891                   | 0901109472             |                        |                        |
+| **Email**             | danhanh.nguyen1643@gmail.com | duyphan1305@gmail.com  |                        |                        |
+| **Ngành**             | Công nghệ thông tin          | Công nghệ thông tin    |                        |                        |
 
 &emsp; **Lớp:** AWS082025
 

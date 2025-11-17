@@ -2,30 +2,32 @@
 title: "Worklog Tuần 12"
 weight: 2
 chapter: false
-pre: " <b> 1.12 </b> "
+pre: " <b> 1.12. </b> "
 ---
 
-### Mục tiêu tuần 12:
-
-* Tổng hợp và ôn tập toàn bộ kiến thức đã học về AWS.
-* Tập trung vào bảo mật, tối ưu chi phí và hoàn thiện báo cáo cuối khóa.
-* Phân tích chi phí sử dụng dịch vụ và đề xuất phương án tối ưu tài nguyên.
-* Hoàn thiện tài liệu, báo cáo và chuẩn bị thuyết trình tổng kết.
+### Mục tiêu Tuần 12:
+- Tổng kết toàn bộ dự án web chat thực tập.
+- Hoàn thiện báo cáo cuối kỳ, workshop và proposal.
+- Dọn dẹp toàn bộ tài nguyên AWS, phân tích chi phí.
+- Đánh giá kết quả học tập và rút kinh nghiệm.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            | Note                    |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- | ---------------------------- |
-| 2   | - Phân tích chi phí dịch vụ bằng AWS Cost Explorer và Billing Dashboard.                                                                                             | 24/11/2025   | 24/11/2025      | <https://000097.awsstudygroup.com/vi/> | Phân tích chi phí. |
-| 3   | - Tìm hiểu tối ưu chi phí bằng Reserved Instances, Savings Plans, và S3 Lifecycle.                                            | 25/11/2025   | 25/11/2025      | <https://000098.awsstudygroup.com/vi/> | Giảm chi phí vận hành. |
-| 4   | - Ôn tập toàn bộ các dịch vụ AWS chính: EC2, S3, RDS, IAM, CloudWatch, Lambda. | 26/11/2025   | 26/11/2025      | <https://aws.amazon.com/training/> | Tổng ôn kiến thức. |
-| 5   | - Hoàn thiện báo cáo cuối khóa: kiến trúc hệ thống, quy trình triển khai, bài học rút ra.                  | 27/11/2025   | 27/11/2025      | Tự biên soạn | Viết báo cáo.
-| 6   | - Thuyết trình báo cáo và tổng kết toàn bộ quá trình học.                                                                                      | 28/11/2025   | 28/11/2025      |   | Kết thúc chương trình. |
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu | Ghi chú |
+| ---- | --------- | ------------ | --------------- | -------------- | ------- |
+| 2 | - Tổng hợp báo cáo cuối kỳ: mô tả hệ thống, kiến trúc AWS, kết quả triển khai.<br>| 24/11/2025 | 24/11/2025 | Hugo Site<br>Google Slides / Reveal.js | |
+| 3 | - Thực hiện workshop demo: trình bày proposal, chạy live hệ thống web chat (frontend, backend, real-time).<br>| 25/11/2025 | 25/11/2025 | AWS Live System<br>Zoom/Meet ||
+| 4 | - Phân tích chi phí AWS: tổng hợp Cost Explorer, xác định dịch vụ tốn nhiều nhất (EC2, CloudFront, MongoDB).<br>- Dọn dẹp toàn bộ tài nguyên. | 26/11/2025 | 26/11/2025 | AWS Cost Explorer<br>Console Cleanup | |
+| 5 | - Cập nhật Hugo site: thêm báo cáo cuối kỳ, link demo, ảnh chụp hệ thống.<br>- Backup toàn bộ code, tài liệu vào GitHub. | 27/11/2025 | 27/11/2025 | Hugo Build<br>GitHub Release | |
+| 6 | - Nộp báo cáo Hugo workshop. | 28/11/2025 | 28/11/2025 | Google Docs<br>Drive | |
 
 ### Kết quả đạt được tuần 12:
-
-* Biết cách phân tích và tối ưu chi phí sử dụng dịch vụ AWS.
-* Củng cố toàn bộ kiến thức và kỹ năng đã học trong chương trình.
-* Hoàn thiện báo cáo cuối khóa và chuẩn bị thuyết trình tổng kết.
-* Nắm được chiến lược tối ưu vận hành, bảo mật và quản lý chi phí.
-* Hoàn thành chương trình đào tạo AWS FCJ thành công.
+- Báo cáo cuối kỳ hoàn chỉnh:
+  - Mô tả chi tiết đầy đủ trong 11 tuần, proposal hoàn chỉnh, workshop hoàn thiện.
+  - Kiến trúc hệ thống: VPC → EC2 (Docker) → S3 + CloudFront → MongoDB Atlas → CloudWatch.
+  - Kết quả live: chat real-time hoạt động mượt, hỗ trợ đa người dùng, latency thấp.
+- Workshop thành công:
+  - Trình bày rõ ràng, demo live ổn định.
+- Hugo site hoàn thiện:
+  - Đầy đủ worklog tuần 1–12, proposal, sơ đồ, ảnh demo.
+- Kết thúc chương trình thực tập First Cloud Journey.
