@@ -1,6 +1,6 @@
 ---
 title: "Blog 12"
-weight: 1
+weight: 2
 chapter: false
 pre: " <b> 3.12. </b> "
 ---

@@ -23,7 +23,6 @@ pre: " <b> 1.12. </b> "
 ### Week 12 Achievements:
 - Final report completed:
   - Detailed description covering all 11 weeks, complete proposal, and polished workshop.
-  - System architecture: VPC → EC2 (Docker) → S3 + CloudFront → MongoDB Atlas → CloudWatch.
   - Live results: smooth real-time chat, multi-user support, low latency.
 - Workshop successful:
   - Clear presentation, stable live demo.
