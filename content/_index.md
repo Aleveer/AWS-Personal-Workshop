@@ -8,13 +8,13 @@ chapter: false
 
 ### Student Information:
 
-|                       | **Person 1**                 | **Person 2**           | **Person 3**                      | **Person 4**           |
-|-----------------------|------------------------------|------------------------|-----------------------------------|------------------------|
-| **Full Name**         | Nguyen Anh Danh              | Phan Duy               | Nguyen Ngoc Thanh Dai             | Nguyen Xuan Truc       |
-| **Student id**        | 3121410103                   |3121410003              | 3121410135                        | 3121410534             |
-| **Phone Number**      | 0384876891                   | 0901109472             | 0904814457                        | 0938113287             |
+|                       | **Person 1**                 | **Person 2**           | **Person 3**                      | **Person 4**           		|
+|-----------------------|------------------------------|------------------------|-----------------------------------|-------------------------------|
+| **Full Name**         | Nguyen Anh Danh              | Phan Duy               | Nguyen Ngoc Thanh Dai             | Nguyen Xuan Truc              |
+| **Student id**        | 3121410103                   |3121410003              | 3121410135                        | 3121410534             		|
+| **Phone Number**      | 0384876891                   | 0901109472             | 0904814457                        | 0938113287             		|
 | **Email**             | danhanh.nguyen1643@gmail.com | duyphan1305@gmail.com  | nguyenngocthanhdai2003@gmail.com  | nguyenxuantruc.1203@gmail.com |
-| **Major**             | Information Technology       | Information Technology                        | Information Technology                       | Information Technology                       |
+| **Major**             | Information Technology       | Information Technology | Information Technology            | Information Technology 		|
 
 &emsp; **Class:** AWS082025
 
@@ -25,8 +25,6 @@ chapter: false
 &emsp; **Internship Position:** FCJ Cloud Intern.
 
 &emsp; **Internship Duration:** From 09/09/2025 to 09/12/2025
-
-<!-- ![Your profile picture](/images/avatar.jpg) -->
 
 ### Report Content
 
