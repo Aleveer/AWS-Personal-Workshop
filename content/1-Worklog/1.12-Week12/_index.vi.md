@@ -24,7 +24,6 @@ pre: " <b> 1.12. </b> "
 ### Kết quả đạt được tuần 12:
 - Báo cáo cuối kỳ hoàn chỉnh:
   - Mô tả chi tiết đầy đủ trong 11 tuần, proposal hoàn chỉnh, workshop hoàn thiện.
-  - Kiến trúc hệ thống: VPC → EC2 (Docker) → S3 + CloudFront → MongoDB Atlas → CloudWatch.
   - Kết quả live: chat real-time hoạt động mượt, hỗ trợ đa người dùng, latency thấp.
 - Workshop thành công:
   - Trình bày rõ ràng, demo live ổn định.
