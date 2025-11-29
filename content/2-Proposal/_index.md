@@ -20,12 +20,12 @@ The Web Chat application is deployed based on AWS Serverless services, aiming to
 The solution enables the team to practice building a complete chat application from frontend to backend, combined with commonly used cloud services in enterprise environments. By leveraging the AWS Free Tier and test resources, deployment costs are low while still ensuring sufficient practicality for the team to gain a deep understanding of infrastructure management, monitoring, scaling, and security. Deploying on AWS reduces manual configuration time and creates a solid foundation for advanced research such as chatbots, user activity data processing, or AI system integration. The return on investment is nearly immediate due to no hardware costs and significantly reduced operational effort.
 
 ### 3. Solution Architecture  
-The Web Chat application is deployed based on the AWS Serverless architecture, ensuring high scalability and performance.The Realtime Backend is built around Amazon API Gateway (WebSocket API) and AWS Lambda Functions to handle event-driven chat logic. Amazon DynamoDB is used to store messages and connection information, providing the low latency required for a realtime application.The Frontend, written in VueJS, is hosted on Amazon S3 and distributed via CloudFront to optimize speed and secure the WebSocket (WSS) connection. Route 53 manages the custom domain and routes traffic, utilizing ACM (Certificate Manager) for certification. Amazon Cognito handles user authentication and identity management.The entire system is monitored by Amazon CloudWatch and secured by IAM policies. This architecture facilitates the team's research into the processes of operations (DevOps), continuous deployment, and scaling a realtime chat application on the cloud environment.
+The Web Chat application is deployed based on the AWS Serverless architecture, ensuring high scalability and performance.The Realtime Backend is built around Amazon API Gateway (WebSocket API) and AWS Lambda Functions to handle event-driven chat logic. Amazon DynamoDB is used to store messages and connection information, providing the low latency required for a realtime application.The Frontend, written in VueJS, is hosted on Amazon Amplify and distributed via CloudFront to optimize speed and secure the WebSocket (WSS) connection. Route 53 manages the custom domain and routes traffic, utilizing ACM (Certificate Manager) for certification. Amazon Cognito handles user authentication and identity management.The entire system is monitored by Amazon CloudWatch and secured by IAM policies. This architecture facilitates the team's research into the processes of operations (DevOps), continuous deployment, and scaling a realtime chat application on the cloud environment.
 
 ![WebChat Realtime Serverless Architecture](/images/2-Proposal/webchat_architecture.png)
 
 *AWS Services Utilized*  
-- *Amazon S3*: Stores the static web interface built with Vue.js. 
+- *Amazon Amplify*: Stores the static web interface built with Vue.js. 
 - *AWS Lambda*: 1 Lambda Authorizer to check the Cognito token and 3 Lambda Functions to handle business logic for the WebSocket routes.
 - *Amazon API Gateway*: Receives and maintains WebSocket connections, routing events.
 - *Amazon Route 53*: Manages DNS and routes the custom domain.
@@ -50,23 +50,23 @@ The Web Chat Project consists of 2 main parts—building the backend, frontend f
 
 1. **Building the Prototype**: Research VueJS, NestJS, and plan the construction of the Web Chat running on a LAN network (1 month before the internship period).
 2. **Research and Architecture Design**: Research AWS services and draw the architecture suitable for the WebChat project (Month 1).
-3. **Cost Estimation and Feasibility Check**:Use the AWS Pricing Calculator to estimate the costs of Lambda, API Gateway, DynamoDB, S3, CloudFront, CloudWatch, and adjust the design accordingly (Month 2).
+3. **Cost Estimation and Feasibility Check**:Use the AWS Pricing Calculator to estimate the costs of Lambda, API Gateway, DynamoDB, Amplify, CloudFront, CloudWatch, and adjust the design accordingly (Month 2).
 4. **Architecture Optimization for Cost/Solution**: Fine-tune API Gateway WebSocket configuration, optimize Lambda functions (memory/concurrency) and DynamoDB Schema. Cache the frontend using CloudFront to ensure performance and reduce backend load (Month 3).
-5. **Development, Testing, Deployment**: Program the Lambda Functions, VueJS frontend; deploy the entire infrastructure (API Gateway, Lambda, DynamoDB, S3 + CloudFront, Route53, Cognito); test the system (functional, load test) and launch operations (Month 3–4)."
+5. **Development, Testing, Deployment**: Program the Lambda Functions, VueJS frontend; deploy the entire infrastructure (API Gateway, Lambda, DynamoDB, Amplify + CloudFront, Route53, Cognito); test the system (functional, load test) and launch operations (Month 3–4)."
 
 ---
 
 **_Technical Requirements_**  
 - **Backend**:API Gateway with Lambda Functions provides real-time connectivity, stores chat and user data on DynamoDB, logs and monitoring are handled on CloudWatch, and the custom domain is integrated via Route53. 
-- **Frontend**: VueJS, distributed via S3 + CloudFront for speed optimization, load assets and real-time chat interface.  
+- **Frontend**: VueJS, distributed via Amplify + CloudFront for speed optimization, load assets and real-time chat interface.  
 - **Real-time & Performance**: WebSocket or API Gateway (if using REST) for real-time message sending/receiving; cache frontend with CloudFront to reduce direct backend requests.  
 - **Security & User Management**: Use JWT or Cognito if needed for authentication, authorize access to internal chat data.  
 
 ### 5. Roadmap & Milestones  
-- *Pre-Internship (Month 0)*: 1 month surveying project requirements, selecting technologies (VueJS, NestJS, EC2, S3, DynamoDB, CloudFront, Route53, ECS, CloudWatch) and building the overall plan.
+- *Pre-Internship (Month 0)*: 1 month surveying project requirements, selecting technologies (VueJS, NestJS, EC2, Amplify, DynamoDB, CloudFront, Route53, ECS, CloudWatch) and building the overall plan.
 - *Internship (Months 1–3)*:  
-    - Month 1: Learn and familiarize with AWS (EC2, ECS, DynamoDB, S3, CloudFront, Route53, CloudWatch). Set up development environment, create NestJS backend and VueJS frontend prototypes. 
-    - Month 2: Design and adjust system architecture, build core features (real-time chat, message storage, basic UI). Set up AWS infrastructure: Lambda + API Gateway for backend, S3 + CloudFront for frontend, DynamoDB for data, Route53 for domain.  
+    - Month 1: Learn and familiarize with AWS (EC2, ECS, DynamoDB, Amplify, CloudFront, Route53, CloudWatch). Set up development environment, create NestJS backend and VueJS frontend prototypes. 
+    - Month 2: Design and adjust system architecture, build core features (real-time chat, message storage, basic UI). Set up AWS infrastructure: Lambda + API Gateway for backend, Amplify + CloudFront for frontend, DynamoDB for data, Route53 for domain.  
     - Month 3: Official deployment, testing (functional, load 20–30 users), performance optimization, configure CloudWatch monitoring and put into operation. 
 - *Post-Deployment*: Continue research and feature expansion for 1 year (chatbot, data analytics, UI/UX improvements, security and cost optimization).  
 
@@ -77,7 +77,7 @@ View costs on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=
 - AWS Lambda: 0,01 USD/month ( ~50.000 Invocations)
 - Amazon API Gateway: 3,80 USD/month  ( Assumes 30 users utilizing 150,000 minutes of connection time and sending 50,000 messages)
 - DynamoDB: 0,05 USD/month (~ 50.000 Writes)
-- S3 Standard: 0,20 USD/month 
+- Amplify: 0,20 USD/month 
 - CloudFront: 0,68 USD/month (Data Transfer Out 8GB)
 - CloudWatch: 0,05 USD/month (50MB log)
 - Route53: $0.50 USD/month 
@@ -108,7 +108,7 @@ View costs on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=
 **Technical Improvements**  
 - Real-time chat application, replacing manual exchanges via email or notes.  
 - Centralized storage of messages and attachments, easy to retrieve and manage.  
-- Modular architecture with NestJS backend, VueJS frontend, and AWS infrastructure (Lambda ,API Gateway, S3, DynamoDB, CloudFront, Route53, CloudWatch) scalable to serve 50 to 100 users in the future.  
+- Modular architecture with NestJS backend, VueJS frontend, and AWS infrastructure (Lambda ,API Gateway, Amplify, DynamoDB, CloudFront, Route53, CloudWatch) scalable to serve 50 to 100 users in the future.  
 
 **Long-Term Value**  
 - The platform can store chat data and usage logs for 1 year for research, user experience evaluation, or testing AI/ML features such as chatbots and user behavior analysis.  

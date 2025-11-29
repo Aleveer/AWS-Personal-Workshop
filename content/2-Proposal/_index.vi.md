@@ -20,12 +20,12 @@ Nhóm đang phát triển một ứng dụng chat phục vụ mục đích học
 Giải pháp giúp nhóm thực hành xây dựng ứng dụng chat hoàn chỉnh từ frontend đến backend, kết hợp với các dịch vụ cloud thường dùng trong môi trường doanh nghiệp. Nhờ tận dụng Free Tier và các tài nguyên test, chi phí triển khai thấp nhưng vẫn đảm bảo đủ tính thực tiễn để nhóm hiểu rõ về quản lý hạ tầng, giám sát, mở rộng và bảo mật. Việc triển khai trên AWS giúp giảm thời gian cấu hình thủ công, đồng thời tạo nền tảng vững chắc cho các nghiên cứu nâng cao như chatbot, xử lý dữ liệu hoạt động người dùng hoặc tích hợp hệ thống AI. Thời gian hoàn vốn gần như tức thời do không yêu cầu chi phí phần cứng và giảm đáng kể nỗ lực vận hành.
 
  ### 3. Kiến trúc giải pháp  
-Ứng dụng Web Chat được triển khai dựa trên kiến trúc AWS Serverless, đảm bảo khả năng mở rộng và hiệu suất cao. Backend Realtime được xây dựng xung quanh Amazon API Gateway (WebSocket API) và các AWS Lambda Functions để xử lý logic chat theo sự kiện. Amazon DynamoDB được sử dụng để lưu trữ tin nhắn và thông tin kết nối, cung cấp độ trễ thấp cần thiết cho ứng dụng realtime. Frontend viết bằng VueJS, được lưu trữ trên Amazon S3 và phân phối qua CloudFront để tối ưu tốc độ và bảo mật kết nối WebSocket (WSS). Route 53 quản lý tên miền và định tuyến truy cập, sử dụng ACM (Certificate Manager) để cấp chứng chỉ. Amazon Cognito quản lý xác thực và danh tính người dùng. Toàn bộ hệ thống được giám sát bằng Amazon CloudWatch và được bảo vệ bởi các chính sách IAM. Kiến trúc này tạo điều kiện thuận lợi cho nhóm nghiên cứu các quy trình vận hành, triển khai liên tục và mở rộng ứng dụng chat realtime trên môi trường đám mây. 
+Ứng dụng Web Chat được triển khai dựa trên kiến trúc AWS Serverless, đảm bảo khả năng mở rộng và hiệu suất cao. Backend Realtime được xây dựng xung quanh Amazon API Gateway (WebSocket API) và các AWS Lambda Functions để xử lý logic chat theo sự kiện. Amazon DynamoDB được sử dụng để lưu trữ tin nhắn và thông tin kết nối, cung cấp độ trễ thấp cần thiết cho ứng dụng realtime. Frontend viết bằng VueJS, được lưu trữ trên Amazon Amplify và phân phối qua CloudFront để tối ưu tốc độ và bảo mật kết nối WebSocket (WSS). Route 53 quản lý tên miền và định tuyến truy cập, sử dụng ACM (Certificate Manager) để cấp chứng chỉ. Amazon Cognito quản lý xác thực và danh tính người dùng. Toàn bộ hệ thống được giám sát bằng Amazon CloudWatch và được bảo vệ bởi các chính sách IAM. Kiến trúc này tạo điều kiện thuận lợi cho nhóm nghiên cứu các quy trình vận hành, triển khai liên tục và mở rộng ứng dụng chat realtime trên môi trường đám mây. 
 
 ![WebChat Realtime Serverless Architecture](/images/2-Proposal/webchat_architecture.png)
 
 *Dịch vụ AWS sử dụng*
-- *Amazon S3*: Lưu trữ giao diện web tĩnh được xây dựng bằng Vue.js.  
+- *Amazon Amplify*: Lưu trữ giao diện web tĩnh được xây dựng bằng Vue.js.  
 - *AWS Lambda*: 1 Lambda Authorizer để kiểm tra token Cognito và 3 Lambda Functions để xử lý nghiệp vụ cho các route WebSocket.
 - *Amazon API Gateway*: Tiếp nhận và duy trì kết nối WebSocket, định tuyến các sự kiện .   
 - *Amazon Route 53*: Quản lý DNS và định tuyến tên miền tùy chỉnh.  
@@ -49,23 +49,23 @@ Giải pháp giúp nhóm thực hành xây dựng ứng dụng chat hoàn chỉn
 Dự án Web Chat gồm 2 phần chính — xây dựng backend , frontend cho web và triển khai lên Cloud AWS - trải qua 5 giai đoạn:  
 1. **Xây dựng Prototype**: Tìm hiểu VueJS, NestJS và lên kế hoạch xây dựng Web chat chạy trên mạng LAN  (1 tháng trước kỳ thực tập).  
 2. **Nghiên cứu và vẽ kiến trúc**: Tìm hiểu các dịch vụ AWS và vẽ kiến trúc phù hợp với dự án WebChat (Tháng 1).  
-3. **Tính toán chi phí và kiểm tra tính khả thi**: Sử dụng AWS Pricing Calculator để ước tính chi phí Lambda, API Gateway, DynamoDB, S3, CloudFront, CloudWatch và điều chỉnh thiết kế cho phù hợp (Tháng 2).  
+3. **Tính toán chi phí và kiểm tra tính khả thi**: Sử dụng AWS Pricing Calculator để ước tính chi phí Lambda, API Gateway, DynamoDB, Amplify, CloudFront, CloudWatch và điều chỉnh thiết kế cho phù hợp (Tháng 2).  
 4. **Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp**: Tinh chỉnh cấu hình API Gateway WebSocket, tối ưu hóa các hàm Lambda (memory/concurrency) và Schema DynamoDB. Cache frontend bằng CloudFront để đảm bảo hiệu suất và giảm tải backend. (Tháng 3).
-5. **Phát triển, kiểm thử, triển khai**: Lập trình các Lambda Functions, frontend VueJS; triển khai toàn bộ hạ tầng (API Gateway, Lambda, DynamoDB, S3 + CloudFront, Route53, Cognito) ; kiểm thử hệ thống (functional, load test) và đưa vào vận hành. (Tháng 3–4).
+5. **Phát triển, kiểm thử, triển khai**: Lập trình các Lambda Functions, frontend VueJS; triển khai toàn bộ hạ tầng (API Gateway, Lambda, DynamoDB, Amplify + CloudFront, Route53, Cognito) ; kiểm thử hệ thống (functional, load test) và đưa vào vận hành. (Tháng 3–4).
 
 ---
 
 **_Yêu cầu kỹ thuật_**  
 - **Backend**: API Gateway với Lambda Function kết nối realtime , lưu trữ dữ liệu chat và người dùng trên DynamoDB, log và giám sát trên CloudWatch, tích hợp domain qua Route53.  
-- **Frontend**: VueJS, phân phối qua S3 + CloudFront để tối ưu tốc độ, load assets và giao diện chat realtime.  
+- **Frontend**: VueJS, phân phối qua Amplify + CloudFront để tối ưu tốc độ, load assets và giao diện chat realtime.  
 - **Realtime & hiệu năng**: API Gateway Websocket để gửi nhận tin nhắn thời gian thực; cache frontend bằng CloudFront để giảm request trực tiếp lên backend.  
 - **Bảo mật & quản lý người dùng**: Sử dụng Cognito để xác thực, phân quyền truy cập dữ liệu chat nội bộ.  
 
 ### 5. Lộ trình & Mốc triển khai  
-- *Trước thực tập (Tháng 0)*: 1 tháng khảo sát yêu cầu dự án, chọn công nghệ (VueJS, NestJS, EC2, S3, DynamoDB, CloudFront, Route53, ECS, CloudWatch) và xây dựng kế hoạch tổng thể.
+- *Trước thực tập (Tháng 0)*: 1 tháng khảo sát yêu cầu dự án, chọn công nghệ (VueJS, NestJS, EC2, Amplify, DynamoDB, CloudFront, Route53, ECS, CloudWatch) và xây dựng kế hoạch tổng thể.
 - *Thực tập (Tháng 1–3)*:  
-    - Tháng 1: Học và làm quen với AWS (EC2, ECS, DynamoDB, S3, CloudFront, Route53, CloudWatch). Thiết lập môi trường phát triển, tạo prototype backend NestJS và frontend VueJS. 
-    - Tháng 2: Thiết kế và điều chỉnh kiến trúc hệ thống, xây dựng tính năng chính (chat realtime, lưu tin nhắn, giao diện cơ bản). Thiết lập hạ tầng AWS: Lambda + API Gateway cho backend, S3 + CloudFront cho frontend, DynamoDB cho dữ liệu, Route53 cho domain.  
+    - Tháng 1: Học và làm quen với AWS (EC2, ECS, DynamoDB, Amplify, CloudFront, Route53, CloudWatch). Thiết lập môi trường phát triển, tạo prototype backend NestJS và frontend VueJS. 
+    - Tháng 2: Thiết kế và điều chỉnh kiến trúc hệ thống, xây dựng tính năng chính (chat realtime, lưu tin nhắn, giao diện cơ bản). Thiết lập hạ tầng AWS: Lambda + API Gateway cho backend, Amplify + CloudFront cho frontend, DynamoDB cho dữ liệu, Route53 cho domain.  
     - Tháng 3: Triển khai chính thức, kiểm thử (functional, load 20–30 user), tối ưu hiệu năng, cấu hình giám sát CloudWatch và đưa vào sử dụng. 
 - *Sau triển khai*:  Tiếp tục nghiên cứu và mở rộng tính năng trong vòng 1 năm (chatbot, phân tích dữ liệu, cải thiện UI/UX, tối ưu bảo mật và chi phí).  
 
@@ -76,7 +76,7 @@ Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/e
 - AWS Lambda: 0,01 USD/tháng ( ~50.000 Invocations)
 - Amazon API Gateway: 3,80 USD/tháng  ( giả định 30 user sử dụng 150000 phút và gửi 50000 tin nhắn)
 - DynamoDB: 0,05 USD/tháng (~ 50.000 Writes)
-- S3 Standard: 0,20 USD/tháng 
+- Amplify : 0,20 USD/tháng 
 - CloudFront: 0,68 USD/tháng (Data Transfer Out 8GB)
 - CloudWatch: 0,05 USD/tháng (50MB log)
 - Route53: $0.50 USD/tháng 
@@ -108,7 +108,7 @@ Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/e
 **Cải tiến kỹ thuật**  
 - Ứng dụng chat thời gian thực, thay thế việc trao đổi thủ công qua email hoặc ghi chú.  
 - Lưu trữ tin nhắn và file đính kèm tập trung, dễ truy xuất và quản lý.  
-- Kiến trúc mô-đun với backend , frontend VueJS và hạ tầng AWS (Lambda ,API Gateway,S3, DynamoDB, CloudFront, Route53, CloudWatch) có thể mở rộng để phục vụ từ 50 đến 100 người dùng trong tương lai.  
+- Kiến trúc mô-đun với backend , frontend VueJS và hạ tầng AWS (Lambda ,API Gateway,Amplify, DynamoDB, CloudFront, Route53, CloudWatch) có thể mở rộng để phục vụ từ 50 đến 100 người dùng trong tương lai.  
 
 **Giá trị dài hạn**  
 - Nền tảng có thể lưu trữ dữ liệu chat và log sử dụng trong 1 năm cho nghiên cứu, đánh giá trải nghiệm người dùng hoặc thử nghiệm các tính năng AI/ML như chatbot, phân tích hành vi người dùng.  
