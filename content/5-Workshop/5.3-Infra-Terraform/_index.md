@@ -11,7 +11,6 @@ In this section, we will use Terraform to define and deploy the entire AWS infra
 
 The deployed infrastructure includes the following main components:
 
-- **DynamoDB Tables**: Store analytics events and backup data.
 - **S3 Bucket**: Store files uploaded by users.
 - **ECR Repository**: Registry for backend Docker images.
 - **ECS Cluster and Service**: Container orchestration for backend application.

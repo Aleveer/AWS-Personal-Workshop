@@ -15,7 +15,7 @@ resource "aws_security_group" "alb_sg" {
   description = "ALB security group"
   vpc_id      = var.vpc_id
 
-  # Mở HTTP cho mọi nơi (thay bằng HTTPS hoặc giới hạn IP khi lên production)
+  # Mở HTTP cho mọi nơi
   ingress {
     from_port   = 80
     to_port     = 80

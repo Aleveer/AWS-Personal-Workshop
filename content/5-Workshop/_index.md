@@ -11,7 +11,7 @@ pre: " <b> 5. </b> "
 
 This workshop provides detailed guidance to build a complete WebChat application using modern technologies and services. The application is developed following a monorepo architecture with backend containerized and deployed on the AWS cloud platform.
 
-From a technology perspective, the workshop uses NestJS as the backend framework, packaged in Docker containers and deployed on Amazon ECS Fargate to ensure scalability and automatic management. The frontend is built with VueJS using the Vite build tool and deployed on CloudFront.
+From a technology perspective, the workshop uses NestJS as the backend framework, packaged in Docker containers and deployed on Amazon ECS Fargate to ensure scalability and automatic management. The frontend is built with VueJS using the Vite build tool and deployed on CloudFront, using Socket.io-client to connect real-time with the backend and using Pinia to manage state.
 
 Real-time messaging functionality is implemented through Socket.io, enabling efficient bidirectional communication between client and server. Amazon S3 serves as a centralized storage repository for files uploaded by users, ensuring data availability and durability.
 
@@ -22,5 +22,4 @@ Real-time messaging functionality is implemented through Socket.io, enabling eff
 3. [Infrastructure Setup with Terraform](5.3-Infra-Terraform/)
 4. [Build Docker Image and Deploy Backend](5.4-Docker-DeployBE/)
 5. [Deploy Frontend](5.5-DeployFE/)
-6. [Monitoring and Logging](5.6-Log-n-Monitor/)
-7. [Resource Cleanup](5.7-Cleanup/)
+6. [Resource Cleanup](5.7-Cleanup/)

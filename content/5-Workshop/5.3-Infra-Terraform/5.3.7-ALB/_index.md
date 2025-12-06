@@ -15,7 +15,7 @@ resource "aws_security_group" "alb_sg" {
   description = "ALB security group"
   vpc_id      = var.vpc_id
 
-  # Open HTTP for everyone (replace with HTTPS or limit IP when going to production)
+  # Open HTTP for everyone
   ingress {
     from_port   = 80
     to_port     = 80

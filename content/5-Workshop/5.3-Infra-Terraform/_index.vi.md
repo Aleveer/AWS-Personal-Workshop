@@ -11,7 +11,6 @@ Trong phần này, chúng ta sẽ sử dụng Terraform để định nghĩa và
 
 Hạ tầng được triển khai bao gồm các thành phần chính sau:
 
-- **DynamoDB Tables**: Lưu trữ analytics events và backup data
 - **S3 Bucket**: Lưu trữ files được upload từ users
 - **ECR Repository**: Registry cho Docker images của backend
 - **ECS Cluster và Service**: Container orchestration cho backend application
