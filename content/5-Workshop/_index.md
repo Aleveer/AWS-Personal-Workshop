@@ -4,27 +4,23 @@ weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+# Developing Web Chat Application using AWS Services
 
 #### Overview
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+This workshop provides detailed guidance to build a complete WebChat application using modern technologies and services. The application is developed following a monorepo architecture with backend containerized and deployed on the AWS cloud platform.
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+From a technology perspective, the workshop uses NestJS as the backend framework, packaged in Docker containers and deployed on Amazon ECS Fargate to ensure scalability and automatic management. The frontend is built with VueJS using the Vite build tool and deployed on CloudFront.
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
+Real-time messaging functionality is implemented through Socket.io, enabling efficient bidirectional communication between client and server. Amazon S3 serves as a centralized storage repository for files uploaded by users, ensuring data availability and durability.
 
 #### Content
 
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+1. [Workshop Overview](5.1-Workshop-overview/)
+2. [Prerequisites](5.2-Prerequiste/)
+3. [Infrastructure Setup with Terraform](5.3-Infra-Terraform/)
+4. [Build Docker Image and Deploy Backend](5.4-Docker-DeployBE/)
+5. [Deploy Frontend](5.5-DeployFE/)
+6. [Monitoring and Logging](5.6-Log-n-Monitor/)
+7. [Resource Cleanup](5.7-Cleanup/)
