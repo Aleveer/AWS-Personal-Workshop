@@ -28,9 +28,6 @@ email_secure = false
 email_user   = "your-email@gmail.com"
 email_pass   = "your-app-password"
 
-vpc_id            = "vpc-xxxxxxxxx"
-public_subnet_ids = ["subnet-xxxxxxxxx", "subnet-yyyyyyyyy"]
-
 default_tags = {
   managed-by = "terraform"
   env        = "dev"

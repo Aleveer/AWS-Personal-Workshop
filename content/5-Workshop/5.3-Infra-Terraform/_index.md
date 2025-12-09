@@ -31,6 +31,7 @@ The deployed infrastructure includes the following main components:
 8. [Configure IAM Roles and Policies](5.3.8-IAM/)
 9. [Configure CloudWatch Logs & ECS Service](5.3.9-Cloudwatch-ECSServices/)
 10. [Configure AWS Budgets](5.3.10-Budgets/)
+11. [Configure VPC](5.3.11-VPC/)
 
 #### Deploy Infrastructure
 
@@ -76,6 +77,7 @@ After configuring all Terraform files, follow these steps to deploy the infrastr
   - 1 S3 bucket with encryption and versioning.
   - 1 ECR repository.
   - 1 ECS cluster.
+  - 1 VPC with public subnets.
   - 1 Application Load Balancer with target group.
   - IAM roles and policies.
   - CloudWatch log group.

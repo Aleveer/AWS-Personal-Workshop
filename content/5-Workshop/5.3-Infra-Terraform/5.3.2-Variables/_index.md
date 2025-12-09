@@ -115,15 +115,4 @@ variable "email_pass" {
   type        = string
   sensitive   = true
 }
-
-variable "vpc_id" {
-  description = "VPC ID for ALB (Application Load Balancer) + ECS (Elastic Container Service)"
-  type        = string
-}
-
-variable "public_subnet_ids" {
-  description = "List of public subnet IDs for ALB (Application Load Balancer) and ECS (Fargate)"
-  type        = list(string)
-}
-
 ```

@@ -31,6 +31,7 @@ Hạ tầng được triển khai bao gồm các thành phần chính sau:
 8. [Cấu hình IAM Roles và Policies](5.3.8-IAM/)
 9. [Cấu hình CloudWatch Logs & ECS Service](5.3.9-Cloudwatch-ECSServices/)
 10. [Cấu hình AWS Budgets](5.3.10-Budgets/)
+11. [Cấu hình VPC](5.3.11-VPC/)
 
 #### Triển khai Infrastructure
 
@@ -76,6 +77,7 @@ Sau khi đã cấu hình tất cả các files Terraform, thực hiện các bư
   - 1 S3 bucket với encryption và versioning.
   - 1 ECR repository.
   - 1 ECS cluster.
+  - 1 VPC với public subnets.
   - 1 Application Load Balancer với target group.
   - IAM roles và policies.
   - CloudWatch log group.
