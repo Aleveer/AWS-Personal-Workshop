@@ -8,13 +8,15 @@ chapter: false
 
 ### Thông tin sinh viên:
 
-|                       | **Thành viên 1**             | **Thành viên 2**       | **Thành viên 3**                 | **Thành viên 4**       		|
-|-----------------------|------------------------------|------------------------|----------------------------------|--------------------------------|
-| **Họ và tên**         | Nguyễn Anh Danh              | Phan Duy               | Nguyễn Ngọc Thành Đại            | Nguyễn Xuân Trúc       		|
-| **Mã sinh viên**      | 3121410103                   | 3121410003             | 3121410135                       | 3121410534             		|
-| **Số điện thoại**     | 0384876891                   | 0901109472             | 0904814457                       | 0938113287                     |
-| **Email**             | danhanh.nguyen1643@gmail.com | duyphan1305@gmail.com  | nguyenngocthanhdai2003@gmail.com | nguyenxuantruc.1203@gmail.com  |
-| **Ngành**             | Công nghệ thông tin          | Công nghệ thông tin    | Công nghệ thông tin              | Công nghệ thông tin 	        |
+&emsp; **Họ và tên:** Nguyễn Anh Danh
+
+&emsp; **Mã sinh viên:** 3121410103
+
+&emsp; **Số điện thoại:** 0384876891
+
+&emsp; **Email:** danhanh.nguyen1643@gmail.com
+
+&emsp; **Ngành:** Công nghệ thông tin
 
 &emsp; **Lớp:** AWS082025
 

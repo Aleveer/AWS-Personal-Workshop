@@ -114,7 +114,3 @@ Sau khi xong các bước trên, chúng ta đã dọn dẹp xong Frontend trên 
 ![Clean Up Hosted Zone4](/images/5-Workshop/5.6-Cleanup/cleanuphostedzone4.png)
 
 Vậy là đã dọn dẹp thành công các tài nguyên đã sử dụng của dịch vụ AWS.
-
-
-
-

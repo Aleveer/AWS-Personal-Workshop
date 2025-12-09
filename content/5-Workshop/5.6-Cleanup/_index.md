@@ -114,5 +114,3 @@ After completing the above steps, we have finished cleaning up the Frontend on t
 ![Clean Up Hosted Zone4](/images/5-Workshop/5.6-Cleanup/cleanuphostedzone4.png)
 
 Thus, the resources used on the AWS service have been successfully cleaned up.
-
-
