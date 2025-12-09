@@ -1,5 +1,5 @@
 ---
-title : "Cấu hình Custom Domain với Route53 và xác thực SSL với ACM"
+title : "Cấu hình Custom Domain với Route53 và xác thực SSL với AWS Certificate Manager"
 weight : 3
 chapter : false
 pre : " <b> 5.5.3 </b> "

@@ -27,7 +27,7 @@ Trong workshop này, chúng ta sẽ xây dựng một ứng dụng WebChat hoàn
 
 + Phát triển Frontend Application: Xây dựng giao diện người dùng với VueJS, tích hợp Socket.io-client để kết nối real-time với backend, và sử dụng Pinia để quản lý state. Frontend sẽ bao gồm các component như chat interface, message list, file upload, và các trang authentication.
 
-+ Triển khai Frontend: **Đại viết khúc này**
++ Triển khai Frontend: Triển khai Frontend với Amplify , cấu hình Route53 để trỏ Domain về HostedZone ,cấu hình Domain Frontend và kết nối đến Domain Backend.
 
 + Monitoring và Logging: Sau khi triển khai toàn bộ Backend và Frontend lên nền tàng AWS. Chúng ta cấu hình Amazon CloudWatch Logs để thu thập và theo dõi logs từ ECS tasks, tạo CloudWatch dashboards để giám sát metrics như request count, error rates, và response times. AWS Budgets sẽ được thiết lập để theo dõi và cảnh báo về chi phí sử dụng các dịch vụ AWS.
 

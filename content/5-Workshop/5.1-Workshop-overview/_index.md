@@ -27,7 +27,7 @@ In this workshop, we will build a complete WebChat application from start to fin
 
 + Frontend Application Development: Build the user interface with VueJS, integrate Socket.io-client to connect real-time with the backend, and use Pinia for state management. The frontend will include components such as chat interface, message list, file upload, and authentication pages.
 
-+ Frontend Deployment: **This section is being written**
++ Frontend Deployment: Deploy the Frontend with Amplify, configure Route53 to point the domain to the Hosted Zone, and set up the Frontend domain to connect to the Backend domain.
 
 + Monitoring and Logging: After deploying the entire Backend and Frontend to the AWS platform. We configure Amazon CloudWatch Logs to collect and monitor logs from ECS tasks, create CloudWatch dashboards to monitor metrics such as request count, error rates, and response times. AWS Budgets will be set up to track and alert on AWS service usage costs.
 

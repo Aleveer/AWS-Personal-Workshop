@@ -15,4 +15,6 @@ Các dịch vụ chúng ta sẽ cần sử dụng trong quá trình triển khai
 #### Nội dung
 
 1. [Triển khai Frontend lên AWS Amplify](5.5.1-Deploy-Frontend/)
-2. [Cấu hình Tên miền tùy chỉnh với Route 53](5.5.2-Custom-Domain/)
+2. [Cấu hình để kết nối giữa Frontend và Backend](5.5.2-Connect-BE-FE/)
+3. [Cấu hình Custom Domain với Route53 và xác thực SSL với AWS Certificate Manager](5.5.3-Custom-Domain-BE/)
+4. [Tùy chỉnh Domain cho Amplify Frontend](5.5.4-Custom-Domain-FE/)
